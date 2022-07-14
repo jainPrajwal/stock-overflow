@@ -11,3 +11,57 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.container {
+  display: flex;
+  border: 1px solid transparent;
+  box-shadow: 0 0 0 1px transparent;
+  width: min(80vw, 100%);
+  outline: 1px solid transparent;
+  border-radius: 5px;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border: 1px solid var(--chakra-colors-gray-200);
+}
+
+.container:focus-within {
+  border: 1px solid #3182ce;
+  box-shadow: 0 0 0 1px #3182ce;
+}
+.container input {
+  /* padding: 12px; */
+  border: 1px solid transparent;
+
+  width: 100%;
+  border-radius: 4px;
+  outline: 1px solid transparent;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  height: fit-content;
+  border: 1px solid var(--chakra-colors-blue-500);
+  border-radius: 5px;
+  background-color: var(--chakra-colors-blue-500);
+  white-space: nowrap;
+  color: white;
+}
+
+.tag button {
+  display: flex;
+  padding: 4px;
+  border: none;
+  background-color: unset;
+  cursor: pointer;
+  color: white;
+}
+
+.ql-container {
+  font-size: 1rem;
+}
+
+.ql-container:focus-within {
+  border: 1px solid #3182ce;
+  box-shadow: 0 0 0 1px #3182ce;
+}
