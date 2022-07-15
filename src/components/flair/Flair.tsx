@@ -1,4 +1,4 @@
-import { Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 
 export const Flair = ({
   cardBackgroundColor,
@@ -32,7 +32,7 @@ export const Flair = ({
             width={`36px`}
             height={`36px`}
           ></Image>
-          <Text ml="4px">
+          <Box ml="4px">
             <Text fontSize={`xs`}>Prajwal Jain</Text>
             <Text fontSize={`xs`}>
               <Text as="span">1K</Text>
@@ -40,7 +40,7 @@ export const Flair = ({
                 gold
               </Text>
             </Text>
-          </Text>
+          </Box>
         </Flex>
       </Flex>
     </>

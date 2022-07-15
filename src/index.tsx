@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import './index.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router } from "react-router-dom";
+import { ToastContainer } from "react-toastify"
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
@@ -15,8 +16,11 @@ root.render(
   // <React.StrictMode>
   <Provider store={store}>
     <ChakraProvider resetCSS>
+
       <Router >
-        <App />
+       
+          <App />
+       
       </Router>
     </ChakraProvider>
   </Provider>
