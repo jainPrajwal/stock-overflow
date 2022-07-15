@@ -17,10 +17,19 @@ import ReactQuill from "react-quill";
 import { MultipleTagsInput } from "../../components/MultipleTagsInput";
 import { CustomQuillToolbar, formats, modules } from "../../components/CustomToolbar";
 import React from "react";
+import { UserDefinedQuestionsType } from "../../constants";
 
 
 export const AskQuestion = () => {
-    const [question, setQuestion] = useState<string | null>(null);
+    const [questionDetails, setQuestionDetails] = useState<UserDefinedQuestionsType>({
+        title: null,
+        description: null,
+
+        inputTag: {
+            input: ``,
+            tags: null
+        }
+    });
     return (
         <>
             <Box mt="4rem" p="12px">
@@ -30,6 +39,10 @@ export const AskQuestion = () => {
                 <Flex gap="24px">
                     <Box flexGrow="1" maxW="870px">
                         <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+
+                            }}
                             style={{
                                 display: "flex",
                                 flexDirection: "column",
@@ -44,7 +57,11 @@ export const AskQuestion = () => {
                                     Be specific and imagine you’re asking a question to another
                                     person
                                 </FormHelperText>
-                                <Input variant="outline" placeholder="Title" id="title" />
+                                <Input variant="outline" placeholder="Title" id="title"
+                                    onChange={(e) => {
+                                        setQuestionDetails(prevState => ({ ...prevState, title: e.target.value }));
+                                    }}
+                                />
                             </FormControl>
                             <FormControl paddingBlock="12px">
                                 <FormLabel margin="0" htmlFor="description">
@@ -59,7 +76,7 @@ export const AskQuestion = () => {
                                     theme="snow"
                                     onChange={(value) => {
                                         console.log(`value `, value);
-                                        setQuestion(value);
+                                        setQuestionDetails(prevState => ({ ...prevState, description: value }));
 
                                     }}
                                     placeholder={"Write something awesome..."}
@@ -75,7 +92,9 @@ export const AskQuestion = () => {
                                     Add up to 5 tags to describe what your question is about
                                 </FormHelperText>
 
-                                <MultipleTagsInput />
+                                <MultipleTagsInput setQuestionDetails={setQuestionDetails}
+                                    questionDetails={questionDetails}
+                                />
                             </FormControl>
 
                             <FormControl>
@@ -103,7 +122,7 @@ export const AskQuestion = () => {
                         </form>
                         <Box>
 
-                            <Box dangerouslySetInnerHTML={{ __html: question || "" }}></Box>
+                            <Box dangerouslySetInnerHTML={{ __html: questionDetails.description || "" }}></Box>
                         </Box>
                     </Box>
 

@@ -11,6 +11,7 @@ import { Profile } from './pages/profile/Profile';
 import { SingleQuestionPage } from './pages/singleQuestionPage/SingleQuestionPage';
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
+import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
 
 function App() {
 
@@ -43,7 +44,7 @@ function App() {
             </Show>
             <Routes>
                 <Route path="/" element={<Home />}></Route>
-                <Route path='/questions/ask' element={<AskQuestion />}></Route>
+                <Route path='/questions/ask' element={<PrivateRoute><AskQuestion /></PrivateRoute>}></Route>
                 <Route path='/questions/:questionId' element={<SingleQuestionPage />}></Route>
                 <Route path='/user/profile' element={<Profile />}></Route>
                 {/* <Route path='/user/drafts' element={<Drafts />}></Route>

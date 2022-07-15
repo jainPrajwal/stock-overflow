@@ -18,9 +18,11 @@ import {
 import React from "react";
 import { IoMdMenu } from "react-icons/io"
 import { useNavigate } from "react-router";
+import { useAppSelector } from "../../app/hooks";
 
 const Header = () => {
     const navigate = useNavigate();
+    const { token } = useAppSelector(state => state.auth);
     return (
         <>
             <Flex
@@ -95,7 +97,7 @@ const Header = () => {
                         fontSize={`sm`}
                         fontWeight={`normal`}
                         onClick={() => {
-                            navigate(`/questions/ask`);
+                            token ? navigate(`/questions/ask`) : navigate(`/login`);
                         }}
                     >
                         Ask Question

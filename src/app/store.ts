@@ -1,14 +1,42 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import counterReducer from "../features/counter/counterSlice";
+import {
+  configureStore,
+  ThunkAction,
+  Action,
+  EnhancedStore,
+} from "@reduxjs/toolkit";
+import counterReducer, { CounterState } from "../features/counter/counterSlice";
 import questionReducer from "../features/question/QuestionSlice";
 import answerReducer from "../features/answer/AnswerSlice";
 import authReducer from "../features/auth/AuthSlice";
+import axios from "axios";
+import { AnswersState, AuthState, QuestionsState } from "../constants";
+
+const setInterceptors = (
+  store: EnhancedStore<{
+    counter: CounterState;
+    question: QuestionsState;
+    answer: AnswersState;
+    auth: AuthState;
+  }>
+) => {
+  console.log(`intercepting axios`, store.getState().auth.token);
+  axios.defaults.headers.common[`authorization`] = `Bearer ${
+    store.getState().auth.token
+  }`;
+};
+const axiosMiddleware = (store: any) => (next: any) => (action: any) => {
+  setInterceptors(store);
+  return next(action);
+};
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     question: questionReducer,
     answer: answerReducer,
     auth: authReducer,
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(axiosMiddleware);
   },
 });
 
