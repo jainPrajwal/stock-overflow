@@ -2,14 +2,14 @@
 
 
 import { useEffect, useState } from "react";
-import { ToastContainer,toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
 import { loginUserService } from "../../services";
 import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Image, Input, Spinner, Tooltip } from "@chakra-ui/react";
 import { useAppDispatch } from "../../app/hooks";
 import 'react-toastify/dist/ReactToastify.css';
-
+import React from "react";
 
 const Login = () => {
 
@@ -19,6 +19,7 @@ const Login = () => {
   });
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
 
   const [form, setForm] = useState({
@@ -51,14 +52,26 @@ const Login = () => {
     }
   });
 
-  const { loadingStatus , toastMessage} = useAuth();
+  const { loadingStatus, toastMessage, email, token } = useAuth();
 
-useEffect(() => {
-  if(loadingStatus === `success`) {
+  useEffect(() => {
+    if (loadingStatus === `success`) {
+      console.log(`email `, email)
+      const user = { token, email }
+      localStorage.setItem(`user`, JSON.stringify(user));
+      toast.success(`${toastMessage}`);
+      navigate(`/`)
+    }
+    else if (loadingStatus === `error`) {
+      toast.error(`${toastMessage}`)
+    }
+  }, [loadingStatus, toastMessage, email, token]);
 
-    toast.success(`${toastMessage}`)
-  }
-},[loadingStatus])
+  useEffect(() => {
+    if (loadingStatus === `idle`) {
+      console.log(`idle`)
+    }
+  }, [])
 
 
   return (
@@ -66,17 +79,7 @@ useEffect(() => {
       backgroundImage={`-webkit-linear-gradient(-80deg,#ebf8ff 55%,#4299e1  0)`}
       minHeight={`100vh`}
     >
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+     
       <Flex justify="center" align="center"
 
       >

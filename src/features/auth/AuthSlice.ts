@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthState } from "../../constants";
+import { AuthState, ServerError } from "../../constants";
 import { loginUserService } from "../../services";
 
 const initialState: AuthState = {
   email: null,
   token: null,
   loadingStatus: `idle`,
-  toastMessage: null
+  toastMessage: null,
 };
 
 const authSlice = createSlice({
@@ -17,10 +17,14 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginUserService.fulfilled, (state, action) => {
       state.loadingStatus = `success`;
-      state.email = action.payload?.email;
-      state.token = action.payload?.token;
-      state.toastMessage = action.payload?.message;
-
+      console.log(`herer `, action.payload);
+      state.email = action.payload.user.email;
+      state.token = action.payload.token;
+      state.toastMessage = action.payload.message;
+    });
+    builder.addCase(loginUserService.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.toastMessage = (action.payload as ServerError).message;
     });
   },
 });

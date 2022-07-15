@@ -9,12 +9,24 @@ import { Login } from './pages/auth/Login';
 import { Home } from './pages/home/Home';
 import { Profile } from './pages/profile/Profile';
 import { SingleQuestionPage } from './pages/singleQuestionPage/SingleQuestionPage';
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
     return (
         <>
-        
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <Header />
             <Show below="md">
                 <Flex pos="fixed" bottom="10px" right="10px" zIndex="1">

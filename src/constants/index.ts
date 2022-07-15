@@ -19,3 +19,4 @@ export type { UserLoginCredentials } from "./common.types";
 
 // Auth
 export type { AuthState } from "./auth.types";
+export type { AuthResponseType } from "./auth.types";

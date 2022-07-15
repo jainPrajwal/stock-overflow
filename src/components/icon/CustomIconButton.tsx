@@ -1,6 +1,6 @@
 import { Box, Button, Icon } from "@chakra-ui/react";
 import { IconType } from "react-icons/lib";
-
+import React from "react";
 export const CustomIconButton = ({ icon }: { icon: IconType }) => {
     return (
         <Box>

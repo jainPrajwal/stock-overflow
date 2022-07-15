@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Box, Flex, Heading, Tabs, TabList, Tab, TabPanels, TabPanel, Text, Tag, Show, Link, Icon, Spinner } from "@chakra-ui/react";
 import { MdOutlineComment, } from "react-icons/md";
 import { FiExternalLink } from "react-icons/fi";
-
+import React from "react";
 
 import { Sidebar } from "../../components/sidebar/Sidebar";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +27,7 @@ export const Home = () => {
         if (loadingStatus === `idle`) {
             dispatch(loadQuestions());
         }
+        
     }, []);
 
 

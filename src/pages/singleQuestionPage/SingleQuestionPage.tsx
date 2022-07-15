@@ -2,7 +2,7 @@ import { Box, Flex, Show } from "@chakra-ui/react";
 import { SingleQuestionSection } from "../../components/question/singleQuestionSection/SingleQuestionSection";
 import { RelatedQuestions } from "../../components/relatedQuestions/RelatedQuestions";
 import { Sidebar } from "../../components/sidebar/Sidebar";
-
+import React from "react";
 export const SingleQuestionPage = () => {
     
 

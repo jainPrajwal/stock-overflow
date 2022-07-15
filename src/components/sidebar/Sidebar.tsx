@@ -1,5 +1,5 @@
 import { Box, Flex, Show, Text } from "@chakra-ui/react";
-
+import React from "react";
 export const Sidebar = () => {
   return (
     <Show above="md">

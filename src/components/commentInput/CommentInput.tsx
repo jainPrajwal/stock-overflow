@@ -8,7 +8,7 @@ import {
   Text,
   Tooltip
 } from "@chakra-ui/react";
-
+import React from "react";
 export const CommentInput = () => {
   return (
     <Box my="12px">

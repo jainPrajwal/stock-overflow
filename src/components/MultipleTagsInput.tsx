@@ -1,7 +1,7 @@
 import { Box, Flex, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdClose } from "react-icons/md";
-
+import React from "react";
 const checkIfTagIsAlreadyPresent = (
   array: Array<string>,
   input: string

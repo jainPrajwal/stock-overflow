@@ -1,5 +1,5 @@
 import { Box, Flex, Link, Text } from "@chakra-ui/react";
-
+import React from "react";
 export const RelatedQuestion = () => {
   return (
     <Flex align="center">
