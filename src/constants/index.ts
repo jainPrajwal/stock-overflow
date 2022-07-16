@@ -5,9 +5,12 @@ export type { Question } from "./question.types";
 export type { QuestionsResponseType } from "./question.types";
 export type { QuestionsState } from "./question.types";
 export type { UserDefinedQuestionsType } from "./question.types";
+export type { QuestionResponseType } from "./question.types";
+
 // Answer
 export type { Answer } from "./answer.types";
 export type { AnswersState } from "./answer.types";
+
 // Profile
 export type { Profile } from "./profile.types";
 

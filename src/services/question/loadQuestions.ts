@@ -19,8 +19,9 @@ export const loadQuestions = createAsyncThunk(
       }
       console.error(`something went wrong..! `, error);
       return thunkAPI.rejectWithValue({
-        errorMessage: `something went wrong`,
+        message: `something went wrong`,
         success: false,
+        errorMessage: error,
       });
     }
   }

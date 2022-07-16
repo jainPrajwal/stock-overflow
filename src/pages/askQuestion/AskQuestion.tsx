@@ -12,12 +12,15 @@ import {
 } from "@chakra-ui/react";
 import "react-quill/dist/quill.snow.css";
 import "./AskQuestion.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import { MultipleTagsInput } from "../../components/MultipleTagsInput";
 import { CustomQuillToolbar, formats, modules } from "../../components/CustomToolbar";
 import React from "react";
 import { UserDefinedQuestionsType } from "../../constants";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { addQuestionService } from "../../services/question/addQuestionService";
+import { toast } from "react-toastify";
 
 
 export const AskQuestion = () => {
@@ -27,9 +30,20 @@ export const AskQuestion = () => {
 
         inputTag: {
             input: ``,
-            tags: null
+            tags: []
         }
     });
+
+    const { loadingStatus, questions, error, message } = useAppSelector(state => state.question);
+    console.log(`loading status`, loadingStatus)
+    useEffect(() => {
+        if (loadingStatus === `success`) {
+            toast.success(`${message}`)
+        } else if (loadingStatus === `error`) {
+            toast.error(`${error}`)
+        }
+    }, [loadingStatus, message, error])
+    const dispatch = useAppDispatch();
     return (
         <>
             <Box mt="4rem" p="12px">
@@ -40,7 +54,11 @@ export const AskQuestion = () => {
                     <Box flexGrow="1" maxW="870px">
                         <form
                             onSubmit={(e) => {
+                                console.log(`questions `, questionDetails)
                                 e.preventDefault();
+                                dispatch(addQuestionService({
+                                    question: questionDetails
+                                }))
 
                             }}
                             style={{

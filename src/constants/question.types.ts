@@ -33,6 +33,7 @@ export type QuestionsState = {
   error: unknown;
   sortBy: string | null;
   filterBy: string | null;
+  message:string |  null;
 };
 
 export type UserDefinedQuestionsType = {
@@ -40,6 +41,13 @@ export type UserDefinedQuestionsType = {
   description: string | null;
   inputTag: {
     input: string | null;
-    tags: Tags | null;
+    tags: Tags;
   };
+};
+
+export type QuestionResponseType = {
+  success: boolean;
+  message: string;
+  errorMessage?: string;
+  question: Question;
 };

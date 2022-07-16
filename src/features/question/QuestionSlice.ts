@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { QuestionsState, ServerError } from "../../constants";
 import { loadQuestions } from "../../services";
-
-
+import { addQuestionService } from "../../services/question/addQuestionService";
 
 const initialState: QuestionsState = {
   questions: [],
@@ -10,6 +9,7 @@ const initialState: QuestionsState = {
   error: null,
   sortBy: null,
   filterBy: null,
+  message: null,
 };
 
 export const QuestionSlice = createSlice({
@@ -42,6 +42,23 @@ export const QuestionSlice = createSlice({
       console.log(`failed... `, action.error);
       state.loadingStatus = `error`;
       state.error = (action.payload as ServerError).message;
+    });
+
+    builder.addCase(addQuestionService.fulfilled, (state, action) => {
+      console.log(`question added `, action.payload);
+      state.questions.push(action.payload.question);
+      state.loadingStatus = `success`;
+      state.message = action.payload.message;
+    });
+
+    builder.addCase(addQuestionService.pending, (state, action) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(addQuestionService.rejected, (state, action) => {
+      console.log(`action payload `, action.payload)
+      state.error = (action.payload as ServerError).message;
+      state.loadingStatus = `error`;
     });
   },
 });

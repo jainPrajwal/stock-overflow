@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AuthState, ServerError } from "../../constants";
 import { loginUserService } from "../../services";
 
-const token = localStorage.getItem(`user`);
+const localStorageToken = localStorage.getItem(`user`);
+const token = localStorageToken && JSON.parse(localStorageToken).token;
 
 const initialState: AuthState = {
   email: null,
@@ -11,7 +12,7 @@ const initialState: AuthState = {
   toastMessage: null,
 };
 
-console.log(`auth slice running...!`)
+console.log(`auth slice running...!`);
 
 const authSlice = createSlice({
   name: `auth`,
@@ -21,7 +22,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginUserService.fulfilled, (state, action) => {
       state.loadingStatus = `success`;
-    
+
       state.email = action.payload.user.email;
       state.token = action.payload.token;
       state.toastMessage = action.payload.message;

@@ -1,4 +1,4 @@
-import {  Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 export const QuestionDescription = ({
     description
@@ -6,8 +6,9 @@ export const QuestionDescription = ({
     description: string;
 }) => {
     return (
-        <Text lineHeight={`28px`}>
-            {description}
-        </Text>
+        <Box my="12px">
+
+            <Box dangerouslySetInnerHTML={{ __html: description || "" }}></Box>
+        </Box>
     );
 };

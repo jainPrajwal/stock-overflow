@@ -8,7 +8,7 @@ const checkIfTagIsAlreadyPresent = (
   input: string
 ): boolean => {
   console.log(`called`)
-  return array.includes(input);
+  return array?.includes(input);
 };
 
 const deleteTag = (array: Array<string>, tag: string) => {
@@ -73,26 +73,25 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
               })
             }}
             onKeyDown={(e) => {
-              console.log(`key down`, e.key);
-
+           
               if (e.key === `Enter`) {
                 e.preventDefault();
               }
               if (
                 e.key === `Enter` &&
-               ( inputTag?.input?.trim() && inputTag?.input?.trim()?.length > 0) && inputTag.tags &&
-                !checkIfTagIsAlreadyPresent(inputTag.tags, inputTag?.input)
+                (inputTag?.input?.trim() && inputTag?.input?.trim()?.length > 0) && !checkIfTagIsAlreadyPresent(inputTag.tags!, inputTag?.input)
               ) {
                 e.preventDefault();
-                console.log(`ye to add hona chaiye`);
+               
 
                 setQuestionDetails(prevState => {
+                
                   return {
                     ...prevState,
                     inputTag: {
                       ...prevState.inputTag,
                       input: ``,
-                      tags: prevState.inputTag.tags && prevState.inputTag.tags.concat(inputTag.input!)
+                      tags: prevState.inputTag.tags.concat(inputTag.input!)
                     }
                   }
                 })

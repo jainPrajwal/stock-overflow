@@ -31,7 +31,7 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
         gap="24px"
         flexGrow="1"
       >
-        <Text>
+        <Text >
           {question.title}
         </Text>
         <Flex align="center" gap="12px" wrap="wrap">
@@ -45,27 +45,20 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
           </Text>
         </Flex>
         <Flex gap="8px" align="center" flexGrow="1">
-          <Tag
-            size={`md`}
-            variant="solid"
-            colorScheme="blue"
-          >
-            finance
-          </Tag>
-          <Tag
-            size={`md`}
-            variant="solid"
-            colorScheme="blue"
-          >
-            smallcase
-          </Tag>
-          <Tag
-            size={`md`}
-            variant="solid"
-            colorScheme="blue"
-          >
-            stocks
-          </Tag>
+          {
+            question.tags.map(tag => {
+              return (
+                <Tag
+                  size={`md`}
+                  variant="solid"
+                  colorScheme="blue"
+                  key={`${tag}`}
+                >
+                  {tag}
+                </Tag>
+              )
+            })
+          }
         </Flex>
 
       </Flex>
