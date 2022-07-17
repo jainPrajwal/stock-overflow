@@ -40,13 +40,15 @@ export const QuestionSection = () => {
         <Flex pt="2rem" width="100%" gap={["12px", "2rem"]} >
 
           <Flex direction="column" justify="start" align="center" gap="8px">
-            <CustomIconButton icon={isAlreadyUpvoted ? ICON_ALREADY_UPVOTED : ICON_UPVOTE} question={question} 
-            
+            <CustomIconButton icon={isAlreadyUpvoted ? ICON_ALREADY_UPVOTED : ICON_UPVOTE} question={question} answer={null}
+
             />
             <Box>
               <Text fontSize="larger">{question.votes.count}</Text>
             </Box>
-            <CustomIconButton icon={isAlreadyDownvoted ? ICON_ALREADY_DOWNVOTED : ICON_DOWNVOTE} question={question} />
+            <CustomIconButton icon={isAlreadyDownvoted ? ICON_ALREADY_DOWNVOTED : ICON_DOWNVOTE} question={question}
+              answer={null}
+            />
           </Flex>
 
           <Flex direction="column">

@@ -2,32 +2,31 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import {
   BASE_API,
-  Question,
   QuestionResponseType,
   ServerError,
-  QuestionRequestType,
 } from "../../constants";
+import { AnswerRequestType } from "../../constants/answer.types";
 
-export const updateQuestionService = createAsyncThunk(
-  `questions/updateQuestion`,
+export const updateAnswerService = createAsyncThunk(
+  `answers/updateAnswer`,
   async (
     {
-      questionId,
-      question,
+      answerId,
+      answer,
     }: {
-      questionId: string;
-      question: QuestionRequestType;
+      answerId: string;
+      answer: AnswerRequestType;
     },
     thunkAPI
   ) => {
     try {
       const response = await axios.post<QuestionResponseType>(
-        `${BASE_API}/questions/${questionId}`,
+        `${BASE_API}/questions/${answerId}`,
         {
-          question,
+          answer,
         }
       );
-      
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {

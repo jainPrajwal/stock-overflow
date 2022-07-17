@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AnswersState, BASE_API } from "../../constants";
 
@@ -12,11 +12,11 @@ const initialState: AnswersState = {
 export const loadAnswersOfTheQuestion = createAsyncThunk(
   `answers/loadAnswersOfTheQuestion`,
   async ({ questionId }: { questionId: string }) => {
-  console.log(`calling the api`)
     const response = await axios.get(
       `${BASE_API}/questions/${questionId}/answers`
     );
-    console.log(`answers response `, response.data);
+
+    return response.data;
   }
 );
 const AnswerSlice = createSlice({
@@ -25,7 +25,9 @@ const AnswerSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loadAnswersOfTheQuestion.fulfilled, (state, action) => {
-      console.log(`loadAnswersfulfilled `, state);
+      console.log(`action payload `, action.payload);
+      state.answers = action.payload.answers;
+      console.log(`loadAnswersfulfilled `, current(state));
     });
   },
 });

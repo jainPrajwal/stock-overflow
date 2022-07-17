@@ -1,15 +1,12 @@
 import { Box, Button, Icon } from "@chakra-ui/react";
 import { IconType } from "react-icons/lib";
 import React from "react";
-import { ActivityResponseType as Activity, Answer, ICON_ALREADY_DOWNVOTED, ICON_ALREADY_UPVOTED, ICON_DOWNVOTE, ICON_UPVOTE, Question } from "../../constants";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { updateQuestionService } from "../../services/question/updateQuestionService";
-import { updateActivityQuestionService } from "../../services/activity/updateActivityQuestionService";
-import { addQuestionToDownvotes, addQuestionToUpvotes, checkIfTheQuestionIsAlreadyDownVoted, checkIfTheQuestionIsAlreadyUpvoted, removeQuestionFromDownvotes, removeQuestionFromUpvotes } from "../../utils/question";
 import { handleQuestionActivity } from "../../services/activity/handleQuestionActivity";
+import { Answer, Question } from "../../constants";
 
 
-export const CustomIconButton = ({ icon, question }: { icon: IconType, question: Question }) => {
+export const CustomIconButton = ({ icon, question, answer }: { icon: IconType, question: Question | null, answer: Answer | null }) => {
     const dispatch = useAppDispatch();
     const activity = useAppSelector(state => state.activity);
 
@@ -17,7 +14,6 @@ export const CustomIconButton = ({ icon, question }: { icon: IconType, question:
     return (
         <Box>
             <Button
-
                 isDisabled={activity.loadingStatus === `loading`}
                 bg="transparent"
                 borderRadius="full"
@@ -26,12 +22,18 @@ export const CustomIconButton = ({ icon, question }: { icon: IconType, question:
                 minW="none"
                 height={["24px", "48px", "64px"]}
                 onClick={() => {
-                    handleQuestionActivity({
-                        icon,
-                        question,
-                        activity,
-                        dispatch
-                    })
+                    if (question) {
+                        handleQuestionActivity({
+                            icon,
+                            question,
+                            activity,
+                            dispatch
+                        })
+                    }
+                    if (answer) {
+
+                    }
+
                 }}
             >
                 {

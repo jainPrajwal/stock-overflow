@@ -7,9 +7,10 @@ export type Answer = {
   isMarkedAsCorrectAnswer: boolean;
   answerer: Profile;
   isDeleted: false;
-  votes:  {count: number};
+  votes: { count: number };
   createdAt: string;
   updatedAt: string;
+  answer: string;
 };
 
 export type AnswersState = {
@@ -18,4 +19,20 @@ export type AnswersState = {
   error: unknown;
   sortBy: string | null;
   filterBy: string | null;
+};
+
+export type AnswersResponseType = {
+  success: boolean;
+  message: string;
+  error: unknown;
+  answer: Answer;
+};
+
+export type AnswerRequestType = {
+  question?: string;
+  isMarkedAsCorrectAnswer?: boolean;
+  answerer?: Profile;
+  isDeleted?: false;
+  votes?: { count: number };
+  answer?: string;
 };

@@ -6,7 +6,7 @@ export type { QuestionsResponseType } from "./question.types";
 export type { QuestionsState } from "./question.types";
 export type { UserDefinedQuestionsType } from "./question.types";
 export type { QuestionResponseType } from "./question.types";
-export type { UpdateQuestionParamsType } from "./question.types";
+export type { QuestionRequestType } from "./question.types";
 
 // Answer
 export type { Answer } from "./answer.types";

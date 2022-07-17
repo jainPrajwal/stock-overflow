@@ -4,7 +4,7 @@ import { BASE_API, ServerError } from "../../constants";
 import { ActivityResponseType as ActivityRequestType } from "../../constants/activity.types";
 import { ActivityResponseType } from "../../constants/activity.types";
 
-export const updateActivityQuestionService = createAsyncThunk(
+export const updateActivityAnswerService = createAsyncThunk(
   `activities/updateActivityQuestion`,
   async (
     {

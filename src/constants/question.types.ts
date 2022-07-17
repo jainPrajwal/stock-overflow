@@ -53,7 +53,7 @@ export type QuestionResponseType = {
 };
 
 
-export type UpdateQuestionParamsType = {
+export type QuestionRequestType = {
   title?: string;
   description?: string;
   tags?: Array<string>;
