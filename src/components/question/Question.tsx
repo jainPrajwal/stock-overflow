@@ -10,10 +10,12 @@ import "./Question.css";
 import { useNavigate } from "react-router-dom";
 import { formatDistance } from "date-fns";
 import { Question } from "../../constants";
+import { useAppDispatch } from "../../app/hooks";
+import { updateQuestionService } from "../../services/question/updateQuestionService";
 
 export const QuestionComponent = ({ question }: { question: Question }) => {
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   return (
     <Flex
       wrap={[`wrap`, `unset`]}
@@ -23,7 +25,13 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
       borderBottomColor="gray.100"
       key={question._id}
       cursor={`pointer`}
-      onClick={() => navigate(`/questions/${question._id}`)}
+      onClick={() => {
+        navigate(`/questions/${question._id}`);
+        dispatch(updateQuestionService({
+          questionId: question._id,
+          question: { views: question.views + 1 }
+        }))
+      }}
     >
       <Flex
         direction="column"
@@ -71,7 +79,7 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
             fontSize="sm"
             p="12px"
           >
-            <Text>{question.votes.upvotes.count + question.votes.downvotes.count}</Text>
+            <Text>{question.votes.count}</Text>
             <Text ml="2px">votes</Text>
           </Flex>
           <Flex

@@ -1,4 +1,4 @@
-import { loading, Vote } from "./common.types";
+import { loading } from "./common.types";
 import { Profile } from "./profile.types";
 
 export type Answer = {
@@ -7,7 +7,7 @@ export type Answer = {
   isMarkedAsCorrectAnswer: boolean;
   answerer: Profile;
   isDeleted: false;
-  votes: Vote;
+  votes:  {count: number};
   createdAt: string;
   updatedAt: string;
 };

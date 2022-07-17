@@ -11,25 +11,31 @@ import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { loadAnswersOfTheQuestion } from "../../features/answer/AnswerSlice"
 import React from "react"
+import { ICON_DOWNVOTE, ICON_UPVOTE } from "../../constants"
 
 
 
 export const AnswerSection = () => {
-   
+
+    const { questions } = useAppSelector(state => state.question)
     const { loadingStatus } = useAppSelector(state => state.answer);
     const { questionId } = useParams();
     const dispatch = useAppDispatch();
+
+
+    const question = questions.find(question => question._id === questionId);
     useEffect(() => {
         if (loadingStatus === `idle`) {
-            console.log(`answer section `);
+            console.log(`answer section `, questionId);
             if (questionId) {
                 dispatch(loadAnswersOfTheQuestion({
                     questionId
                 }))
             }
         }
-    },[])
-    return <> <Flex align="center" my="12px">
+    }, [])
+    if(question) {
+        return <> <Flex align="center" my="12px">
         <Text as="h4" fontSize="larger">
             {/* {question?.totalAnswers} Answers */}
         </Text>
@@ -37,11 +43,11 @@ export const AnswerSection = () => {
     </Flex>
         <Flex pt="1rem" width="100%" gap={["2px", "12px", "2rem"]}>
             <Flex direction="column" justify="start" align="center" gap="8px">
-                <CustomIconButton icon={IoIosArrowDropup} />
+                <CustomIconButton icon={ICON_UPVOTE} question={question} />
                 <Box>
                     <Text fontSize="larger">2</Text>
                 </Box>
-                <CustomIconButton icon={IoIosArrowDropdown} />
+                <CustomIconButton icon={ICON_DOWNVOTE} question={question} />
 
                 <Box>
                     <Image src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657557176/correct_axe2hj.png" />
@@ -68,4 +74,7 @@ export const AnswerSection = () => {
             </Flex>
         </Flex>
     </>
+    } 
+    return <>Question Not Found..!</>
+    
 }

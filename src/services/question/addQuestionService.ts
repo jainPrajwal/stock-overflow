@@ -24,14 +24,16 @@ export const addQuestionService = createAsyncThunk(
         const serverError = error as AxiosError<ServerError>;
         if (serverError && serverError.response) {
           return thunkAPI.rejectWithValue(serverError.response.data);
-        }
+        } 
+        return error;
+      } else {
+        console.error(`somehting went wrong..! `, error);
+        return thunkAPI.rejectWithValue({
+          success: false,
+          message: `something went wrong`,
+          errorMessage: error,
+        });
       }
-      console.error(`somehting went wrong..! `, error);
-      return thunkAPI.rejectWithValue({
-        success: false,
-        message: `something went wrong`,
-        errorMessage: error,
-      });
-    } 
+    }
   }
 );

@@ -3,13 +3,14 @@
 
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
 import { loginUserService } from "../../services";
-import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Image, Input, Spinner, Tooltip } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Image, Input, Spinner, Tooltip, Link as ChakraLink } from "@chakra-ui/react";
 import { useAppDispatch } from "../../app/hooks";
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
+import { getActivitiesService } from "../../services/activity/getActivitiesService";
 
 const Login = () => {
 
@@ -56,16 +57,18 @@ const Login = () => {
 
   useEffect(() => {
     if (loadingStatus === `success`) {
-      console.log(`email `, email)
-      const user = { token, email }
-      localStorage.setItem(`user`, JSON.stringify(user));
       toast.success(`${toastMessage}`);
-      navigate(`/`)
+      const user = { token, email }
+      console.log(`email `, email)
+      localStorage.setItem(`user`, JSON.stringify(user));
+
+      dispatch(getActivitiesService());
+
     }
     else if (loadingStatus === `error`) {
       toast.error(`${toastMessage}`)
     }
-  }, [loadingStatus, toastMessage, email, token]);
+  }, [loadingStatus, toastMessage, email, token, dispatch]);
 
   useEffect(() => {
     if (loadingStatus === `idle`) {
@@ -76,10 +79,10 @@ const Login = () => {
 
   return (
     <Box p="1rem"
-      backgroundImage={`-webkit-linear-gradient(-80deg,#ebf8ff 55%,#4299e1  0)`}
+      backgroundImage={`-webkit-linear-gradient(-78deg,#ebf8ff 60%,#4299e1 0)`}
       minHeight={`100vh`}
     >
-     
+
       <Flex justify="center" align="center"
 
       >
@@ -292,10 +295,10 @@ const Login = () => {
           <Button
             onClick={() => {
 
-              loginUserService({
-                email: `elon@musk.com`,
-                password: `12345`
-              });
+              dispatch(loginUserService({
+                email: `email@gmail.com`,
+                password: `email@123`
+              }))
             }}
             name="loginAsGest"
 
@@ -306,14 +309,12 @@ const Login = () => {
             <span >{`${`log in as guest`}`.toUpperCase()}</span>
           </Button>
         </div>
-        <div className="p-sm text-center">
+        <Box pt="12px" textAlign={`center`}>
           Don't have an Account with us?
-          <Link to="/signup">
-            <span className={`text-white `}>
-              <span className="border-bottom-sm"> Click here to Sign up</span>
-            </span>
-          </Link>
-        </div>
+          <NavLink to="/signup" className={`activeLink`}>
+            Click here to Sign up
+          </NavLink>
+        </Box>
 
       </Box>
       <div className="pt-lg">

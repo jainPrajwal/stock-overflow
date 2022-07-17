@@ -8,6 +8,7 @@ import counterReducer, { CounterState } from "../features/counter/counterSlice";
 import questionReducer from "../features/question/QuestionSlice";
 import answerReducer from "../features/answer/AnswerSlice";
 import authReducer from "../features/auth/AuthSlice";
+import activityReducer from "../features/activity/ActivitySlice";
 import axios from "axios";
 import { AnswersState, AuthState, QuestionsState } from "../constants";
 
@@ -34,6 +35,7 @@ export const store = configureStore({
     question: questionReducer,
     answer: answerReducer,
     auth: authReducer,
+    activity: activityReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(axiosMiddleware);

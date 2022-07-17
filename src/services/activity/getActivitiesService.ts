@@ -1,30 +1,30 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
-import { BASE_API, QuestionsResponseType, ServerError } from "../../constants";
+import {
+  ActivitiesState,
+  ActivityResponseType,
+  BASE_API,
+  ServerError,
+} from "../../constants";
 
-export const loadQuestions = createAsyncThunk(
-  `questions/loadQuestions`,
+export const getActivitiesService = createAsyncThunk(
+  `activities/getActivities`,
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get<QuestionsResponseType>(
-        `${BASE_API}/questions`
+      const response = await axios.get<ActivityResponseType>(
+        `${BASE_API}/user/activities`
       );
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const serverError = error as AxiosError<ServerError>;
         if (serverError && serverError.response) {
-        
           return thunkAPI.rejectWithValue(serverError.response.data);
-        } else {
-          console.log(`why uncaught`)
-         return serverError;
-        }
+        } else return thunkAPI.rejectWithValue(error);
       } else {
-        console.error(`something went wrong..! `, error);
         return thunkAPI.rejectWithValue({
-          message: `something went wrong`,
-          success: false,
+          success: `false`,
+          message: `somehting went wrong..!`,
           errorMessage: error,
         });
       }

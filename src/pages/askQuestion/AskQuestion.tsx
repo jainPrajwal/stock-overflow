@@ -40,7 +40,7 @@ export const AskQuestion = () => {
         if (loadingStatus === `success`) {
             toast.success(`${message}`)
         } else if (loadingStatus === `error`) {
-            toast.error(`${error}`)
+            toast.error(`${message}`)
         }
     }, [loadingStatus, message, error])
     const dispatch = useAppDispatch();
@@ -54,7 +54,6 @@ export const AskQuestion = () => {
                     <Box flexGrow="1" maxW="870px">
                         <form
                             onSubmit={(e) => {
-                                console.log(`questions `, questionDetails)
                                 e.preventDefault();
                                 dispatch(addQuestionService({
                                     question: questionDetails

@@ -10,25 +10,28 @@ import { useNavigate } from "react-router-dom";
 import { loadQuestions } from "../../services";
 import { Question } from "../../constants";
 import { QuestionComponent } from "../../components/question/Question";
+import { toast } from "react-toastify";
 
 
 const TABS = [`All`, `Hot`, `Week`, `Month`];
 
 export const Home = () => {
-     const { questions, loadingStatus, error } = useAppSelector(state => {
+    const { questions, loadingStatus, error, message } = useAppSelector(state => {
         console.log(`state.question`, state.question)
         return state.question
     });
 
-    
+
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     useEffect(() => {
         if (loadingStatus === `idle`) {
             dispatch(loadQuestions());
+        } else if (loadingStatus === `error`) {
+            toast.error(`${message}`)
         }
-        
-    }, []);
+
+    }, [loadingStatus, dispatch, message]);
 
 
 
@@ -85,7 +88,7 @@ export const Home = () => {
                                                     color='blue.500'
                                                     size='xl'
 
-                                                /></Flex> : <>{error}</>
+                                                /></Flex> : <>{message}</>
                                             }
                                         </Flex>
                                     </TabPanel>

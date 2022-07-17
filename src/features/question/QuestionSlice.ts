@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { QuestionsState, ServerError } from "../../constants";
 import { loadQuestions } from "../../services";
 import { addQuestionService } from "../../services/question/addQuestionService";
+import { updateQuestionService } from "../../services/question/updateQuestionService";
 
 const initialState: QuestionsState = {
   questions: [],
@@ -31,8 +32,10 @@ export const QuestionSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loadQuestions.fulfilled, (state, action) => {
-      state.questions = action.payload.questions;
-      state.loadingStatus = `success`;
+      if (`questions` in action.payload) {
+        state.questions = action.payload.questions;
+        state.loadingStatus = `success`;
+      }
     });
     builder.addCase(loadQuestions.pending, (state) => {
       state.loadingStatus = `loading`;
@@ -41,14 +44,19 @@ export const QuestionSlice = createSlice({
       console.log(`falied `, action.payload);
       console.log(`failed... `, action.error);
       state.loadingStatus = `error`;
-      state.error = (action.payload as ServerError).message;
+      state.message =
+        (action.payload as ServerError)?.message ||
+        `Network Issue.. Please try again!`;
+      state.error = action.error;
     });
 
     builder.addCase(addQuestionService.fulfilled, (state, action) => {
       console.log(`question added `, action.payload);
-      state.questions.push(action.payload.question);
-      state.loadingStatus = `success`;
-      state.message = action.payload.message;
+      if (`question` in action.payload) {
+        state.questions.push(action.payload.question);
+        state.loadingStatus = `success`;
+        state.message = action.payload.message;
+      }
     });
 
     builder.addCase(addQuestionService.pending, (state, action) => {
@@ -56,9 +64,18 @@ export const QuestionSlice = createSlice({
     });
 
     builder.addCase(addQuestionService.rejected, (state, action) => {
-      console.log(`action payload `, action.payload)
-      state.error = (action.payload as ServerError).message;
+      console.log(`action payload `, action.payload);
+      state.message = (action.payload as ServerError).message;
       state.loadingStatus = `error`;
+      state.error = action.error;
+    });
+
+    builder.addCase(updateQuestionService.fulfilled, (state, action) => {
+      const questionIndex = state.questions.findIndex(
+        (question) => question._id === action.payload.question._id
+      );
+      state.questions[questionIndex] = action.payload.question;
+      state.loadingStatus = `success`;
     });
   },
 });

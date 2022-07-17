@@ -1,4 +1,4 @@
-import { loading, Vote } from "./common.types";
+import { loading } from "./common.types";
 import { Profile } from "./profile.types";
 
 export type Tag = string;
@@ -10,7 +10,7 @@ export type Question = {
   description: string;
   tags: Array<string>;
   isDeleted: boolean;
-  votes: Vote;
+  votes: {count: number};
   questioner: Profile;
   isFlaged: boolean;
   createdAt: string;
@@ -51,3 +51,16 @@ export type QuestionResponseType = {
   errorMessage?: string;
   question: Question;
 };
+
+
+export type UpdateQuestionParamsType = {
+  title?: string;
+  description?: string;
+  tags?: Array<string>;
+  isDeleted?: boolean;
+  votes?: {count: number};
+  isFlaged?: boolean;
+  views?: number;
+  totalAnswers?: number;
+  isAcceptedAnswerPresent?: boolean;
+}

@@ -11,6 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 .container {
   display: flex;
   border: 1px solid transparent;
@@ -28,6 +29,7 @@ code {
   border: 1px solid #3182ce;
   box-shadow: 0 0 0 1px #3182ce;
 }
+
 .container input {
   /* padding: 12px; */
   border: 1px solid transparent;
@@ -64,4 +66,8 @@ code {
 .ql-container:focus-within {
   border: 1px solid #3182ce;
   box-shadow: 0 0 0 1px #3182ce;
+}
+
+.activeLink {
+  border-bottom: 1px solid #3182ce;
 }

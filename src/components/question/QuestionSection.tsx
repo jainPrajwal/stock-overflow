@@ -9,18 +9,29 @@ import { Flair } from "../flair/Flair";
 import { SectionHeading } from "../heading/SectionHeading";
 import { CustomIconButton } from "../icon/CustomIconButton";
 import { Tags } from "../tags/Tags";
-
+import { ICON_ALREADY_DOWNVOTED, ICON_ALREADY_UPVOTED, ICON_DOWNVOTE, ICON_UPVOTE } from "../../constants";
 
 import { QuestionDescription } from "./QuestionDescription";
+import { checkIfTheQuestionIsAlreadyDownVoted, checkIfTheQuestionIsAlreadyUpvoted } from "../../utils/question";
 
 export const QuestionSection = () => {
   const { questionId } = useParams();
   const { questions } = useAppSelector(state => state.question);
+  const activity = useAppSelector(state => state.activity);
   console.log(`questionid`, questionId);
 
   const question = questions.find(question => question._id === questionId);
 
   if (question) {
+
+    const isAlreadyUpvoted = checkIfTheQuestionIsAlreadyUpvoted({ upvotedQuestions: activity.questions.upvoted, questionId: question._id });
+    console.log(`isAlreadyUpvoted `, isAlreadyUpvoted);
+
+
+    const isAlreadyDownvoted = checkIfTheQuestionIsAlreadyDownVoted({
+      downVotedQuestions: activity.questions.downvoted,
+      questionId: question._id
+    });
     return (
       <>
         <SectionHeading
@@ -29,11 +40,13 @@ export const QuestionSection = () => {
         <Flex pt="2rem" width="100%" gap={["12px", "2rem"]} >
 
           <Flex direction="column" justify="start" align="center" gap="8px">
-            <CustomIconButton icon={IoIosArrowDropup} />
+            <CustomIconButton icon={isAlreadyUpvoted ? ICON_ALREADY_UPVOTED : ICON_UPVOTE} question={question} 
+            
+            />
             <Box>
-              <Text fontSize="larger">{getTotalVotes({ questionOrAnswer: question }).totalPoints}</Text>
+              <Text fontSize="larger">{question.votes.count}</Text>
             </Box>
-            <CustomIconButton icon={IoIosArrowDropdown} />
+            <CustomIconButton icon={isAlreadyDownvoted ? ICON_ALREADY_DOWNVOTED : ICON_DOWNVOTE} question={question} />
           </Flex>
 
           <Flex direction="column">
