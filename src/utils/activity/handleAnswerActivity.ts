@@ -8,27 +8,30 @@ import {
   ICON_UPVOTE,
   Question,
 } from "../../constants";
+import { updateActivityAnswerService, updateAnswerService } from "../../services";
 import {
   addAnswerToDownvotes,
   removeAnswerFromDownvotes,
   removeAnswerFromUpvotes,
-  addAnswerToUpvotes
+  addAnswerToUpvotes,
+  checkIfTheAnswerIsAlreadyDownVoted,
+  checkIfTheAnswerIsAlreadyUpvoted,
 } from "../../utils/answer";
 
-import { updateActivityAnswerService } from "./updateActivityAnswerService";
-import { updateAnswerService } from "../answer/updateAnswerService";
-// import {} from "./"
+
 
 export const handleAnswerActivity = ({
   icon,
   dispatch,
   answer,
   activity,
+  questionId
 }: {
   icon: IconType;
   dispatch: any;
   answer: Answer;
   activity: ActivitiesState;
+  questionId:string;
 }) => {
   let updatedActivity: {
     questions: {
@@ -40,12 +43,14 @@ export const handleAnswerActivity = ({
       downvoted: Answer[];
     };
   } | null = null;
+  
   switch (icon) {
     case ICON_ALREADY_UPVOTED:
       // Undo Increased Vote
       dispatch(
         updateAnswerService({
           answerId: answer._id,
+          questionId,
           answer: {
             votes: {
               count: answer.votes.count - 1,
@@ -71,7 +76,7 @@ export const handleAnswerActivity = ({
 
     case ICON_UPVOTE:
       const isAlreadyDownvoted = checkIfTheAnswerIsAlreadyDownVoted({
-        downVotedQuestions: activity.questions.downvoted,
+        downvotedAnswers: activity.answers.downvoted,
         answerId: answer._id,
       });
 
@@ -112,6 +117,7 @@ export const handleAnswerActivity = ({
       dispatch(
         updateAnswerService({
           answerId: answer._id,
+          questionId,
           answer: {
             votes: {
               count: answer.votes.count + 1,
@@ -124,7 +130,7 @@ export const handleAnswerActivity = ({
 
     case ICON_DOWNVOTE:
       const isAlreadyUpvoted = checkIfTheAnswerIsAlreadyUpvoted({
-        upvotedQuestions: activity.questions.upvoted,
+        upvotedAnswers: activity.answers.upvoted,
         answerId: answer._id,
       });
 
@@ -158,6 +164,7 @@ export const handleAnswerActivity = ({
       dispatch(
         updateAnswerService({
           answerId: answer._id,
+          questionId,
           answer: {
             votes: {
               count: answer.votes.count - 1,
@@ -180,6 +187,7 @@ export const handleAnswerActivity = ({
       dispatch(
         updateAnswerService({
           answerId: answer._id,
+          questionId,
           answer: {
             votes: {
               count: answer.votes.count + 1,

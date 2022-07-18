@@ -2,15 +2,18 @@ import { Box, Button, Icon } from "@chakra-ui/react";
 import { IconType } from "react-icons/lib";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { handleQuestionActivity } from "../../services/activity/handleQuestionActivity";
+
 import { Answer, Question } from "../../constants";
+import { handleAnswerActivity, handleQuestionActivity } from "../../utils/activity";
+import { getQuestionFromQuestionId } from "../../utils/question";
 
 
-export const CustomIconButton = ({ icon, question, answer }: { icon: IconType, question: Question | null, answer: Answer | null }) => {
+export const CustomIconButton = ({ icon, answer, questionId }: { icon: IconType, answer: Answer | null, questionId: string }) => {
     const dispatch = useAppDispatch();
     const activity = useAppSelector(state => state.activity);
+    const { questions } = useAppSelector(state => state.question)
 
-
+    const question = getQuestionFromQuestionId(questions, questionId);
     return (
         <Box>
             <Button
@@ -22,7 +25,16 @@ export const CustomIconButton = ({ icon, question, answer }: { icon: IconType, q
                 minW="none"
                 height={["24px", "48px", "64px"]}
                 onClick={() => {
-                    if (question) {
+                    if (answer && question) {
+                        handleAnswerActivity({
+                            icon,
+                            activity,
+                            answer,
+                            dispatch,
+                            questionId: question._id
+                        })
+                    }
+                    else if (question && !answer) {
                         handleQuestionActivity({
                             icon,
                             question,
@@ -30,9 +42,7 @@ export const CustomIconButton = ({ icon, question, answer }: { icon: IconType, q
                             dispatch
                         })
                     }
-                    if (answer) {
 
-                    }
 
                 }}
             >

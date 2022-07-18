@@ -20,7 +20,7 @@ const setInterceptors = (
     auth: AuthState;
   }>
 ) => {
-  console.log(`intercepting axios`, store.getState().auth);
+  
   axios.defaults.headers.common[`authorization`] = `Bearer ${
     store.getState().auth.token
   }`;

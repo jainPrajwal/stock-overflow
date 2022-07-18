@@ -11,14 +11,16 @@ import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { loadAnswersOfTheQuestion } from "../../features/answer/AnswerSlice"
 import React from "react"
-import { Answer, ICON_DOWNVOTE, ICON_UPVOTE } from "../../constants"
+import { Answer, ICON_ALREADY_DOWNVOTED, ICON_ALREADY_UPVOTED, ICON_DOWNVOTE, ICON_UPVOTE } from "../../constants"
 import { AnswerDescription } from "./AnswerDescription"
+import { checkIfTheAnswerIsAlreadyDownVoted, checkIfTheAnswerIsAlreadyUpvoted } from "../../utils/answer"
 
 
 
 export const AnswerSection = () => {
     const { loadingStatus, answers } = useAppSelector(state => state.answer);
     const { questionId } = useParams();
+    const activity = useAppSelector(state => state.activity);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -32,59 +34,76 @@ export const AnswerSection = () => {
         }
     }, [loadingStatus, questionId, dispatch]);
 
-    return (
-        <>
-            {
-                answers?.length > 0 ? answers.map((answer: Answer) => {
-                    return <> <Flex align="center" my="12px">
-                        <Text as="h4" fontSize="larger">
-                            {answers.length} Answers
-                        </Text>
-                        <AnswerFilters />
-                    </Flex>
-                        <Flex pt="1rem" width="100%" gap={["2px", "12px", "2rem"]}>
-                            <Flex direction="column" justify="start" align="center" gap="8px">
-                                <CustomIconButton icon={ICON_UPVOTE} answer={answer}
-                                    question={null}
-                                />
-                                <Box>
-                                    <Text fontSize="larger">2</Text>
-                                </Box>
-                                <CustomIconButton icon={ICON_DOWNVOTE} answer={answer}
-                                    question={null}
-                                />
+    if (questionId) {
+        const answerId = answers.find(answer => answer.question === questionId)?._id;
+        if (answerId) {
+            const isAlreadyDownvoted = checkIfTheAnswerIsAlreadyDownVoted({
+                downvotedAnswers: activity.answers.downvoted,
+                answerId
+            });
 
-                                <Box>
-                                    <Image src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657557176/correct_axe2hj.png" />
-                                </Box>
+            const isAlreadyUpvoted = checkIfTheAnswerIsAlreadyUpvoted({ upvotedAnswers: activity.answers.upvoted, answerId });
+            console.log(`isAlreadyUpvoted `, isAlreadyUpvoted);
+            return (
+                <>
+                    {
+                        answers?.length > 0 ? answers.map((answer: Answer) => {
+                            return <Box key={answer._id}><Flex align="center" my="12px">
+                                <Text as="h4" fontSize="larger">
+                                    {answers.length} Answers
+                                </Text>
+                                <AnswerFilters />
                             </Flex>
-                            <Flex direction="column">
-                                <AnswerDescription
-                                    description={answer.answer}
-                                />
-                                <Flex
-                                    justify="end"
-                                    py="12px"
-                                    gap="12px"
-                                    wrap={["wrap", "wrap", "nowrap"]}
-                                >
-                                    <Flair cardBackgroundColor={`gray.100`} />
-                                </Flex>
-                                <CommentInput />
-                                <Divider />
-                                <Flex gap="12px" my="12px" direction="column">
-                                    <Comment />
+                                <Flex pt="1rem" width="100%" gap={["2px", "12px", "2rem"]}>
+                                    <Flex direction="column" justify="start" align="center" gap="8px">
+                                        <CustomIconButton
+                                            icon={isAlreadyUpvoted ? ICON_ALREADY_UPVOTED : ICON_UPVOTE}
+                                            answer={answer}
+                                            questionId={questionId}
+                                        />
+                                        <Box>
+                                            <Text fontSize="larger">{answer.votes.count}</Text>
+                                        </Box>
+                                        <CustomIconButton icon={isAlreadyDownvoted ? ICON_ALREADY_DOWNVOTED : ICON_DOWNVOTE} answer={answer}
+                                            questionId={questionId}
+                                        />
 
-                                    {/*  */}
-                                    <Comment />
+                                        <Box>
+                                            <Image src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657557176/correct_axe2hj.png" />
+                                        </Box>
+                                    </Flex>
+                                    <Flex direction="column">
+                                        <AnswerDescription
+                                            description={answer.answer}
+                                        />
+                                        <Flex
+                                            justify="end"
+                                            py="12px"
+                                            gap="12px"
+                                            wrap={["wrap", "wrap", "nowrap"]}
+                                        >
+                                            <Flair cardBackgroundColor={`gray.100`} />
+                                        </Flex>
+                                        <CommentInput />
+                                        <Divider />
+                                        <Flex gap="12px" my="12px" direction="column">
+                                            <Comment />
+
+                                            {/*  */}
+                                            <Comment />
+                                        </Flex>
+                                    </Flex>
                                 </Flex>
-                            </Flex>
-                        </Flex>
-                    </>
-                }) : <>No Answers Yet..!</>
-            }
-        </>
-    )
+                                </Box>
+                        }) : <>No Answers Yet..!</>
+                    }
+                </>
+            )
+        }
+
+    }
+
+    return <>No Answers Yet..!</>
 
 
 

@@ -4,3 +4,4 @@ export { checkIfTheQuestionIsAlreadyUpvoted } from "./checkIfTheQuestionIsAlread
 export { removeQuestionFromUpvotes } from "./removeQuestionFromUpvotes";
 export { addQuestionToDownvotes } from "./addQuestionToDownvotes";
 export { removeQuestionFromDownvotes } from "./removeQuestionFromDownvotes";
+export { getQuestionFromQuestionId } from "./getQuestionFromQuestionId";

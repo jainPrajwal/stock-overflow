@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AnswersState, BASE_API } from "../../constants";
+import { updateAnswerService } from "../../services";
 
 const initialState: AnswersState = {
   answers: [],
@@ -29,9 +30,17 @@ const AnswerSlice = createSlice({
       state.answers = action.payload.answers;
       console.log(`loadAnswersfulfilled `, current(state));
     });
+
+    builder.addCase(updateAnswerService.fulfilled, (state, action) => {
+      if (`answer` in action.payload) {
+        const answerIndex = state.answers.findIndex(
+          (answer) => answer._id === action.payload.answer._id
+        );
+        state.answers[answerIndex] = action.payload.answer;
+      }
+    });
   },
 });
 
 export default AnswerSlice.reducer;
-// https://stock-overfloww.herokuapp.com/questions/62c6e5552537c86436097c72/answers
-// https://stock-overfloww.herokuapp.com/questions/62c6787fb784c6f4de524eb5/answers
+

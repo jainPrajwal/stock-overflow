@@ -8,6 +8,7 @@ import {
   ICON_UPVOTE,
   Question,
 } from "../../constants";
+import { updateActivityQuestionService, updateQuestionService } from "../../services";
 import {
   addQuestionToDownvotes,
   addQuestionToUpvotes,
@@ -16,8 +17,7 @@ import {
   removeQuestionFromDownvotes,
   removeQuestionFromUpvotes,
 } from "../../utils/question";
-import { updateQuestionService } from "../question/updateQuestionService";
-import { updateActivityQuestionService } from "./updateActivityQuestionService";
+
 
 export const handleQuestionActivity = ({
   icon,

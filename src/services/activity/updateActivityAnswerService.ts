@@ -1,14 +1,28 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { BASE_API, ServerError } from "../../constants";
+import { ActivityResponseType as ActivityRequestType } from "../../constants/activity.types";
+import { ActivityResponseType } from "../../constants/activity.types";
 
 export const updateActivityAnswerService = createAsyncThunk(
-  `activities/updateActivityQuestion`,
-  async ({ answerId }: { answerId: string }, thunkAPI) => {
-    if (answerId) {
+  `activities/updateActivityAnswer`,
+  async (
+    {
+      answerId,
+      activity,
+    }: {
+      answerId: string;
+      activity: ActivityRequestType;
+    },
+    thunkAPI
+  ) => {
+
       try {
-        const response = await axios.post(
-          `${BASE_API}/user/activity/questions/${answerId}`
+        const response = await axios.post<ActivityResponseType>(
+          `${BASE_API}/user/activities/answers/${answerId}`,
+          {
+            ...activity,
+          }
         );
         return response.data;
       } catch (error) {
@@ -16,6 +30,8 @@ export const updateActivityAnswerService = createAsyncThunk(
           const serverError = error as AxiosError<ServerError>;
           if (serverError && serverError.response) {
             return thunkAPI.rejectWithValue(serverError.response.data);
+          } else { 
+            return error;
           }
         } else {
           return thunkAPI.rejectWithValue({
@@ -25,6 +41,6 @@ export const updateActivityAnswerService = createAsyncThunk(
           });
         }
       }
-    }
+    
   }
 );

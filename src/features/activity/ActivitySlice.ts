@@ -1,5 +1,6 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { ActivitiesState } from "../../constants";
+import { updateActivityAnswerService } from "../../services";
 import { getActivitiesService } from "../../services/activity/getActivitiesService";
 import { updateActivityQuestionService } from "../../services/activity/updateActivityQuestionService";
 const initialState: ActivitiesState = {
@@ -51,11 +52,36 @@ const activitySlice = createSlice({
       state.loadingStatus = `loading`;
     });
 
-    builder.addCase(updateActivityQuestionService.rejected, (state,action) => {
+    builder.addCase(updateActivityQuestionService.rejected, (state, action) => {
       state.loadingStatus = `error`;
       state.error = action.error;
-      state.message = `something went wrong..!`
-    })
+      state.message = `something went wrong..!`;
+    });
+
+    builder.addCase(
+      updateActivityAnswerService.fulfilled,
+      (state, action) => {
+        if (`activity` in action.payload) {
+          console.log(`action payload `, action.payload)
+          state.answers.upvoted = action.payload.activity.answers.upvoted;
+          state.answers.downvoted =
+            action.payload.activity.answers.downvoted;
+          state.loadingStatus = `success`;
+          state.message = action.payload.message!;
+          console.log(`current state `, current(state))
+        }
+      }
+    );
+
+    builder.addCase(updateActivityAnswerService.pending, (state, action) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(updateActivityAnswerService.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.error = action.error;
+      state.message = `something went wrong..!`;
+    });
   },
 });
 
