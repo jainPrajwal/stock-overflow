@@ -59,7 +59,7 @@ const Login = () => {
     if (loadingStatus === `success`) {
       toast.success(`${toastMessage}`);
       const user = { token, email }
-      console.log(`email `, email)
+      
       localStorage.setItem(`user`, JSON.stringify(user));
 
       dispatch(getActivitiesService());
@@ -72,7 +72,7 @@ const Login = () => {
 
   useEffect(() => {
     if (loadingStatus === `idle`) {
-      console.log(`idle`)
+      
     }
   }, [])
 
@@ -130,7 +130,7 @@ const Login = () => {
             e.preventDefault();
 
             if (form.isFormValid) {
-              console.log(`form is valid`, form)
+              
               dispatch(loginUserService({
                 email: form.email,
                 password: form.password

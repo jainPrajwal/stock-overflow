@@ -17,7 +17,7 @@ const TABS = [`All`, `Hot`, `Week`, `Month`];
 
 export const Home = () => {
     const { questions, loadingStatus, error, message } = useAppSelector(state => {
-        console.log(`state.question`, state.question)
+        
         return state.question
     });
 

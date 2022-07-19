@@ -9,6 +9,7 @@ import questionReducer from "../features/question/QuestionSlice";
 import answerReducer from "../features/answer/AnswerSlice";
 import authReducer from "../features/auth/AuthSlice";
 import activityReducer from "../features/activity/ActivitySlice";
+import commentReducer from "../features/comment/CommentSlice";
 import axios from "axios";
 import { AnswersState, AuthState, QuestionsState } from "../constants";
 
@@ -20,7 +21,6 @@ const setInterceptors = (
     auth: AuthState;
   }>
 ) => {
-  
   axios.defaults.headers.common[`authorization`] = `Bearer ${
     store.getState().auth.token
   }`;
@@ -36,6 +36,7 @@ export const store = configureStore({
     answer: answerReducer,
     auth: authReducer,
     activity: activityReducer,
+    comment: commentReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(axiosMiddleware);

@@ -207,6 +207,6 @@ export const handleQuestionActivity = ({
       break;
 
     default:
-      console.log(`Invalid Icon`);
+      
   }
 };

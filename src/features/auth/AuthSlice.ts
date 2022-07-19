@@ -12,7 +12,7 @@ const initialState: AuthState = {
   toastMessage: null,
 };
 
-console.log(`auth slice running...!`);
+
 
 const authSlice = createSlice({
   name: `auth`,

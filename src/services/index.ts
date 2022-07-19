@@ -6,3 +6,4 @@ export { updateActivityQuestionService } from "./activity/updateActivityQuestion
 export { updateAnswerService } from "./answer/updateAnswerService";
 export { addQuestionService } from "./question/addQuestionService";
 export { updateQuestionService } from "./question/updateQuestionService";
+export { addAnswerService } from "./answer/addAnswerService";

@@ -25,7 +25,9 @@ export const CustomIconButton = ({ icon, answer, questionId }: { icon: IconType,
                 minW="none"
                 height={["24px", "48px", "64px"]}
                 onClick={() => {
+
                     if (answer && question) {
+
                         handleAnswerActivity({
                             icon,
                             activity,
@@ -35,6 +37,7 @@ export const CustomIconButton = ({ icon, answer, questionId }: { icon: IconType,
                         })
                     }
                     else if (question && !answer) {
+
                         handleQuestionActivity({
                             icon,
                             question,

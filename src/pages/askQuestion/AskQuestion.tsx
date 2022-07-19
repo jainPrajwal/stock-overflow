@@ -35,7 +35,7 @@ export const AskQuestion = () => {
     });
 
     const { loadingStatus, questions, error, message } = useAppSelector(state => state.question);
-    console.log(`loading status`, loadingStatus)
+    
     useEffect(() => {
         if (loadingStatus === `success`) {
             toast.success(`${message}`)
@@ -92,7 +92,7 @@ export const AskQuestion = () => {
                                 <ReactQuill
                                     theme="snow"
                                     onChange={(value) => {
-                                        console.log(`value `, value);
+                                        
                                         setQuestionDetails(prevState => ({ ...prevState, description: value }));
 
                                     }}

@@ -7,7 +7,7 @@ const checkIfTagIsAlreadyPresent = (
   array: Array<string>,
   input: string
 ): boolean => {
-  console.log(`called`)
+  
   return array?.includes(input);
 };
 
@@ -36,7 +36,7 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
                   alignItems: `center`
                 }}
                 onClick={(e) => {
-                  console.log(`clicked`, e.currentTarget);
+                  
                   const finalTags = deleteTag(inputTag!.tags!, tag);
                   setQuestionDetails(prevState => {
                     return {
@@ -104,7 +104,7 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
                 inputTag?.input && inputTag?.input?.length <= 0 &&
                 isKeyReleased
               ) {
-                console.log(`deleting`);
+                
                 setQuestionDetails(prevState => {
                   return {
                     ...prevState,
@@ -122,7 +122,7 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
               }
             }}
             onKeyUp={(e) => {
-              console.log(`key released`, e.key);
+              
               setIsKeyReleased(true);
             }}
           />

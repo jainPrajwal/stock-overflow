@@ -13,12 +13,13 @@ import { ICON_ALREADY_DOWNVOTED, ICON_ALREADY_UPVOTED, ICON_DOWNVOTE, ICON_UPVOT
 
 import { QuestionDescription } from "./QuestionDescription";
 import { checkIfTheQuestionIsAlreadyDownVoted, checkIfTheQuestionIsAlreadyUpvoted, getQuestionFromQuestionId } from "../../utils/question";
+import { Comment } from "../comment/Comment";
 
 export const QuestionSection = () => {
   const { questionId } = useParams();
   const { questions } = useAppSelector(state => state.question);
   const activity = useAppSelector(state => state.activity);
-  console.log(`questionid`, questionId);
+
 
 
 
@@ -26,9 +27,6 @@ export const QuestionSection = () => {
     const question = getQuestionFromQuestionId(questions, questionId);
     if (question) {
       const isAlreadyUpvoted = checkIfTheQuestionIsAlreadyUpvoted({ upvotedQuestions: activity.questions.upvoted, questionId: question._id });
-      console.log(`isAlreadyUpvoted `, isAlreadyUpvoted);
-
-
       const isAlreadyDownvoted = checkIfTheQuestionIsAlreadyDownVoted({
         downVotedQuestions: activity.questions.downvoted,
         questionId: question._id
@@ -65,6 +63,10 @@ export const QuestionSection = () => {
                 <Flair cardBackgroundColor="blue.100" />
               </Flex>
               <CommentInput />
+              <Comment questionId={`${questionId}`} answerId={null} />
+
+
+
             </Flex>
           </Flex>
         </>

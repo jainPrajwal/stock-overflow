@@ -19,6 +19,7 @@ export type AnswersState = {
   error: unknown;
   sortBy: string | null;
   filterBy: string | null;
+  message: string | null;
 };
 
 export type AnswersResponseType = {
@@ -35,4 +36,11 @@ export type AnswerRequestType = {
   isDeleted?: false;
   votes?: { count: number };
   answer?: string;
+};
+
+export type AnswerResponseType = {
+  success: boolean;
+  message: string;
+  error: unknown;
+  answer: Answer;
 };

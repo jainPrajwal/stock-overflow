@@ -41,8 +41,8 @@ export const QuestionSlice = createSlice({
       state.loadingStatus = `loading`;
     });
     builder.addCase(loadQuestions.rejected, (state, action) => {
-      console.log(`falied `, action.payload);
-      console.log(`failed... `, action.error);
+      
+      
       state.loadingStatus = `error`;
       state.message =
         (action.payload as ServerError)?.message ||
@@ -51,7 +51,7 @@ export const QuestionSlice = createSlice({
     });
 
     builder.addCase(addQuestionService.fulfilled, (state, action) => {
-      console.log(`question added `, action.payload);
+      
       if (`question` in action.payload) {
         state.questions.push(action.payload.question);
         state.loadingStatus = `success`;
@@ -64,7 +64,7 @@ export const QuestionSlice = createSlice({
     });
 
     builder.addCase(addQuestionService.rejected, (state, action) => {
-      console.log(`action payload `, action.payload);
+      
       state.message = (action.payload as ServerError).message;
       state.loadingStatus = `error`;
       state.error = action.error;

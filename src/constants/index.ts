@@ -11,12 +11,12 @@ export type { QuestionRequestType } from "./question.types";
 // Answer
 export type { Answer } from "./answer.types";
 export type { AnswersState } from "./answer.types";
+export type { AnswerResponseType } from "./answer.types";
 
 // Profile
 export type { Profile } from "./profile.types";
 
 // Common
-
 export type { ServerError } from "./common.types";
 export type { loading } from "./common.types";
 export type { UserLoginCredentials } from "./common.types";
@@ -32,3 +32,9 @@ export type { AuthResponseType } from "./auth.types";
 // Activity
 export type { ActivitiesState } from "./activity.types";
 export type { ActivityResponseType } from "./activity.types";
+
+// Comment
+export type { Comment } from "./comment.types";
+export type { CommentsState } from "./comment.types";
+export type { CommentsResponseType } from "./comment.types";
+export type { CommentRequestType } from "./comment.types";

@@ -62,13 +62,14 @@ const activitySlice = createSlice({
       updateActivityAnswerService.fulfilled,
       (state, action) => {
         if (`activity` in action.payload) {
-          console.log(`action payload `, action.payload)
+          
           state.answers.upvoted = action.payload.activity.answers.upvoted;
           state.answers.downvoted =
             action.payload.activity.answers.downvoted;
           state.loadingStatus = `success`;
           state.message = action.payload.message!;
           console.log(`current state `, current(state))
+          
         }
       }
     );

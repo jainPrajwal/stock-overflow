@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AnswersState, BASE_API } from "../../constants";
-import { updateAnswerService } from "../../services";
+import { AnswersState, BASE_API, ServerError } from "../../constants";
+import { addAnswerService, updateAnswerService } from "../../services";
 
 const initialState: AnswersState = {
   answers: [],
@@ -9,6 +9,7 @@ const initialState: AnswersState = {
   sortBy: null,
   filterBy: null,
   error: null,
+  message: null,
 };
 export const loadAnswersOfTheQuestion = createAsyncThunk(
   `answers/loadAnswersOfTheQuestion`,
@@ -26,9 +27,19 @@ const AnswerSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loadAnswersOfTheQuestion.fulfilled, (state, action) => {
-      console.log(`action payload `, action.payload);
+      
       state.answers = action.payload.answers;
-      console.log(`loadAnswersfulfilled `, current(state));
+      
+    });
+
+    builder.addCase(loadAnswersOfTheQuestion.pending, (state) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(loadAnswersOfTheQuestion.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.error = action.error;
+      state.message = (action.payload as ServerError).message;
     });
 
     builder.addCase(updateAnswerService.fulfilled, (state, action) => {
@@ -37,10 +48,26 @@ const AnswerSlice = createSlice({
           (answer) => answer._id === action.payload.answer._id
         );
         state.answers[answerIndex] = action.payload.answer;
+        state.message = action.payload.message;
+      }
+    });
+
+    builder.addCase(updateAnswerService.pending, (state) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(updateAnswerService.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.error = action.error;
+      state.message = (action.payload as ServerError).message;
+    });
+
+    builder.addCase(addAnswerService.fulfilled, (state, action) => {
+      if (`answer` in action.payload) {
+        state.answers.push(action.payload.answer);
       }
     });
   },
 });
 
 export default AnswerSlice.reducer;
-
