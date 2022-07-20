@@ -1,7 +1,5 @@
 import { Box, Button, Divider, Flex, FormControl, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react"
-
 import { AnswerFilters } from "./AnswerFilters"
-
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
@@ -10,14 +8,23 @@ import React from "react"
 import { Answer } from "../../constants"
 import { CustomQuillToolbar, formats, modules } from "../CustomToolbar"
 import ReactQuill from "react-quill"
-import { addAnswerService } from "../../services"
+import { addAnswerService, updateQuestionService } from "../../services"
 import { AnswerComponent } from "./AnswerComponent"
+import { checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect } from "../../utils/answer/checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect"
+import { getQuestionFromQuestionId } from "../../utils/question"
+
+
+
 
 
 
 export const AnswerSection = () => {
     const { loadingStatus, answers } = useAppSelector(state => state.answer);
     const { questionId } = useParams();
+    const answersOnSpecifiedQuestion = answers.filter(answer => answer.question === questionId);
+    const { questions } = useAppSelector(state => state.question)
+    const isThereAnAnswerWhichIsAlreadyMarkedAsCorrect = checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect(answers);
+
 
     const dispatch = useAppDispatch();
 
@@ -25,32 +32,34 @@ export const AnswerSection = () => {
         text: null
     })
 
-    useEffect(() => {
-        if (loadingStatus === `idle`) {
 
-            if (questionId) {
-                dispatch(loadAnswersOfTheQuestion({
-                    questionId
-                }))
-            }
+
+
+    useEffect(() => {
+        if (questionId) {
+            dispatch(loadAnswersOfTheQuestion({
+                questionId
+            }))
         }
     }, [loadingStatus, questionId, dispatch]);
 
     if (questionId) {
+        const question = getQuestionFromQuestionId(questions, questionId);
         return (
             <>
                 <Flex justify={`space-between`} mt="12px">
                     <Text as="h4" fontSize="larger">
-                        {answers.length} Answers
+                        {answersOnSpecifiedQuestion.length} Answers
                     </Text>
-                    
+
                     <AnswerFilters />
                 </Flex>
                 {
-                    answers?.length > 0 ? answers.map((answer: Answer) => {
-                       
-                        return <AnswerComponent answers={answers} answer={answer} key={answer._id}
+                    answersOnSpecifiedQuestion?.length > 0 ? answersOnSpecifiedQuestion.map((answer: Answer) => {
+
+                        return <AnswerComponent answer={answer} key={answer._id}
                             questionId={questionId}
+                            isThereAnAnswerWhichIsAlreadyMarkedAsCorrect={isThereAnAnswerWhichIsAlreadyMarkedAsCorrect}
                         />
                     }) : <>No Answers Yet..!</>
                 }
@@ -76,7 +85,15 @@ export const AnswerSection = () => {
                                                     dispatch(addAnswerService({
                                                         answer: answer.text,
                                                         questionId
-                                                    }))
+                                                    }));
+                                                    if (question) {
+
+                                                        dispatch(updateQuestionService({
+                                                            questionId: question._id,
+                                                            question: { totalAnswers: question.totalAnswers + 1, isAcceptedAnswerPresent: true }
+                                                        }))
+                                                    }
+                                                    setAnswer(prevState => ({ text: null }))
                                                 }
 
                                             }}

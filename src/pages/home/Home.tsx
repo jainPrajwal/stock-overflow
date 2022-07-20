@@ -6,7 +6,6 @@ import { FiExternalLink } from "react-icons/fi";
 import React from "react";
 
 import { Sidebar } from "../../components/sidebar/Sidebar";
-import { useNavigate } from "react-router-dom";
 import { loadQuestions } from "../../services";
 import { Question } from "../../constants";
 import { QuestionComponent } from "../../components/question/Question";
@@ -17,12 +16,9 @@ const TABS = [`All`, `Hot`, `Week`, `Month`];
 
 export const Home = () => {
     const { questions, loadingStatus, error, message } = useAppSelector(state => {
-        
+
         return state.question
     });
-
-
-    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     useEffect(() => {
         if (loadingStatus === `idle`) {
@@ -32,8 +28,6 @@ export const Home = () => {
         }
 
     }, [loadingStatus, dispatch, message]);
-
-
 
     return (
         <>
@@ -88,7 +82,7 @@ export const Home = () => {
                                                     color='blue.500'
                                                     size='xl'
 
-                                                /></Flex> : <>{message}</>
+                                                /></Flex> : <>{error}</>
                                             }
                                         </Flex>
                                     </TabPanel>

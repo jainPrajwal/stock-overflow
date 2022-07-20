@@ -39,3 +39,10 @@ export type CommentRequestType = {
     text: string;
   };
 };
+
+export type CommentResponseType = {
+  loadingStatus: loading;
+  message: string | null;
+  error: unknown;
+  comment: Comment;
+};

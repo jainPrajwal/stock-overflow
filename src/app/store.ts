@@ -4,21 +4,27 @@ import {
   Action,
   EnhancedStore,
 } from "@reduxjs/toolkit";
-import counterReducer, { CounterState } from "../features/counter/counterSlice";
+
 import questionReducer from "../features/question/QuestionSlice";
 import answerReducer from "../features/answer/AnswerSlice";
 import authReducer from "../features/auth/AuthSlice";
 import activityReducer from "../features/activity/ActivitySlice";
 import commentReducer from "../features/comment/CommentSlice";
+import profileReducer from "../features/profile/ProfileSlice";
 import axios from "axios";
-import { AnswersState, AuthState, QuestionsState } from "../constants";
+import {
+  AnswersState,
+  AuthState,
+  ProfileState,
+  QuestionsState,
+} from "../constants";
 
 const setInterceptors = (
   store: EnhancedStore<{
-    counter: CounterState;
     question: QuestionsState;
     answer: AnswersState;
     auth: AuthState;
+    profile: ProfileState;
   }>
 ) => {
   axios.defaults.headers.common[`authorization`] = `Bearer ${
@@ -31,12 +37,12 @@ const axiosMiddleware = (store: any) => (next: any) => (action: any) => {
 };
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
     question: questionReducer,
     answer: answerReducer,
     auth: authReducer,
     activity: activityReducer,
     comment: commentReducer,
+    profile: profileReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(axiosMiddleware);

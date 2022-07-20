@@ -12,6 +12,7 @@ import { formatDistance } from "date-fns";
 import { Question } from "../../constants";
 import { useAppDispatch } from "../../app/hooks";
 import { updateQuestionService } from "../../services/question/updateQuestionService";
+import { getTimeAgo } from "../../utils/common/getTimeAgo";
 
 export const QuestionComponent = ({ question }: { question: Question }) => {
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
           {question.title}
         </Text>
         <Flex align="center" gap="12px" wrap="wrap">
-          <Text fontSize="sm">asked {formatDistance(new Date(), new Date(question.createdAt))} ago</Text>
+          <Text fontSize="sm">asked {getTimeAgo(question)} ago</Text>
 
           <Text fontSize="sm">
             by{" "}
@@ -78,6 +79,7 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
             align="center"
             fontSize="sm"
             p="12px"
+            w="100px"
           >
             <Text>{question.votes.count}</Text>
             <Text ml="2px">votes</Text>
@@ -105,6 +107,7 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
             align="center"
             fontSize="sm"
             p="12px"
+            w="100px"
           >
             <Text>{question.views}</Text>
             <Text ml="2px">views</Text>

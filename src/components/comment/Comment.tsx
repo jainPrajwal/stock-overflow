@@ -1,48 +1,32 @@
 import { Box, Flex, Link, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { Answer, Comment as CommentType } from "../../constants";
 import { getCommentsOnAnswerService } from "../../services/comment/getCommentsOnAnswerService";
 import { getCommentsOnQuestionService } from "../../services/comment/getCommentsOnQuestionService";
+import { getTimeAgo } from "../../utils/common/getTimeAgo";
 
 export const Comment = ({
     questionId,
-    answerId
+    answer,
+    commentsOnSpecifiedAnswer,
+    commentsOnSpecifiedQuestion
 }: {
     questionId: string | null;
-    answerId: string | null;
+    answer: Answer | null;
+    commentsOnSpecifiedAnswer: Array<CommentType>;
+    commentsOnSpecifiedQuestion: Array<CommentType>;
 }) => {
-    console.log(`answer `, answerId)
-    const { comments } = useAppSelector(state => state.comment);
-    const dispatch = useAppDispatch();
-    useEffect(() => {
-        if (comments.questionsMeta.loadingStatus === `idle`) {
-            if (questionId) {
-                console.log(`getting comments on question`)
-                dispatch(getCommentsOnQuestionService({
-                    questionId
-                }))
-            }
-
-        }
-    }, [comments.questionsMeta.loadingStatus, dispatch, questionId]);
-
-    useEffect(() => {
-        if (comments.answersMeta.loadingStatus === `idle`) {
-            if (questionId && answerId) {
-                dispatch(getCommentsOnAnswerService({
-                    questionId,
-                    answerId
-                }))
-            }
-        }
-    }, [comments.answersMeta.loadingStatus, answerId, questionId, dispatch]);
+    console.log(`answer `, answer?._id)
+    const answerId = answer?._id;
 
 
 
-    const commentsOnSpecifiedQuestion = comments.questionsMeta.questions.filter(commentOnQuestion => commentOnQuestion.question === questionId)
-    const commentsOnSpecifiedAnswer = comments.answersMeta.answers.filter(commentOnAnswer => commentOnAnswer.answer === answerId)
+
 
     if (questionId && answerId) {
+
+
         return <>
             {
                 commentsOnSpecifiedAnswer?.map(commentOnSpecifiedAnswer => {
@@ -53,7 +37,7 @@ export const Comment = ({
                             <Box color="gray.500" fontSize="sm">
                                 <Flex justify="end">
                                     <Link color="blue">- {commentOnSpecifiedAnswer.commenter.name}</Link>
-                                    <Text ml="8px"> {new Date(commentOnSpecifiedAnswer.createdAt).toDateString()}</Text>
+                                    <Text ml="8px"> {`${getTimeAgo(commentOnSpecifiedAnswer)} ago`}</Text>
                                 </Flex>
                             </Box>
                         </Box>
@@ -62,6 +46,7 @@ export const Comment = ({
             }</>
     }
     if (questionId) {
+
         return <>
             {
 
@@ -73,7 +58,7 @@ export const Comment = ({
                             <Box color="gray.500" fontSize="sm">
                                 <Flex justify="end">
                                     <Link color="blue">- {commentOnSpecifiedQuestion.commenter.name}</Link>
-                                    <Text ml="8px"> {new Date(commentOnSpecifiedQuestion.createdAt).toDateString()}</Text>
+                                    <Text ml="8px"> {getTimeAgo(commentOnSpecifiedQuestion)}</Text>
                                 </Flex>
                             </Box>
                         </Box>

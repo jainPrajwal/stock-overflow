@@ -14,7 +14,7 @@ export const SingleQuestionPage = () => {
             maxW="1340"
             overflowY="auto"
         >
-            <Flex gap="0">
+            <Flex gap="12px">
                 <Sidebar />
                 <SingleQuestionSection />
                 <Show above="lg">

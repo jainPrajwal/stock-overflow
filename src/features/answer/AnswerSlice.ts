@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AnswersState, BASE_API, ServerError } from "../../constants";
+import { AnswerResponseType, AnswersState, BASE_API, ServerError } from "../../constants";
 import { addAnswerService, updateAnswerService } from "../../services";
 
 const initialState: AnswersState = {
@@ -62,7 +62,7 @@ const AnswerSlice = createSlice({
       state.message = (action.payload as ServerError).message;
     });
 
-    builder.addCase(addAnswerService.fulfilled, (state, action) => {
+    builder.addCase(addAnswerService.fulfilled, (state, action: PayloadAction<AnswerResponseType>) => {
       if (`answer` in action.payload) {
         state.answers.push(action.payload.answer);
       }

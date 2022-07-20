@@ -1,8 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { QuestionsState, ServerError } from "../../constants";
-import { loadQuestions } from "../../services";
+import { Question, QuestionsState, ServerError } from "../../constants";
+import {
+  getQuestionWithQuestionIdService,
+  loadQuestions,
+} from "../../services";
 import { addQuestionService } from "../../services/question/addQuestionService";
 import { updateQuestionService } from "../../services/question/updateQuestionService";
+import { getQuestionFromQuestionId } from "../../utils/question";
 
 const initialState: QuestionsState = {
   questions: [],
@@ -17,17 +21,11 @@ export const QuestionSlice = createSlice({
   name: `question`,
   initialState,
   reducers: {
-    addQuestionButtonPressed: (state, action: PayloadAction<string>) => {
-      return state;
-    },
-    saveToDraftsButtonPressed: (state, action: PayloadAction<string>) => {
-      return state;
-    },
-    deleteQuestionButtonPressed: (state, action: PayloadAction<string>) => {
-      return state;
-    },
-    updateQuestionButtonPressed: (state, action: PayloadAction<string>) => {
-      return state;
+    markAsCorrectAnswerClicked: (state, action : PayloadAction<Question>) => {
+      const questionIndex = state.questions.findIndex(
+        (question) => question._id === action.payload._id
+      );
+      state.questions[questionIndex].isAcceptedAnswerPresent = true;
     },
   },
   extraReducers: (builder) => {
@@ -41,8 +39,6 @@ export const QuestionSlice = createSlice({
       state.loadingStatus = `loading`;
     });
     builder.addCase(loadQuestions.rejected, (state, action) => {
-      
-      
       state.loadingStatus = `error`;
       state.message =
         (action.payload as ServerError)?.message ||
@@ -51,7 +47,6 @@ export const QuestionSlice = createSlice({
     });
 
     builder.addCase(addQuestionService.fulfilled, (state, action) => {
-      
       if (`question` in action.payload) {
         state.questions.push(action.payload.question);
         state.loadingStatus = `success`;
@@ -64,7 +59,6 @@ export const QuestionSlice = createSlice({
     });
 
     builder.addCase(addQuestionService.rejected, (state, action) => {
-      
       state.message = (action.payload as ServerError).message;
       state.loadingStatus = `error`;
       state.error = action.error;
@@ -77,14 +71,20 @@ export const QuestionSlice = createSlice({
       state.questions[questionIndex] = action.payload.question;
       state.loadingStatus = `success`;
     });
+
+    builder.addCase(
+      getQuestionWithQuestionIdService.fulfilled,
+      (state, action) => {
+        if (`question` in action.payload) {
+          state.questions.push(action.payload.question);
+          state.message = action.payload.message;
+          state.loadingStatus = `success`;
+        }
+      }
+    );
   },
 });
 
-export const {
-  addQuestionButtonPressed,
-  deleteQuestionButtonPressed,
-  saveToDraftsButtonPressed,
-  updateQuestionButtonPressed,
-} = QuestionSlice.actions;
+export const {markAsCorrectAnswerClicked} = QuestionSlice.actions;
 
 export default QuestionSlice.reducer;

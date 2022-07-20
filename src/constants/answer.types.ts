@@ -11,6 +11,7 @@ export type Answer = {
   createdAt: string;
   updatedAt: string;
   answer: string;
+  
 };
 
 export type AnswersState = {

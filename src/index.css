@@ -71,3 +71,8 @@ code {
 .activeLink {
   border-bottom: 1px solid #3182ce;
 }
+
+::-webkit-scrollbar-thumb {
+  width: 8px;
+  background-color: #3182ce;
+}

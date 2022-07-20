@@ -7,3 +7,5 @@ export { updateAnswerService } from "./answer/updateAnswerService";
 export { addQuestionService } from "./question/addQuestionService";
 export { updateQuestionService } from "./question/updateQuestionService";
 export { addAnswerService } from "./answer/addAnswerService";
+export { getQuestionWithQuestionIdService } from "./question/getQuestionWithQuestionIdService";
+export { getProfileService } from "./profile/getProfileService";
