@@ -119,6 +119,10 @@ export const handleQuestionActivity = ({
             votes: {
               count: question.votes.count + 1,
             },
+            questioner: {
+              ...question.questioner,
+              reputation: question.questioner.reputation + 1,
+            },
           },
         })
       );
@@ -164,6 +168,10 @@ export const handleQuestionActivity = ({
           question: {
             votes: {
               count: question.votes.count - 1,
+            },
+            questioner: {
+              ...question.questioner,
+              reputation: question.questioner.reputation - 1,
             },
           },
         })

@@ -10,13 +10,15 @@ import "./Question.css";
 import { useNavigate } from "react-router-dom";
 import { formatDistance } from "date-fns";
 import { Question } from "../../constants";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateQuestionService } from "../../services/question/updateQuestionService";
 import { getTimeAgo } from "../../utils/common/getTimeAgo";
+import { toast } from "react-toastify";
 
 export const QuestionComponent = ({ question }: { question: Question }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { token } = useAppSelector(state => state.auth)
   return (
     <Flex
       wrap={[`wrap`, `unset`]}
@@ -27,6 +29,10 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
       key={question._id}
       cursor={`pointer`}
       onClick={() => {
+        if (!token) {
+          toast.error(`Please login to avail these features`)
+          return;
+        }
         navigate(`/questions/${question._id}`);
         dispatch(updateQuestionService({
           questionId: question._id,

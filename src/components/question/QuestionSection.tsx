@@ -107,13 +107,17 @@ export const QuestionSection = () => {
                   <Button
                     isDisabled={activity.loadingStatus === `loading`}
                     bg="transparent"
-                  
+
                     borderRadius="full"
                     p={["4px", "4px", "8px"]}
                     width={["24px", "48px", "48px"]}
                     minW="none"
                     height={["24px", "48px", "48px"]}
                     onClick={() => {
+                      if (!profile) {
+                        toast.error(`Please login to avail these features`)
+                        return;
+                      }
                       if (!isQuestionAlreadyBookmarked) {
                         dispatch(updateActivityQuestionService({
                           activity: {
@@ -129,7 +133,19 @@ export const QuestionSection = () => {
                           questionId: question._id
                         }))
                       } else {
-                        toast.error(`Some Answer Has Already Been Marked As Correct`)
+                        dispatch(updateActivityQuestionService({
+                          activity: {
+                            activity: {
+                              ...activity,
+                              questions: {
+                                ...activity.questions,
+                                bookmarked: activity.questions.bookmarked.filter(bookmarkedQuestion => bookmarkedQuestion._id !== question._id),
+                              },
+                            }
+
+                          },
+                          questionId: question._id
+                        }))
                       }
 
                     }}

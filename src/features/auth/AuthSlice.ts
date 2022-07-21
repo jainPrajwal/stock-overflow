@@ -12,12 +12,17 @@ const initialState: AuthState = {
   toastMessage: null,
 };
 
-
-
 const authSlice = createSlice({
   name: `auth`,
   initialState,
-  reducers: {},
+  reducers: {
+    logoutButtonPressed: (state) => {
+      state.email = null;
+      state.toastMessage = `See you soon :(`;
+      state.loadingStatus = `idle`;
+      state.token = null;
+    },
+  },
 
   extraReducers: (builder) => {
     builder.addCase(loginUserService.fulfilled, (state, action) => {
@@ -34,4 +39,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { logoutButtonPressed } = authSlice.actions;
 export default authSlice.reducer;

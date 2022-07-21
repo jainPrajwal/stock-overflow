@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useAppDispatch } from '../../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { Question } from '../../../constants';
 import { deleteQuestionService } from '../../../services';
 export const DeleteQuestionModal = ({ onClose, isOpen, question }: {
@@ -21,7 +21,7 @@ export const DeleteQuestionModal = ({ onClose, isOpen, question }: {
 }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-
+    const { profile } = useAppSelector(state => state.profile)
 
 
     return <>
@@ -40,6 +40,10 @@ export const DeleteQuestionModal = ({ onClose, isOpen, question }: {
                             variant={`solid`}
                             colorScheme={`red`}
                             onClick={() => {
+                                if (!profile) {
+                                    toast.error(`Please login to avail these features`)
+                                    return;
+                                }
                                 navigate(`/`);
                                 dispatch(deleteQuestionService({
                                     questionId: question._id

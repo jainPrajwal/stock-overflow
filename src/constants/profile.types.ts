@@ -23,3 +23,8 @@ export type ProfileState = {
   profile: Profile | null;
   loadingStatus: loading;
 };
+
+export type ProfileRequestType = {
+  name?: string;
+  reputation?: number;
+};

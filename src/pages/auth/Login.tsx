@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
 import { loginUserService } from "../../services";
 import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Image, Input, Spinner, Tooltip, Link as ChakraLink } from "@chakra-ui/react";
@@ -21,6 +21,7 @@ const Login = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { state } = useLocation();
 
 
   const [form, setForm] = useState({
@@ -59,20 +60,22 @@ const Login = () => {
     if (loadingStatus === `success`) {
       toast.success(`${toastMessage}`);
       const user = { token, email }
-      
+
       localStorage.setItem(`user`, JSON.stringify(user));
 
       dispatch(getActivitiesService());
+      const from = ((state) as { from: string })?.from;
+      from ? navigate(`/${from}`) : navigate(`/`)
 
     }
     else if (loadingStatus === `error`) {
       toast.error(`${toastMessage}`)
     }
-  }, [loadingStatus, toastMessage, email, token, dispatch]);
+  }, [loadingStatus, toastMessage, email, token, dispatch, navigate, state]);
 
   useEffect(() => {
     if (loadingStatus === `idle`) {
-      
+
     }
   }, [])
 
@@ -130,7 +133,7 @@ const Login = () => {
             e.preventDefault();
 
             if (form.isFormValid) {
-              
+
               dispatch(loginUserService({
                 email: form.email,
                 password: form.password

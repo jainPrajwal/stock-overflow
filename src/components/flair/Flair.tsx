@@ -12,8 +12,8 @@ export const Flair = ({
   isEdited?: boolean;
   question: Question
 }) => {
-  const { profile } = useAppSelector(state => state.profile)
-  if (profile) {
+
+  if (question) {
     return (
       <>
         <Flex
@@ -39,13 +39,13 @@ export const Flair = ({
               height={`36px`}
             ></Image>
             <Box ml="4px">
-              <Text fontSize={`xs`}>{profile.name}</Text>
+              <Text fontSize={`xs`}>{question.questioner.name}</Text>
               <Text fontSize={`xs`}>
-                <Text as="span">{profile.reputation}</Text>
+                <Text as="span">{question.questioner.reputation}</Text>
 
                 <Text as="span" ml="8px">
                   {
-                    profile.reputation > 7 ? `gold` : `silver`
+                    question.questioner.reputation > 7 ? `gold` : `silver`
                   }
                 </Text>
 

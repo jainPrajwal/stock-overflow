@@ -15,14 +15,28 @@ import {
     Text,
     Tooltip
 } from "@chakra-ui/react";
+import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
+} from '@chakra-ui/react'
 import React from "react";
 import { IoMdMenu } from "react-icons/io"
 import { useNavigate } from "react-router";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { logoutButtonPressed } from "../../features/auth/AuthSlice";
 
 const Header = () => {
     const navigate = useNavigate();
     const { token } = useAppSelector(state => state.auth);
+    const dispatch = useAppDispatch();
+
     return (
         <>
             <Flex
@@ -104,31 +118,46 @@ const Header = () => {
                     </Button>
                 </Show>
                 <Flex align="center" gap="10px">
-                    <Tooltip
-                        label={`reputation`}
-                        hasArrow
-                        textAlign="center"
-                        fontSize={`sm`}
-                        padding={`4px`}
-                        arrowSize={8}
-                    >
-                        <Flex
-                            align={`center`}
-                            _hover={{
-                                cursor: "pointer"
-                            }}
-                            width={`fit-content`}
-                        >
-                            <Image
-                                src={`https://res.cloudinary.com/dmk11fqw8/image/upload/v1657350555/unitag_qrcode_standard_srgab6.png`}
-                                width={`24px`}
-                                height={`24px`}
-                            ></Image>
-                            <Text fontSize={`xs`} padding={`0.5`}>
-                                1
-                            </Text>
-                        </Flex>
-                    </Tooltip>
+                    <Popover>
+                        <PopoverTrigger>
+                            <Flex
+                                align={`center`}
+                                _hover={{
+                                    cursor: "pointer"
+                                }}
+                                width={`fit-content`}
+                            >
+
+                                <Image
+                                    src={`https://res.cloudinary.com/dmk11fqw8/image/upload/v1657350555/unitag_qrcode_standard_srgab6.png`}
+                                    width={`24px`}
+                                    height={`24px`}
+                                ></Image>
+                                <Text fontSize={`xs`} padding={`0.5`}>
+                                    1
+                                </Text>
+
+
+
+                            </Flex>
+                        </PopoverTrigger>
+                        <PopoverContent width={`fit-content`}>
+                            <PopoverArrow />
+
+
+                            <PopoverBody justifyContent={`center`}><Button size={`sm`}
+                                onClick={() => {
+                                    localStorage.clear();
+                                    dispatch(logoutButtonPressed());
+                                    navigate(`/`)
+                                }}
+                            >
+                                Logout
+                            </Button></PopoverBody>
+                        </PopoverContent>
+                    </Popover>
+
+
 
                     <Tooltip
                         label={`achievements`}

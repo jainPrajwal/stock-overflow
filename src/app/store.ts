@@ -27,9 +27,11 @@ const setInterceptors = (
     profile: ProfileState;
   }>
 ) => {
-  axios.defaults.headers.common[`authorization`] = `Bearer ${
-    store.getState().auth.token
-  }`;
+  if (store.getState().auth.token) {
+    axios.defaults.headers.common[`authorization`] = `Bearer ${
+      store.getState().auth.token
+    }`;
+  }
 };
 const axiosMiddleware = (store: any) => (next: any) => (action: any) => {
   setInterceptors(store);

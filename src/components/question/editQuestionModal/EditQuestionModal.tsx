@@ -24,7 +24,7 @@ import {
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { Question, UserDefinedQuestionsType } from '../../../constants';
 import { updateQuestionService } from '../../../services';
 import { CustomQuillToolbar, formats, modules } from '../../CustomToolbar';
@@ -45,6 +45,7 @@ export const EditQuestionModal = ({ isOpen, onClose, question }: {
     }
   });
   const dispatch = useAppDispatch();
+  const { profile } = useAppSelector(state => state.profile)
 
   return <>
     <Modal onClose={onClose} isOpen={isOpen} size={`3xl`}
@@ -67,7 +68,12 @@ export const EditQuestionModal = ({ isOpen, onClose, question }: {
                   <Box flexGrow="1" maxW="870px">
                     <form
                       onSubmit={(e) => {
+                       
                         e.preventDefault();
+                        if (!profile) {
+                          toast.error(`Please login to avail these features`)
+                          return;
+                        }
                         if (questionDetails.title && questionDetails.description) {
                           dispatch(updateQuestionService({
                             question: {

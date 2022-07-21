@@ -42,3 +42,4 @@ export type { CommentRequestType } from "./comment.types";
 export type { Profile } from "./profile.types";
 export type { ProfileResponseType } from "./profile.types";
 export type { ProfileState } from "./profile.types";
+export type { ProfileRequestType } from "./profile.types";

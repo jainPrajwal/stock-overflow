@@ -63,4 +63,5 @@ export type QuestionRequestType = {
   views?: number;
   totalAnswers?: number;
   isAcceptedAnswerPresent?: boolean;
+  questioner?:Profile;
 }

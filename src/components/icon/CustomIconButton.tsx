@@ -27,6 +27,10 @@ export const CustomIconButton = ({ icon, answer, questionId }: { icon: IconType,
                 minW="none"
                 height={["24px", "48px", "64px"]}
                 onClick={() => {
+                    if (!profile) {
+                        toast.error(`Please login to avail these features`)
+                        return;
+                    }
                     if ((profile ? profile.reputation < 3 : false)) {
                         toast.error(`You need at least 3 reputation to upvote or downvote!`)
                     } else {
@@ -37,7 +41,8 @@ export const CustomIconButton = ({ icon, answer, questionId }: { icon: IconType,
                                 activity,
                                 answer,
                                 dispatch,
-                                questionId: question._id
+                                questionId: question._id,
+                                profile
                             })
                         }
                         else if (question && !answer) {

@@ -8,10 +8,11 @@ import React from "react"
 import { Answer } from "../../constants"
 import { CustomQuillToolbar, formats, modules } from "../CustomToolbar"
 import ReactQuill from "react-quill"
-import { addAnswerService, updateQuestionService } from "../../services"
+import { addAnswerService, updateAnswerService, updateQuestionService } from "../../services"
 import { AnswerComponent } from "./AnswerComponent"
 import { checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect } from "../../utils/answer/checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect"
 import { getQuestionFromQuestionId } from "../../utils/question"
+import { toast } from "react-toastify"
 
 
 
@@ -22,7 +23,8 @@ export const AnswerSection = () => {
     const { loadingStatus, answers } = useAppSelector(state => state.answer);
     const { questionId } = useParams();
     const answersOnSpecifiedQuestion = answers.filter(answer => answer.question === questionId);
-    const { questions } = useAppSelector(state => state.question)
+    const { questions } = useAppSelector(state => state.question);
+    const { profile } = useAppSelector(state => state.profile)
     const isThereAnAnswerWhichIsAlreadyMarkedAsCorrect = checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect(answers);
 
 
@@ -81,6 +83,10 @@ export const AnswerSection = () => {
                                         <form
                                             onSubmit={(e) => {
                                                 e.preventDefault();
+                                                if (!profile) {
+                                                    toast.error(`Please login to avail these features`)
+                                                    return;
+                                                }
                                                 if (answer.text) {
                                                     dispatch(addAnswerService({
                                                         answer: answer.text,
@@ -90,8 +96,12 @@ export const AnswerSection = () => {
 
                                                         dispatch(updateQuestionService({
                                                             questionId: question._id,
-                                                            question: { totalAnswers: question.totalAnswers + 1, isAcceptedAnswerPresent: true }
+                                                            question: { totalAnswers: question.totalAnswers + 1, 
+                                                          
+                                                            }
                                                         }))
+                                                       
+                                                      
                                                     }
                                                     setAnswer(prevState => ({ text: null }))
                                                 }

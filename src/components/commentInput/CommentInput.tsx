@@ -27,7 +27,12 @@ export const CommentInput = ({
     <Box my="12px">
       <form
         onSubmit={(e) => {
+        
           e.preventDefault();
+          if (!profile) {
+            toast.error(`Please login to avail these features`)
+            return;
+        }
           if ((profile ? profile.reputation < 3 : false)) {
             toast.error(`You need at least 3 reputation to upvote or downvote!`)
           } else {

@@ -4,8 +4,9 @@ import { toast } from "react-toastify"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { Answer, ICON_ALREADY_DOWNVOTED, ICON_ALREADY_UPVOTED, ICON_DOWNVOTE, ICON_UPVOTE } from "../../constants"
 import { markAsCorrectAnswerClicked } from "../../features/question/QuestionSlice"
-import { updateAnswerService } from "../../services"
+import { updateAnswerService, updateQuestionService } from "../../services"
 import { getCommentsOnAnswerService } from "../../services/comment/getCommentsOnAnswerService"
+import { updateProfileService } from "../../services/profile/updateProfileService"
 import { checkIfTheAnswerIsAlreadyDownVoted, checkIfTheAnswerIsAlreadyUpvoted } from "../../utils/answer"
 import { getQuestionFromQuestionId } from "../../utils/question"
 import { AnswerCommentSecion } from "../comment/AnswerCommentSection"
@@ -80,7 +81,7 @@ export const AnswerComponent = ({
                 < Box >
                     {
                         answer.isMarkedAsCorrectAnswer ?
-                          <Box
+                            <Box
                                 bg="transparent"
                                 borderRadius="full"
                                 p={["4px", "4px", "12px"]}
@@ -90,12 +91,37 @@ export const AnswerComponent = ({
                                 display="flex"
                                 justifyContent={`center`}
                                 onClick={() => {
-                                    dispatch(updateAnswerService({
-                                        answer: { ...answer, isMarkedAsCorrectAnswer: true },
-                                        answerId: answer._id,
-                                        questionId
-                                    }))
-                                    dispatch(markAsCorrectAnswerClicked(question!))
+                                    if (profile) {
+                                        dispatch(updateAnswerService({
+                                            answer: {
+                                                ...answer, isMarkedAsCorrectAnswer: true,
+                                                answerer: {
+                                                    ...answer.answerer,
+                                                    reputation: answer.answerer.reputation + 3
+                                                }
+                                            },
+                                            answerId: answer._id,
+                                            questionId
+                                        }))
+                                        // dispatch(markAsCorrectAnswerClicked(question!))
+                                        if (question) {
+                                            dispatch(updateQuestionService({
+                                                question: {
+                                                    ...question,
+                                                    isAcceptedAnswerPresent: true
+                                                },
+                                                questionId
+                                            }))
+                                        }
+                                        dispatch(updateProfileService({
+                                            profile: {
+                                                reputation: profile.reputation + 1
+                                            }
+                                        }))
+                                    } else {
+                                        toast.error(`Please login to comment`)
+                                    }
+
                                 }}
                             >
                                 <Image src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657557176/correct_axe2hj.png" width={`32px`} height={`32px`}
@@ -114,15 +140,20 @@ export const AnswerComponent = ({
                                     minW="none"
                                     height={["24px", "48px", "64px"]}
                                     onClick={() => {
-                                        if (!isThereAnAnswerWhichIsAlreadyMarkedAsCorrect) {
-                                            dispatch(updateAnswerService({
-                                                answer: { ...answer, isMarkedAsCorrectAnswer: true },
-                                                answerId: answer._id,
-                                                questionId
-                                            }))
+                                        if (!profile) {
+                                            toast.error(`Please login to avail these features`)
                                         } else {
-                                            toast.error(`Some Answer Has Already Been Marked As Correct`)
+                                            if (!isThereAnAnswerWhichIsAlreadyMarkedAsCorrect) {
+                                                dispatch(updateAnswerService({
+                                                    answer: { ...answer, isMarkedAsCorrectAnswer: true },
+                                                    answerId: answer._id,
+                                                    questionId
+                                                }))
+                                            } else {
+                                                toast.error(`Some Answer Has Already Been Marked As Correct`)
+                                            }
                                         }
+
 
                                     }}
                                 >

@@ -6,12 +6,14 @@ import {
   ICON_ALREADY_UPVOTED,
   ICON_DOWNVOTE,
   ICON_UPVOTE,
+  Profile,
   Question,
 } from "../../constants";
 import {
   updateActivityAnswerService,
   updateAnswerService,
 } from "../../services";
+import { updateProfileService } from "../../services/profile/updateProfileService";
 import {
   addAnswerToDownvotes,
   removeAnswerFromDownvotes,
@@ -27,12 +29,14 @@ export const handleAnswerActivity = ({
   answer,
   activity,
   questionId,
+  profile,
 }: {
   icon: IconType;
   dispatch: any;
   answer: Answer;
   activity: ActivitiesState;
   questionId: string;
+  profile: Profile;
 }) => {
   let updatedActivity: {
     questions: {
@@ -56,6 +60,10 @@ export const handleAnswerActivity = ({
           answer: {
             votes: {
               count: answer.votes.count - 1,
+            },
+            answerer: {
+              ...answer.answerer,
+              reputation: answer.answerer.reputation - 1,
             },
           },
         })
@@ -124,6 +132,10 @@ export const handleAnswerActivity = ({
             votes: {
               count: answer.votes.count + 1,
             },
+            answerer: {
+              ...answer.answerer,
+              reputation: answer.answerer.reputation + 1,
+            },
           },
         })
       );
@@ -171,6 +183,20 @@ export const handleAnswerActivity = ({
             votes: {
               count: answer.votes.count - 1,
             },
+            answerer: {
+              ...answer.answerer,
+              reputation: answer.answerer.reputation - 1,
+            },
+          },
+        })
+      );
+
+      // If the user downvotes an answer, decrease his 1 point
+      dispatch(
+        updateProfileService({
+          profile: {
+            ...profile,
+            reputation: profile.reputation - 1,
           },
         })
       );
@@ -194,10 +220,26 @@ export const handleAnswerActivity = ({
             votes: {
               count: answer.votes.count + 1,
             },
+            answerer: {
+              ...answer.answerer,
+              reputation: answer.answerer.reputation + 1,
+            },
           },
         })
       );
 
+
+      // If the user undoes the downvote to an answer, increase his 1 point
+      dispatch(
+        updateProfileService({
+          profile: {
+            ...profile,
+            reputation: profile.reputation + 1,
+          },
+        })
+      );
+
+      
       // Remove Question from Downvoted list
       updatedActivity = removeAnswerFromDownvotes({
         answer,
