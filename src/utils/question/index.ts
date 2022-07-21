@@ -5,3 +5,4 @@ export { removeQuestionFromUpvotes } from "./removeQuestionFromUpvotes";
 export { addQuestionToDownvotes } from "./addQuestionToDownvotes";
 export { removeQuestionFromDownvotes } from "./removeQuestionFromDownvotes";
 export { getQuestionFromQuestionId } from "./getQuestionFromQuestionId";
+export { checkIfTheQuestionIsAlreadyBookmarked } from "./checkIfTheQuestionIsAlreadyBookmarked";

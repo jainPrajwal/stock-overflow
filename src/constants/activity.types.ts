@@ -6,6 +6,7 @@ export type ActivitiesState = {
   questions: {
     upvoted: Array<Question>;
     downvoted: Array<Question>;
+    bookmarked: Array<Question>;
   };
   answers: {
     upvoted: Array<Answer>;
@@ -21,6 +22,7 @@ export type ActivityResponseType = {
     questions: {
       upvoted: Array<Question>;
       downvoted: Array<Question>;
+      bookmarked: Array<Question>;
     };
     answers: {
       upvoted: Array<Answer>;

@@ -8,6 +8,7 @@ export const addAnswerToDownvotes = ({
     questions: {
       upvoted: Array<Question>;
       downvoted: Array<Question>;
+      bookmarked: Array<Question>;
     };
     answers: {
       upvoted: Array<Answer>;
@@ -23,6 +24,7 @@ export const addAnswerToDownvotes = ({
   questions: {
     downvoted: Question[];
     upvoted: Question[];
+    bookmarked: Array<Question>;
   };
 } => {
   return {

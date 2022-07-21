@@ -61,13 +61,13 @@ export const AnswerComponent = ({
     return <Box key={answer._id}>
         <Flex pt="1rem" width="100%" gap={["2px", "12px", "2rem"]} >
             <Flex direction="column" justify="start" align="center" gap="8px">
-               
-                    <CustomIconButton
-                        icon={isAlreadyUpvoted ? ICON_ALREADY_UPVOTED : ICON_UPVOTE}
-                        answer={answer}
-                        questionId={questionId}
-                    />
-                
+
+                <CustomIconButton
+                    icon={isAlreadyUpvoted ? ICON_ALREADY_UPVOTED : ICON_UPVOTE}
+                    answer={answer}
+                    questionId={questionId}
+                />
+
                 <Box>
                     <Text fontSize="larger">{answer.votes.count}</Text>
                 </Box>
@@ -80,7 +80,7 @@ export const AnswerComponent = ({
                 < Box >
                     {
                         answer.isMarkedAsCorrectAnswer ?
-                            profile?._id === question?.questioner._id && <Box
+                          <Box
                                 bg="transparent"
                                 borderRadius="full"
                                 p={["4px", "4px", "12px"]}
@@ -103,7 +103,7 @@ export const AnswerComponent = ({
                                 />
                             </Box>
                             :
-                            <Tooltip
+                            profile?._id === question?.questioner._id && <Tooltip
                                 label={`mark this as correct answer`}>
                                 <Button
                                     isDisabled={activity.loadingStatus === `loading`}

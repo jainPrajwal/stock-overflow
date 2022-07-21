@@ -8,7 +8,10 @@ import {
   ICON_UPVOTE,
   Question,
 } from "../../constants";
-import { updateActivityAnswerService, updateAnswerService } from "../../services";
+import {
+  updateActivityAnswerService,
+  updateAnswerService,
+} from "../../services";
 import {
   addAnswerToDownvotes,
   removeAnswerFromDownvotes,
@@ -18,32 +21,31 @@ import {
   checkIfTheAnswerIsAlreadyUpvoted,
 } from "../../utils/answer";
 
-
-
 export const handleAnswerActivity = ({
   icon,
   dispatch,
   answer,
   activity,
-  questionId
+  questionId,
 }: {
   icon: IconType;
   dispatch: any;
   answer: Answer;
   activity: ActivitiesState;
-  questionId:string;
+  questionId: string;
 }) => {
   let updatedActivity: {
     questions: {
       upvoted: Question[];
       downvoted: Question[];
+      bookmarked: Question[];
     };
     answers: {
       upvoted: Answer[];
       downvoted: Answer[];
     };
   } | null = null;
-  
+
   switch (icon) {
     case ICON_ALREADY_UPVOTED:
       // Undo Increased Vote
@@ -215,6 +217,5 @@ export const handleAnswerActivity = ({
       break;
 
     default:
-      
   }
 };

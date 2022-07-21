@@ -7,6 +7,7 @@ const initialState: ActivitiesState = {
   questions: {
     upvoted: [],
     downvoted: [],
+    bookmarked: [],
   },
   answers: {
     upvoted: [],
@@ -26,6 +27,7 @@ const activitySlice = createSlice({
       if (`activity` in action.payload) {
         state.questions.upvoted = action.payload.activity.questions.upvoted;
         state.questions.downvoted = action.payload.activity.questions.downvoted;
+        state.questions.bookmarked = action.payload.activity.questions.bookmarked;
         state.answers.upvoted = action.payload.activity.answers.upvoted;
         state.answers.downvoted = action.payload.activity.answers.downvoted;
         state.loadingStatus = `success`;
@@ -42,6 +44,8 @@ const activitySlice = createSlice({
           state.questions.upvoted = action.payload.activity.questions.upvoted;
           state.questions.downvoted =
             action.payload.activity.questions.downvoted;
+          state.questions.bookmarked =
+            action.payload.activity.questions.bookmarked;
           state.loadingStatus = `success`;
           state.message = action.payload.message!;
         }
@@ -58,21 +62,15 @@ const activitySlice = createSlice({
       state.message = `something went wrong..!`;
     });
 
-    builder.addCase(
-      updateActivityAnswerService.fulfilled,
-      (state, action) => {
-        if (`activity` in action.payload) {
-          
-          state.answers.upvoted = action.payload.activity.answers.upvoted;
-          state.answers.downvoted =
-            action.payload.activity.answers.downvoted;
-          state.loadingStatus = `success`;
-          state.message = action.payload.message!;
-          console.log(`current state `, current(state))
-          
-        }
+    builder.addCase(updateActivityAnswerService.fulfilled, (state, action) => {
+      if (`activity` in action.payload) {
+        state.answers.upvoted = action.payload.activity.answers.upvoted;
+        state.answers.downvoted = action.payload.activity.answers.downvoted;
+        state.loadingStatus = `success`;
+        state.message = action.payload.message!;
+        console.log(`current state `, current(state));
       }
-    );
+    });
 
     builder.addCase(updateActivityAnswerService.pending, (state, action) => {
       state.loadingStatus = `loading`;

@@ -7,7 +7,7 @@ const checkIfTagIsAlreadyPresent = (
   array: Array<string>,
   input: string
 ): boolean => {
-  
+
   return array?.includes(input);
 };
 
@@ -36,7 +36,7 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
                   alignItems: `center`
                 }}
                 onClick={(e) => {
-                  
+
                   const finalTags = deleteTag(inputTag!.tags!, tag);
                   setQuestionDetails(prevState => {
                     return {
@@ -73,7 +73,7 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
               })
             }}
             onKeyDown={(e) => {
-           
+
               if (e.key === `Enter`) {
                 e.preventDefault();
               }
@@ -82,10 +82,10 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
                 (inputTag?.input?.trim() && inputTag?.input?.trim()?.length > 0) && !checkIfTagIsAlreadyPresent(inputTag.tags!, inputTag?.input)
               ) {
                 e.preventDefault();
-               
+
 
                 setQuestionDetails(prevState => {
-                
+
                   return {
                     ...prevState,
                     inputTag: {
@@ -101,10 +101,10 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
 
               if (
                 e.key === `Backspace` &&
-                inputTag?.input && inputTag?.input?.length <= 0 &&
+                !inputTag?.input &&
                 isKeyReleased
               ) {
-                
+                console.log(`delte`)
                 setQuestionDetails(prevState => {
                   return {
                     ...prevState,
@@ -122,7 +122,7 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
               }
             }}
             onKeyUp={(e) => {
-              
+
               setIsKeyReleased(true);
             }}
           />

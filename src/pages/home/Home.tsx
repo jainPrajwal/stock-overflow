@@ -69,7 +69,8 @@ export const Home = () => {
 
                                                 {
                                                     questions.map((question: Question) => {
-                                                        return <QuestionComponent question={question} key={question._id} />
+                                                        return question.isDeleted ? null :
+                                                            <QuestionComponent question={question} key={question._id} />
                                                     })
                                                 }
 

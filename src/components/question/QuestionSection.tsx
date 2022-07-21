@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, Image, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -7,28 +7,18 @@ import { Flair } from "../flair/Flair";
 import { SectionHeading } from "../heading/SectionHeading";
 import { CustomIconButton } from "../icon/CustomIconButton";
 import { Tag } from "../tags/Tag";
-import { ICON_ALREADY_DOWNVOTED, ICON_ALREADY_UPVOTED, ICON_DOWNVOTE, ICON_UPVOTE } from "../../constants";
+import { ICON_ALREADY_BOOKMARKED, ICON_ALREADY_DOWNVOTED, ICON_ALREADY_UPVOTED, ICON_BOOKMARK, ICON_DOWNVOTE, ICON_UPVOTE } from "../../constants";
 
 import { QuestionDescription } from "./QuestionDescription";
-import { checkIfTheQuestionIsAlreadyDownVoted, checkIfTheQuestionIsAlreadyUpvoted, getQuestionFromQuestionId } from "../../utils/question";
+import { checkIfTheQuestionIsAlreadyBookmarked, checkIfTheQuestionIsAlreadyDownVoted, checkIfTheQuestionIsAlreadyUpvoted, getQuestionFromQuestionId } from "../../utils/question";
 
 import { useEffect } from "react";
-import { getQuestionWithQuestionIdService } from "../../services";
+import { getQuestionWithQuestionIdService, updateActivityQuestionService } from "../../services";
 import { QuestionCommentSecion } from "../comment/QuestionCommentSection";
 import { getCommentsOnQuestionService } from "../../services/comment/getCommentsOnQuestionService";
 import { EditQuestionModal } from "./editQuestionModal/EditQuestionModal";
-
-
-
-
-
-
-
-
-
-
-
-
+import { DeleteQuestionModal } from "./deleteQuestionModal/DeleteQuestionModal";
+import { toast } from "react-toastify";
 
 
 
@@ -38,8 +28,11 @@ export const QuestionSection = () => {
   const { comments } = useAppSelector(state => state.comment);
   const dispatch = useAppDispatch();
   const activity = useAppSelector(state => state.activity);
+  const { profile } = useAppSelector(state => state.profile)
 
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen: isEditModalOpen, onOpen: onEditModalOpen, onClose: onEditModalClose } = useDisclosure();
+
+  const { isOpen: isDeleteModalOpen, onOpen: onDeleteModalOpen, onClose: onDeleteModalClose } = useDisclosure();
   useEffect(() => {
     if (loadingStatus === `idle` && questionId) {
       console.log(`fire API to get the question`);
@@ -72,13 +65,25 @@ export const QuestionSection = () => {
         questionId: question._id
       });
       const commentsOnSpecifiedQuestion = comments.questionsMeta.questions.filter(commentOnQuestion => commentOnQuestion.question === questionId);
+      const isQuestionAlreadyBookmarked = checkIfTheQuestionIsAlreadyBookmarked({
+        bookmarkedQuestions: activity.questions.bookmarked,
+        questionId: question._id
+      })
       return (
         <>
           {
-            isOpen && <EditQuestionModal
-              isOpen={isOpen}
-              onClose={onClose}
+            isEditModalOpen && <EditQuestionModal
+              isOpen={isEditModalOpen}
+              onClose={onEditModalClose}
               key={question._id}
+              question={question}
+            />
+          }
+          {
+            isDeleteModalOpen && <DeleteQuestionModal
+              isOpen={isDeleteModalOpen}
+              onClose={onDeleteModalClose}
+              question={question}
             />
           }
           <SectionHeading
@@ -96,6 +101,44 @@ export const QuestionSection = () => {
               <CustomIconButton icon={isAlreadyDownvoted ? ICON_ALREADY_DOWNVOTED : ICON_DOWNVOTE} questionId={questionId}
                 answer={null}
               />
+              <Box>
+                <Tooltip
+                  label={`mark this as correct answer`}>
+                  <Button
+                    isDisabled={activity.loadingStatus === `loading`}
+                    bg="transparent"
+                  
+                    borderRadius="full"
+                    p={["4px", "4px", "8px"]}
+                    width={["24px", "48px", "48px"]}
+                    minW="none"
+                    height={["24px", "48px", "48px"]}
+                    onClick={() => {
+                      if (!isQuestionAlreadyBookmarked) {
+                        dispatch(updateActivityQuestionService({
+                          activity: {
+                            activity: {
+                              ...activity,
+                              questions: {
+                                ...activity.questions,
+                                bookmarked: activity.questions.bookmarked.concat(question),
+                              },
+                            }
+
+                          },
+                          questionId: question._id
+                        }))
+                      } else {
+                        toast.error(`Some Answer Has Already Been Marked As Correct`)
+                      }
+
+                    }}
+                  >
+
+                    <Icon width="60%" height="60%" as={!isQuestionAlreadyBookmarked ? ICON_BOOKMARK : ICON_ALREADY_BOOKMARKED} />
+                  </Button>
+                </Tooltip>
+              </Box>
             </Flex>
 
             <Flex direction="column" flexGrow={`1`}>
@@ -108,37 +151,44 @@ export const QuestionSection = () => {
                 </Flex>
 
                 <Flex gap="12px" ml="auto">
+
+                  {question.questioner._id === profile?._id &&
+                    <>
+                      <Box
+
+                      >
+                        <Button
+                          colorScheme={`telegram`}
+                          variant={`outline`}
+
+                          size={`sm`}
+                          onClick={onEditModalOpen}
+                        >Edit</Button>
+                      </Box>
+
+
+                      <Box
+
+                      >
+                        <Button
+                          colorScheme={`red`}
+                          variant={`outline`}
+                          size={`sm`}
+                          onClick={onDeleteModalOpen}
+                        >Delete</Button>
+                      </Box>
+                    </>
+                  }
+
                   <Box
 
                   >
                     <Button
                       colorScheme={`telegram`}
                       variant={`outline`}
-                      fontSize="small"
 
-                      onClick={onOpen}
-                    >Edit</Button>
-                  </Box>
-                  <Box
+                      size={`sm`}
 
-                  >
-                    <Button
-                      colorScheme={`red`}
-                      variant={`outline`}
-                      fontSize="small"
-
-                    
-                    >Delete</Button>
-                  </Box>
-                  <Box
-
-                  >
-                    <Button
-                      colorScheme={`telegram`}
-                      variant={`outline`}
-                      fontSize="small"
-
-                    
                     >Share</Button>
                   </Box>
                 </Flex>

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Question, QuestionsState, ServerError } from "../../constants";
 import {
+  deleteQuestionService,
   getQuestionWithQuestionIdService,
   loadQuestions,
 } from "../../services";
@@ -21,7 +22,7 @@ export const QuestionSlice = createSlice({
   name: `question`,
   initialState,
   reducers: {
-    markAsCorrectAnswerClicked: (state, action : PayloadAction<Question>) => {
+    markAsCorrectAnswerClicked: (state, action: PayloadAction<Question>) => {
       const questionIndex = state.questions.findIndex(
         (question) => question._id === action.payload._id
       );
@@ -82,9 +83,23 @@ export const QuestionSlice = createSlice({
         }
       }
     );
+
+
+    builder.addCase(deleteQuestionService.fulfilled, (state, action) => {
+      const questionIndex = state.questions.findIndex(
+        (question) => question._id === action.payload.question._id
+      );
+      state.questions[questionIndex] = action.payload.question;
+
+      
+    });
+
+    builder.addCase(deleteQuestionService.pending, (state, action) => {
+      state.loadingStatus = `loading`;
+    });
   },
 });
 
-export const {markAsCorrectAnswerClicked} = QuestionSlice.actions;
+export const { markAsCorrectAnswerClicked } = QuestionSlice.actions;
 
 export default QuestionSlice.reducer;

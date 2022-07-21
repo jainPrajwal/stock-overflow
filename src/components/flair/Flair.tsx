@@ -41,7 +41,7 @@ export const Flair = ({
             <Box ml="4px">
               <Text fontSize={`xs`}>{profile.name}</Text>
               <Text fontSize={`xs`}>
-                <Text as="span">1K</Text>
+                <Text as="span">{profile.reputation}</Text>
 
                 <Text as="span" ml="8px">
                   {

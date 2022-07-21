@@ -1,10 +1,15 @@
-import { IoIosArrowDropup, IoIosArrowDropdown,IoIosArrowDropdownCircle,IoIosArrowDropupCircle } from "react-icons/io";
+import {
+  IoIosArrowDropup,
+  IoIosArrowDropdown,
+  IoIosArrowDropdownCircle,
+  IoIosArrowDropupCircle,
+} from "react-icons/io";
+import { IoBookmarkOutline, IoBookmarkSharp } from "react-icons/io5";
 export type ServerError = {
   success: boolean;
   message: string;
   errorMessage?: string;
 };
-
 
 export type loading = `idle` | `loading` | `success` | `error`;
 
@@ -16,4 +21,6 @@ export type UserLoginCredentials = {
 export const ICON_UPVOTE = IoIosArrowDropup;
 export const ICON_DOWNVOTE = IoIosArrowDropdown;
 export const ICON_ALREADY_UPVOTED = IoIosArrowDropupCircle;
-export const ICON_ALREADY_DOWNVOTED = IoIosArrowDropdownCircle
+export const ICON_ALREADY_DOWNVOTED = IoIosArrowDropdownCircle;
+export const ICON_BOOKMARK = IoBookmarkOutline;
+export const ICON_ALREADY_BOOKMARKED = IoBookmarkSharp;

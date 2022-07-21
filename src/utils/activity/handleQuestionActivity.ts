@@ -8,7 +8,10 @@ import {
   ICON_UPVOTE,
   Question,
 } from "../../constants";
-import { updateActivityQuestionService, updateQuestionService } from "../../services";
+import {
+  updateActivityQuestionService,
+  updateQuestionService,
+} from "../../services";
 import {
   addQuestionToDownvotes,
   addQuestionToUpvotes,
@@ -17,7 +20,6 @@ import {
   removeQuestionFromDownvotes,
   removeQuestionFromUpvotes,
 } from "../../utils/question";
-
 
 export const handleQuestionActivity = ({
   icon,
@@ -34,6 +36,7 @@ export const handleQuestionActivity = ({
     questions: {
       upvoted: Question[];
       downvoted: Question[];
+      bookmarked: Question[];
     };
     answers: {
       upvoted: Answer[];
@@ -207,6 +210,5 @@ export const handleQuestionActivity = ({
       break;
 
     default:
-      
   }
 };

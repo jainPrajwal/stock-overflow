@@ -8,6 +8,7 @@ export const removeQuestionFromDownvotes = ({
     questions: {
       upvoted: Array<Question>;
       downvoted: Array<Question>;
+      bookmarked: Array<Question>;
     };
     answers: {
       upvoted: Array<Answer>;
@@ -23,6 +24,7 @@ export const removeQuestionFromDownvotes = ({
   questions: {
     downvoted: Question[];
     upvoted: Question[];
+    bookmarked: Array<Question>;
   };
 } => {
   return {
@@ -32,6 +34,7 @@ export const removeQuestionFromDownvotes = ({
         (upvotedQuestion) => upvotedQuestion._id !== question._id
       ),
       upvoted: [...activity.questions.upvoted],
+      bookmarked: [...activity.questions.bookmarked],
     },
   };
 };

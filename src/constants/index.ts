@@ -21,6 +21,8 @@ export { ICON_UPVOTE } from "./common.types";
 export { ICON_DOWNVOTE } from "./common.types";
 export { ICON_ALREADY_DOWNVOTED } from "./common.types";
 export { ICON_ALREADY_UPVOTED } from "./common.types";
+export { ICON_BOOKMARK } from "./common.types";
+export { ICON_ALREADY_BOOKMARKED } from "./common.types";
 
 // Auth
 export type { AuthState } from "./auth.types";
