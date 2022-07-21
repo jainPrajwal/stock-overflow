@@ -36,6 +36,7 @@ const Header = () => {
     const navigate = useNavigate();
     const { token } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
+    const {profile} = useAppSelector(state => state.profile)
 
     return (
         <>
@@ -134,7 +135,7 @@ const Header = () => {
                                     height={`24px`}
                                 ></Image>
                                 <Text fontSize={`xs`} padding={`0.5`}>
-                                    1
+                                    {profile?.reputation}
                                 </Text>
 
 

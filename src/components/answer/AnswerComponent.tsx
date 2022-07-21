@@ -90,39 +90,7 @@ export const AnswerComponent = ({
                                 height={["24px", "48px", "64px"]}
                                 display="flex"
                                 justifyContent={`center`}
-                                onClick={() => {
-                                    if (profile) {
-                                        dispatch(updateAnswerService({
-                                            answer: {
-                                                ...answer, isMarkedAsCorrectAnswer: true,
-                                                answerer: {
-                                                    ...answer.answerer,
-                                                    reputation: answer.answerer.reputation + 3
-                                                }
-                                            },
-                                            answerId: answer._id,
-                                            questionId
-                                        }))
-                                        // dispatch(markAsCorrectAnswerClicked(question!))
-                                        if (question) {
-                                            dispatch(updateQuestionService({
-                                                question: {
-                                                    ...question,
-                                                    isAcceptedAnswerPresent: true
-                                                },
-                                                questionId
-                                            }))
-                                        }
-                                        dispatch(updateProfileService({
-                                            profile: {
-                                                reputation: profile.reputation + 1
-                                            }
-                                        }))
-                                    } else {
-                                        toast.error(`Please login to comment`)
-                                    }
 
-                                }}
                             >
                                 <Image src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657557176/correct_axe2hj.png" width={`32px`} height={`32px`}
                                     m="0"
@@ -145,9 +113,30 @@ export const AnswerComponent = ({
                                         } else {
                                             if (!isThereAnAnswerWhichIsAlreadyMarkedAsCorrect) {
                                                 dispatch(updateAnswerService({
-                                                    answer: { ...answer, isMarkedAsCorrectAnswer: true },
+                                                    answer: {
+                                                        ...answer, isMarkedAsCorrectAnswer: true,
+                                                        answerer: {
+                                                            ...answer.answerer,
+                                                            reputation: answer.answerer.reputation + 3
+                                                        }
+                                                    },
                                                     answerId: answer._id,
                                                     questionId
+                                                }))
+                                                if (question) {
+                                                    dispatch(updateQuestionService({
+                                                        question: {
+                                                            ...question,
+                                                            isAcceptedAnswerPresent: true
+                                                        },
+                                                        questionId
+                                                    }))
+                                                }
+                                                console.log(`update profile..!`)
+                                                dispatch(updateProfileService({
+                                                    profile: {
+                                                        reputation: profile.reputation + 1
+                                                    }
                                                 }))
                                             } else {
                                                 toast.error(`Some Answer Has Already Been Marked As Correct`)
