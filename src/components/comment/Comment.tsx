@@ -1,10 +1,13 @@
-import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Icon, Link, Text, useDisclosure } from "@chakra-ui/react";
+
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Answer, Comment as CommentType } from "../../constants";
-import { getCommentsOnAnswerService } from "../../services/comment/getCommentsOnAnswerService";
-import { getCommentsOnQuestionService } from "../../services/comment/getCommentsOnQuestionService";
+import { ICON_DELETE, ICON_EDIT } from "../../constants/common.types";
+
+
 import { getTimeAgo } from "../../utils/common/getTimeAgo";
+
 
 export const Comment = ({
     questionId,
@@ -19,8 +22,8 @@ export const Comment = ({
 }) => {
     console.log(`answer `, answer?._id)
     const answerId = answer?._id;
-
-
+    const { isOpen: isCommentModalOpen, onClose: onCommentModalClose, onOpen: onCommentModalOpen } = useDisclosure();
+    const { profile } = useAppSelector(state => state.profile)
 
 
 
@@ -28,10 +31,18 @@ export const Comment = ({
 
 
         return <>
+
             {
+
                 commentsOnSpecifiedAnswer?.map(commentOnSpecifiedAnswer => {
                     return (
                         <Box key={commentOnSpecifiedAnswer._id}>
+                            {/* {
+                                isCommentModalOpen && <EditCommentModal
+                                    comment={commentOnSpecifiedAnswer}
+                                    onClose={onCommentModalClose}
+                                />
+                            } */}
                             <Text fontSize="sm">
                                 {commentOnSpecifiedAnswer.comment}</Text>
                             <Box color="gray.500" fontSize="sm">
@@ -53,12 +64,23 @@ export const Comment = ({
                 commentsOnSpecifiedQuestion?.map(commentOnSpecifiedQuestion => {
                     return (
                         <Box key={commentOnSpecifiedQuestion._id}>
+                            {/* {
+                                isCommentModalOpen && <EditCommentModal
+                                    comment={commentOnSpecifiedQuestion}
+                                    onClose={onCommentModalClose}
+                                />
+                            } */}
                             <Text fontSize="sm">
                                 {commentOnSpecifiedQuestion.comment}</Text>
                             <Box color="gray.500" fontSize="sm">
                                 <Flex justify="end">
                                     <Link color="blue">- {commentOnSpecifiedQuestion.commenter.name}</Link>
                                     <Text ml="8px"> {getTimeAgo(commentOnSpecifiedQuestion)}</Text>
+                                    {profile?._id === commentOnSpecifiedQuestion.commenter._id &&
+                                        <Flex gap="8px">
+                                            <Icon as={ICON_EDIT} />
+                                            <Icon as={ICON_DELETE}></Icon>
+                                        </Flex>}
                                 </Flex>
                             </Box>
                         </Box>

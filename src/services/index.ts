@@ -10,3 +10,4 @@ export { addAnswerService } from "./answer/addAnswerService";
 export { getQuestionWithQuestionIdService } from "./question/getQuestionWithQuestionIdService";
 export { getProfileService } from "./profile/getProfileService";
 export { deleteQuestionService } from "./question/deleteQuestionService";
+export { deleteCommentOnQuestionService } from "./comment/deleteCommentOnQuestionService";

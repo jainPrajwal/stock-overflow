@@ -3,8 +3,10 @@ import {
   IoIosArrowDropdown,
   IoIosArrowDropdownCircle,
   IoIosArrowDropupCircle,
+  IoMdTrash,
 } from "react-icons/io";
 import { IoBookmarkOutline, IoBookmarkSharp } from "react-icons/io5";
+import { MdEdit } from "react-icons/md";
 export type ServerError = {
   success: boolean;
   message: string;
@@ -24,3 +26,5 @@ export const ICON_ALREADY_UPVOTED = IoIosArrowDropupCircle;
 export const ICON_ALREADY_DOWNVOTED = IoIosArrowDropdownCircle;
 export const ICON_BOOKMARK = IoBookmarkOutline;
 export const ICON_ALREADY_BOOKMARKED = IoBookmarkSharp;
+export const ICON_EDIT = MdEdit;
+export const ICON_DELETE = IoMdTrash;

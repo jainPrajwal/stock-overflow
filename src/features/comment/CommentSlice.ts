@@ -1,9 +1,11 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { Comment, CommentsState } from "../../constants";
+import { deleteCommentOnQuestionService } from "../../services";
 import { addCommentsOnAnswerService } from "../../services/comment/addCommentsOnAnswerService";
 import { addCommentsOnQuestionService } from "../../services/comment/addCommentsOnQuestionService";
 import { getCommentsOnAnswerService } from "../../services/comment/getCommentsOnAnswerService";
 import { getCommentsOnQuestionService } from "../../services/comment/getCommentsOnQuestionService";
+import { updateCommentonQuestionService } from "../../services/comment/updateCommentonQuestionService";
 
 const initialState: CommentsState = {
   comments: {
@@ -46,7 +48,6 @@ const commentSlice = createSlice({
         const commentsMap = new Map(allComments);
         state.comments.answersMeta.answers = Array.from(commentsMap.values());
 
-   
         console.log(`state `, current(state));
 
         state.comments.answersMeta.loadingStatus = `success`;
@@ -69,6 +70,40 @@ const commentSlice = createSlice({
         state.comments.answersMeta.message = action.payload.message;
       }
     });
+
+    builder.addCase(
+      updateCommentonQuestionService.fulfilled,
+      (state, action) => {
+        if (`comment` in action.payload) {
+          const commentIndex = state.comments.questionsMeta.questions.findIndex(
+            (comment) => comment._id === action.payload.comment._id
+          );
+          console.log(`index `, commentIndex);
+          state.comments.questionsMeta.questions[commentIndex] =
+            action.payload.comment;
+          state.comments.questionsMeta.loadingStatus = `success`;
+          state.comments.questionsMeta.message = action.payload.message;
+          console.log(` STATTE `, current(state));
+        }
+      }
+    );
+
+    builder.addCase(
+      deleteCommentOnQuestionService.fulfilled,
+      (state, action) => {
+        if (`comment` in action.payload) {
+          const commentIndex = state.comments.questionsMeta.questions.findIndex(
+            (commentOnQuestion) =>
+              commentOnQuestion._id === action.payload.comment._id
+          );
+          state.comments.questionsMeta.questions[commentIndex] =
+            action.payload.comment;
+
+          state.comments.questionsMeta.loadingStatus = `success`;
+          state.comments.questionsMeta.message = action.payload.message;
+        }
+      }
+    );
   },
 });
 
