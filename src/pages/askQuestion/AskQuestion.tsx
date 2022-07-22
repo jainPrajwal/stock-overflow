@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addQuestionService } from "../../services/question/addQuestionService";
 import { toast } from "react-toastify";
 import { SectionHeading } from "../../components/heading/SectionHeading";
+import { useNavigate } from "react-router-dom";
 
 
 export const AskQuestion = () => {
@@ -37,8 +38,8 @@ export const AskQuestion = () => {
 
     const { loadingStatus, error, message } = useAppSelector(state => state.question);
     const { token } = useAppSelector(state => state.auth)
+    const navigate = useNavigate();
 
-  
     const dispatch = useAppDispatch();
     return (
         <>
@@ -62,6 +63,7 @@ export const AskQuestion = () => {
                                 dispatch(addQuestionService({
                                     question: questionDetails
                                 }))
+                                navigate(`/`)
 
                             }}
                             style={{

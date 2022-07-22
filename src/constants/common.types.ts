@@ -21,6 +21,11 @@ export type UserLoginCredentials = {
   password: string;
 };
 
+export type UserSignupCredentials = {
+  name: string;
+  email: string;
+  paswword: string;
+};
 // Icons
 export const ICON_UPVOTE = IoIosArrowDropup;
 export const ICON_DOWNVOTE = IoIosArrowDropdown;

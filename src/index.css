@@ -72,7 +72,13 @@ code {
   border-bottom: 1px solid #3182ce;
 }
 
-::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar {
   width: 8px;
-  background-color: #3182ce;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #2563eb;
+  background-color:#3182ce;
+  outline: 1px solid #2563eb;
+  outline: 1px solid#3182ce;
 }

@@ -16,9 +16,11 @@ import { Bookmarks } from './pages/bookmark/Bookmarks';
 import { TaggedQuestionsPage } from './pages/tag/TaggedQuestionsPage';
 import { TaggedQuestionPage } from './pages/tag/TaggedQuestionPage';
 import { UnansweredQuestionsPage } from './pages/unanswered/UnansweredQuestionsPage';
+import { Signup } from './pages/auth/Signup';
+import { useAppSelector } from './app/hooks';
 
 function App() {
-
+    const { token } = useAppSelector(state => state.auth)
     return (
         <>
             <ToastContainer
@@ -32,7 +34,7 @@ function App() {
                 draggable
                 pauseOnHover
             />
-            <Header />
+            {token && <Header />}
             <Show below="md">
                 <Flex pos="fixed" bottom="10px" right="10px" zIndex="1">
                     <Button
@@ -55,7 +57,7 @@ function App() {
                 <Route path='/questions/tagged/:tag' element={<TaggedQuestionPage />}></Route>
                 {/* <Route path='/user/drafts' element={<Drafts />}></Route> */}
                 <Route path='/user/bookmarks' element={<PrivateRoute><Bookmarks /></PrivateRoute>}></Route>
-                {/* <Route path='/signup' element={<Signup />}> </Route> */}
+                <Route path='/signup' element={<Signup />}> </Route>
                 <Route path='/questions/unanswered' element={<UnansweredQuestionsPage />}></Route>
                 <Route path='/login' element={<Login />}></Route>
             </Routes>

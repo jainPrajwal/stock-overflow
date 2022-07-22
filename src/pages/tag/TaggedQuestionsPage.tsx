@@ -22,7 +22,7 @@ export const TaggedQuestionsPage = () => {
         <Flex gap="12px" direction={`column`} flexGrow={1}>
 
             <SectionHeading heading="Tags"></SectionHeading>
-            <Flex gap="12px" justify={`space-between`} flexWrap={`wrap`}>
+            <Flex gap="12px" flexWrap={`wrap`}>
                 {
                     allTags.map(tag => {
                         return (

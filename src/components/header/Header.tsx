@@ -100,11 +100,11 @@ const Header = () => {
 
                 <Input
                     variant="outline"
-                    placeholder="Search on stock overflow..."
+                    placeholder="Work in Progress.."
                     size="sm"
                     width={[`80%`, `80%`, `50%`, `60%`]}
                 />
-                <Show above="md">
+                {token && <Show above="md">
                     <Button
                         colorScheme="telegram"
                         height={`32px`}
@@ -117,9 +117,9 @@ const Header = () => {
                     >
                         Ask Question
                     </Button>
-                </Show>
+                </Show>}
                 <Flex align="center" gap="10px">
-                    <Popover>
+                    {token ? <Popover>
                         <PopoverTrigger>
                             <Flex
                                 align={`center`}
@@ -157,7 +157,35 @@ const Header = () => {
                             </Button></PopoverBody>
                         </PopoverContent>
                     </Popover>
+                        : <>
+                            <Button
+                                colorScheme="telegram"
+                                height={`32px`}
+                                borderRadius={`2px`}
+                                fontSize={`sm`}
+                                fontWeight={`normal`}
+                                onClick={() => {
+                                    navigate(`/signup`)
+                                }}
+                            >
+                                Signup
+                            </Button> 
+                            <Button
+                                colorScheme="telegram"
+                                height={`32px`}
+                                borderRadius={`2px`}
+                                fontSize={`sm`}
+                                variant={`outline`}
+                                fontWeight={`normal`}
+                                onClick={() => {
+                                    navigate(`/login`);
+                                }}
+                            >
+                                Login
+                            </Button>
+                        </>
 
+                    }
 
                     {
                     /*

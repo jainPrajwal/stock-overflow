@@ -89,15 +89,7 @@ const Login = () => {
       <Flex justify="center" align="center"
 
       >
-        <Box width="48px" height="48px" >
-          <Image
-            src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1653841636/Tube_Stox-removebg-preview_ezjluc_qkz2zk.png"
-            alt="logo"
-            width={`100%`}
-            height={`100%`}
-          />
-        </Box>
-        <Heading>stock overflow</Heading>
+        
       </Flex>
       <Flex align={`center`} mt="48px" p="12px" justify={`center`} >
         <Box w="48px" h="48px">

@@ -107,7 +107,7 @@ export const AnswerSection = () => {
                                                     toast.error(`Please login to avail these features`)
                                                     return;
                                                 }
-                                                if (answer.text) {
+                                                if (answer.text && answer.text.length > 0) {
                                                     dispatch(addAnswerService({
                                                         answer: answer.text,
                                                         questionId
@@ -124,7 +124,11 @@ export const AnswerSection = () => {
 
 
                                                     }
-                                                    setAnswer(prevState => ({ text: null }))
+                                                    let element = document.getElementsByClassName("ql-editor");
+                                                    element[0].innerHTML = "";
+                                                    console.log(`elemt`, element)
+                                                } else {
+                                                    toast.error(`Answer cannot be empty`)
                                                 }
 
                                             }}
@@ -133,6 +137,7 @@ export const AnswerSection = () => {
                                                 <CustomQuillToolbar toolbarId={"t2"} />
                                                 <ReactQuill
                                                     theme="snow"
+
                                                     onChange={(value) => {
 
                                                         setAnswer(() => ({ text: value }));
