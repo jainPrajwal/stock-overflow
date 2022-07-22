@@ -12,6 +12,7 @@ import {
   ServerError,
 } from "../../constants";
 import { addAnswerService, updateAnswerService } from "../../services";
+import { deleteAnswerService } from "../../services/answer/deleteAnswerService";
 
 const initialState: AnswersState = {
   answers: [],
@@ -39,7 +40,6 @@ const AnswerSlice = createSlice({
       state,
       action: PayloadAction<{ sortBy: string }>
     ) => {
-     
       state.sortBy = action.payload.sortBy;
     },
   },
@@ -86,8 +86,18 @@ const AnswerSlice = createSlice({
         }
       }
     );
+
+    builder.addCase(deleteAnswerService.fulfilled, (state, action) => {
+      if (`answer` in action.payload) {
+        const answerIndex = state.answers.findIndex(
+          (answer) => answer._id === action.payload.answer._id
+        );
+        state.answers[answerIndex] = action.payload.answer;
+        state.message = action.payload.message;
+      }
+    });
   },
 });
 
-export const {sortyByDrowpdownClicked} = AnswerSlice.actions;
+export const { sortyByDrowpdownClicked } = AnswerSlice.actions;
 export default AnswerSlice.reducer;

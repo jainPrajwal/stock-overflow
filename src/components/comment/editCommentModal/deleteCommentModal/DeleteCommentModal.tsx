@@ -33,7 +33,7 @@ export const DeleteCommentModal = ({
                 <ModalHeader>Modal Title</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    Are you sure you want to delete the Question..?
+                    Are you sure you want to delete the Comment..?
 
                 </ModalBody>
                 <ModalFooter>

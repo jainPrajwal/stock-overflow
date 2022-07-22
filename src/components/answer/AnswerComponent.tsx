@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, Image, Text, Tooltip } from "@chakra-ui/react"
+import { Box, Button, Divider, Flex, Image, Text, Tooltip, useDisclosure } from "@chakra-ui/react"
 import { useEffect } from "react"
 import { toast } from "react-toastify"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
@@ -11,9 +11,12 @@ import { checkIfTheAnswerIsAlreadyDownVoted, checkIfTheAnswerIsAlreadyUpvoted } 
 import { getQuestionFromQuestionId } from "../../utils/question"
 import { AnswerCommentSecion } from "../comment/AnswerCommentSection"
 import { CommentInput } from "../commentInput/CommentInput"
+import { AnswerFlair } from "../flair/AnswerFlair"
 import { Flair } from "../flair/Flair"
 import { CustomIconButton } from "../icon/CustomIconButton"
 import { AnswerDescription } from "./AnswerDescription"
+import { DeleteAnswerModal } from "./deleteAnswerModal/deleteAnswerModal"
+import { EditAnswerModal } from "./editAnswerModal/EditAnswerModal"
 
 export const AnswerComponent = ({
     answer,
@@ -41,7 +44,7 @@ export const AnswerComponent = ({
 
 
     useEffect(() => {
-        
+
 
         if (questionId && answerId) {
             dispatch(getCommentsOnAnswerService({
@@ -56,10 +59,27 @@ export const AnswerComponent = ({
 
     const isAlreadyUpvoted = checkIfTheAnswerIsAlreadyUpvoted({ upvotedAnswers: activity.answers.upvoted, answerId: answer._id });
 
+    const { isOpen: isEditModalOpen, onOpen: onEditModalOpen, onClose: onEditModalClose } = useDisclosure();
 
-    
+    const { isOpen: isDeleteModalOpen, onOpen: onDeleteModalOpen, onClose: onDeleteModalClose } = useDisclosure();
+
 
     return <Box key={answer._id}>
+        {
+            isEditModalOpen && <EditAnswerModal
+                isOpen={isEditModalOpen}
+                onClose={onEditModalClose}
+                key={answer._id}
+                answer={answer}
+            />
+        }
+        {
+            isDeleteModalOpen && <DeleteAnswerModal
+                isOpen={isDeleteModalOpen}
+                onClose={onDeleteModalClose}
+                answer={answer}
+            />
+        }
         <Flex pt="1rem" width="100%" gap={["2px", "12px", "2rem"]} >
             <Flex direction="column" justify="start" align="center" gap="8px">
 
@@ -132,7 +152,7 @@ export const AnswerComponent = ({
                                                         questionId
                                                     }))
                                                 }
-                                                
+
                                                 dispatch(updateProfileService({
                                                     profile: {
                                                         reputation: profile.reputation + 1
@@ -155,25 +175,59 @@ export const AnswerComponent = ({
                     }
                 </Box>
             </Flex>
+
+
             <Flex direction="column" flexGrow={1}>
                 <AnswerDescription
                     description={answer.answer}
                 />
+                <Flex gap="12px" ml="auto">
+
+                    {answer.answerer._id === profile?._id &&
+                        <>
+                            <Box
+
+                            >
+                                <Button
+                                    colorScheme={`telegram`}
+                                    variant={`outline`}
+
+                                    size={`sm`}
+                                    onClick={onEditModalOpen}
+                                >Edit</Button>
+                            </Box>
+
+
+                            <Box
+
+                            >
+                                <Button
+                                    colorScheme={`red`}
+                                    variant={`outline`}
+                                    size={`sm`}
+                                    onClick={onDeleteModalOpen}
+                                >Delete</Button>
+                            </Box>
+                        </>
+                    }
+
+                   
+                </Flex>
                 <Flex
                     justify="end"
                     py="12px"
                     gap="12px"
                     wrap={["wrap", "wrap", "nowrap"]}
                 >
-                    {question && <Flair
-                        question={question}
+                    {answer && <AnswerFlair
+                        answer={answer}
                         cardBackgroundColor={`gray.100`} />}
                 </Flex>
                 <CommentInput
                     questionId={questionId}
                     answerId={answer._id}
                 />
-              
+
                 <Flex gap="12px" my="12px" direction="column">
                     <AnswerCommentSecion
                         commentsOnSpecifiedAnswer={commentsOnSpecifiedAnswer}

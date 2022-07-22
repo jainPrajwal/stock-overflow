@@ -82,17 +82,14 @@ export const EditCommentModal = ({
                         flexDirection: "column",
                         padding: "12px"
                     }}>
-                    <ModalHeader>Modal Title</ModalHeader>
+                    <ModalHeader>Edit Comment</ModalHeader>
                     <ModalCloseButton />
 
                     <ModalBody>
                         <Flex gap="24px">
                             <Box flexGrow="1" maxW="870px">
                                 <FormControl paddingBlock="12px">
-                                    <FormLabel margin="0" htmlFor="title">
-                                        Comment
-                                    </FormLabel>
-
+                                   
                                     <Input variant="outline" placeholder="Title" id="title"
                                         defaultValue={comment.comment}
                                         onChange={(e) => {

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { Box, Flex, Heading, Tabs, TabList, Tab, TabPanels, TabPanel, Text, Tag, Show, Link, Icon, Spinner } from "@chakra-ui/react";
+import { Box, Flex, Heading, Tabs, TabList, Tab, TabPanels, TabPanel, Text, Show, Link, Icon, Spinner } from "@chakra-ui/react";
 import { MdOutlineComment, } from "react-icons/md";
 import { FiExternalLink } from "react-icons/fi";
 import React from "react";
@@ -10,7 +10,6 @@ import { loadQuestions } from "../../services";
 import { Question } from "../../constants";
 import { QuestionComponent } from "../../components/question/Question";
 import { toast } from "react-toastify";
-import { useSearchParams } from "react-router-dom";
 import { filterTabClicked } from "../../features/question/QuestionSlice";
 
 

@@ -22,7 +22,7 @@ import { toast } from "react-toastify"
 export const AnswerSection = () => {
     const { loadingStatus, answers, sortBy } = useAppSelector(state => state.answer);
     const { questionId } = useParams();
-    const answersOnSpecifiedQuestion = answers.filter(answer => answer.question === questionId);
+    const answersOnSpecifiedQuestion = answers.filter(answer => answer.question === questionId && !answer.isDeleted);
     const { questions } = useAppSelector(state => state.question);
     const { profile } = useAppSelector(state => state.profile)
     const isThereAnAnswerWhichIsAlreadyMarkedAsCorrect = checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect(answers);
@@ -50,7 +50,7 @@ export const AnswerSection = () => {
 
                 break;
 
-            default: 
+            default:
         }
     }
 
@@ -75,11 +75,14 @@ export const AnswerSection = () => {
                 </Flex>
                 {
                     sortedData?.length > 0 ? sortedData.map((answer: Answer) => {
+                        if (!answer.isDeleted) {
+                            return <AnswerComponent answer={answer} key={answer._id}
+                                questionId={questionId}
+                                isThereAnAnswerWhichIsAlreadyMarkedAsCorrect={isThereAnAnswerWhichIsAlreadyMarkedAsCorrect}
+                            />
+                        }
+                        return null;
 
-                        return <AnswerComponent answer={answer} key={answer._id}
-                            questionId={questionId}
-                            isThereAnAnswerWhichIsAlreadyMarkedAsCorrect={isThereAnAnswerWhichIsAlreadyMarkedAsCorrect}
-                        />
                     }) : <>No Answers Yet..!</>
                 }
                 <Divider />
@@ -131,7 +134,7 @@ export const AnswerSection = () => {
                                                 <ReactQuill
                                                     theme="snow"
                                                     onChange={(value) => {
-                                                        
+
                                                         setAnswer(() => ({ text: value }));
 
                                                     }}
