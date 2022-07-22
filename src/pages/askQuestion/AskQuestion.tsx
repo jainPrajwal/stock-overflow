@@ -36,15 +36,9 @@ export const AskQuestion = () => {
     });
 
     const { loadingStatus, error, message } = useAppSelector(state => state.question);
-    const { profile } = useAppSelector(state => state.profile)
+    const { token } = useAppSelector(state => state.auth)
 
-    useEffect(() => {
-        if (loadingStatus === `success`) {
-            toast.success(`${message}`)
-        } else if (loadingStatus === `error`) {
-            toast.error(`${message}`)
-        }
-    }, [loadingStatus, message, error])
+  
     const dispatch = useAppDispatch();
     return (
         <>
@@ -61,7 +55,7 @@ export const AskQuestion = () => {
                             onSubmit={(e) => {
 
                                 e.preventDefault();
-                                if (!profile) {
+                                if (!token) {
                                     toast.error(`Please login to avail these features`)
                                     return;
                                 }

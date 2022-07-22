@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Icon, Image, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -19,23 +19,25 @@ import { getCommentsOnQuestionService } from "../../services/comment/getComments
 import { EditQuestionModal } from "./editQuestionModal/EditQuestionModal";
 import { DeleteQuestionModal } from "./deleteQuestionModal/DeleteQuestionModal";
 import { toast } from "react-toastify";
+import { handleLinkShare } from "../../utils/handleLinkShare";
 
 
 
 export const QuestionSection = () => {
-  const { questionId, tag } = useParams();
+  const { questionId } = useParams();
   const { questions, loadingStatus } = useAppSelector(state => state.question);
   const { comments } = useAppSelector(state => state.comment);
   const dispatch = useAppDispatch();
   const activity = useAppSelector(state => state.activity);
-  const { profile } = useAppSelector(state => state.profile)
+  const { profile } = useAppSelector(state => state.profile);
+
 
   const { isOpen: isEditModalOpen, onOpen: onEditModalOpen, onClose: onEditModalClose } = useDisclosure();
 
   const { isOpen: isDeleteModalOpen, onOpen: onDeleteModalOpen, onClose: onDeleteModalClose } = useDisclosure();
   useEffect(() => {
     if (loadingStatus === `idle` && questionId) {
-      
+
       dispatch(getQuestionWithQuestionIdService({
         questionId
       }))
@@ -45,7 +47,7 @@ export const QuestionSection = () => {
   useEffect(() => {
     if (comments.questionsMeta.loadingStatus === `idle`) {
       if (questionId) {
-        
+
         dispatch(getCommentsOnQuestionService({
           questionId
         }))
@@ -204,6 +206,7 @@ export const QuestionSection = () => {
                       variant={`outline`}
 
                       size={`sm`}
+                      onClick={handleLinkShare}
 
                     >Share</Button>
                   </Box>
@@ -240,6 +243,6 @@ export const QuestionSection = () => {
 
   }
 
-    return <>Invalid ID..!</>
+  return <>Invalid ID..!</>
 
-  };
+};

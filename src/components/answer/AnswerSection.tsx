@@ -36,7 +36,7 @@ export const AnswerSection = () => {
 
 
 
-    let sortedData = [...answers];
+    let sortedData = [...answersOnSpecifiedQuestion];
 
     if (sortBy) {
         switch (sortBy) {
