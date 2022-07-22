@@ -43,9 +43,9 @@ code {
   display: flex;
   align-items: center;
   height: fit-content;
-  border: 1px solid var(--chakra-colors-blue-500);
+  border: 1px solid var(--chakra-colors-blue-400);
   border-radius: 5px;
-  background-color: var(--chakra-colors-blue-500);
+  background-color: var(--chakra-colors-blue-400);
   white-space: nowrap;
   color: white;
 }

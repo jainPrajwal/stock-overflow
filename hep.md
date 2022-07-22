@@ -9,3 +9,16 @@
 1. your question is voted down: −1 DONE
 2. your answer is voted down: −1 DONE
 3. you vote down an answer: −1 DONE
+
+Features
+CRUD on question
+CR on Answer
+CRUD Comments on both answer and question
+upvote, downvote and bookmark question
+mark the answer as correct
+reputation
+
+TODO
+Edit,Delete Answer
+Sort and Filter
+Profile Page

@@ -12,6 +12,10 @@ import { SingleQuestionPage } from './pages/singleQuestionPage/SingleQuestionPag
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { PrivateRoute } from './components/PrivateRoute/PrivateRoute';
+import { Bookmarks } from './pages/bookmark/Bookmarks';
+import { TaggedQuestionsPage } from './pages/tag/TaggedQuestionsPage';
+import { TaggedQuestionPage } from './pages/tag/TaggedQuestionPage';
+import { UnansweredQuestionsPage } from './pages/unanswered/UnansweredQuestionsPage';
 
 function App() {
 
@@ -47,10 +51,12 @@ function App() {
                 <Route path='/questions/ask' element={<PrivateRoute><AskQuestion /></PrivateRoute>}></Route>
                 <Route path='/questions/:questionId' element={<SingleQuestionPage />}></Route>
                 <Route path='/user/profile' element={<Profile />}></Route>
-                {/* <Route path='/user/drafts' element={<Drafts />}></Route>
-                <Route path='/user/bookmarks' element={<Bookmarks />}></Route>
-            <Route path='/signup' element={<Signup />}> </Route> */}
-
+                <Route path='/questions/tagged' element={<TaggedQuestionsPage />}></Route>
+                <Route path='/questions/tagged/:tag' element={<TaggedQuestionPage />}></Route>
+                {/* <Route path='/user/drafts' element={<Drafts />}></Route> */}
+                <Route path='/user/bookmarks' element={<PrivateRoute><Bookmarks /></PrivateRoute>}></Route>
+                {/* <Route path='/signup' element={<Signup />}> </Route> */}
+                <Route path='/questions/unanswered' element={<UnansweredQuestionsPage />}></Route>
                 <Route path='/login' element={<Login />}></Route>
             </Routes>
 

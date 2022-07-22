@@ -41,7 +41,7 @@ export const AnswerComponent = ({
 
 
     useEffect(() => {
-        console.log(`staaaaaaaaaaaaaaaatys`, comments.answersMeta.loadingStatus)
+        
 
         if (questionId && answerId) {
             dispatch(getCommentsOnAnswerService({
@@ -57,7 +57,7 @@ export const AnswerComponent = ({
     const isAlreadyUpvoted = checkIfTheAnswerIsAlreadyUpvoted({ upvotedAnswers: activity.answers.upvoted, answerId: answer._id });
 
 
-    console.log(`TESTINGGG `, profile?._id)
+    
 
     return <Box key={answer._id}>
         <Flex pt="1rem" width="100%" gap={["2px", "12px", "2rem"]} >
@@ -132,7 +132,7 @@ export const AnswerComponent = ({
                                                         questionId
                                                     }))
                                                 }
-                                                console.log(`update profile..!`)
+                                                
                                                 dispatch(updateProfileService({
                                                     profile: {
                                                         reputation: profile.reputation + 1
@@ -173,7 +173,7 @@ export const AnswerComponent = ({
                     questionId={questionId}
                     answerId={answer._id}
                 />
-                <Divider />
+              
                 <Flex gap="12px" my="12px" direction="column">
                     <AnswerCommentSecion
                         commentsOnSpecifiedAnswer={commentsOnSpecifiedAnswer}

@@ -19,7 +19,7 @@ export const CommentInput = ({
   answerId: string | null;
 }) => {
   const dispatch = useAppDispatch();
-  const {profile} = useAppSelector(state => state.profile);
+  const { profile } = useAppSelector(state => state.profile);
   const [comment, setComment] = useState<{ text: string | null }>({
     text: null
   })
@@ -27,30 +27,33 @@ export const CommentInput = ({
     <Box my="12px">
       <form
         onSubmit={(e) => {
-        
+
           e.preventDefault();
           if (!profile) {
             toast.error(`Please login to avail these features`)
             return;
-        }
+          }
           if ((profile ? profile.reputation < 3 : false)) {
             toast.error(`You need at least 3 reputation to upvote or downvote!`)
           } else {
             if (questionId && answerId && comment.text) {
-              console.log(`its answer comment`);
+              
               dispatch(addCommentsOnAnswerService({
                 questionId,
                 answerId,
                 comment: { comment: comment.text }
               }))
             } else if (questionId) {
-              console.log(`its question comment`)
+              
               if (comment.text) {
                 dispatch(addCommentsOnQuestionService({
                   questionId,
 
                   comment: { comment: comment.text }
-                }))
+                }));
+                setComment({
+                  text: ``
+                })
               }
 
             }
@@ -64,6 +67,7 @@ export const CommentInput = ({
             placement="top"
           >
             <Input placeholder="Add a comment" flexGrow="1"
+              value={comment.text || ``}
               required min={10}
               onChange={e => {
                 setComment(prevState => ({ text: e.target.value }))
@@ -78,7 +82,7 @@ export const CommentInput = ({
             Comment
           </Button>
         </Flex>
-        <Divider />
+
 
       </form>
     </Box>

@@ -18,7 +18,7 @@ const profileSlice = createSlice({
       if (`profile` in action.payload) {
         state.loadingStatus = `success`;
         state.profile = action.payload.profile;
-        console.log(`CURREENT STTAE`, current(state));
+        
         state.message = action.payload.message;
       }
     });

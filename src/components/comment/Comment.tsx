@@ -20,7 +20,7 @@ export const Comment = ({
     commentsOnSpecifiedAnswer: Array<CommentType>;
     commentsOnSpecifiedQuestion: Array<CommentType>;
 }) => {
-    console.log(`answer `, answer?._id)
+    
     const answerId = answer?._id;
     const { isOpen: isCommentModalOpen, onClose: onCommentModalClose, onOpen: onCommentModalOpen } = useDisclosure();
     const { profile } = useAppSelector(state => state.profile)

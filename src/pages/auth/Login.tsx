@@ -2,11 +2,11 @@
 
 
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import {  toast } from "react-toastify";
+import {  NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
 import { loginUserService } from "../../services";
-import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Image, Input, Spinner, Tooltip, Link as ChakraLink } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Image, Input, Spinner, Tooltip, Text } from "@chakra-ui/react";
 import { useAppDispatch } from "../../app/hooks";
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
@@ -73,11 +73,11 @@ const Login = () => {
     }
   }, [loadingStatus, toastMessage, email, token, dispatch, navigate, state]);
 
-  useEffect(() => {
-    if (loadingStatus === `idle`) {
+  // useEffect(() => {
+  //   if (loadingStatus === `idle`) {
 
-    }
-  }, [])
+  //   }
+  // }, [])
 
 
   return (
@@ -146,13 +146,14 @@ const Login = () => {
         >
 
           <Flex direction={`column`} >
-            <Heading
+            <Text
               textAlign={`center`}
               textTransform={`uppercase`}
               fontSize="3xl"
+
             >
               login
-            </Heading>
+            </Text>
 
             <FormControl p="8px" isInvalid={!form?.isFormValid?.isEmailValid && form?.touched["email"]}>
 

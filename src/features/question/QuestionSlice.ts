@@ -28,6 +28,11 @@ export const QuestionSlice = createSlice({
       );
       state.questions[questionIndex].isAcceptedAnswerPresent = true;
     },
+
+    filterTabClicked: (state, action: PayloadAction<{ tab: string }>) => {
+      
+      state.filterBy = action.payload.tab;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loadQuestions.fulfilled, (state, action) => {
@@ -84,14 +89,11 @@ export const QuestionSlice = createSlice({
       }
     );
 
-
     builder.addCase(deleteQuestionService.fulfilled, (state, action) => {
       const questionIndex = state.questions.findIndex(
         (question) => question._id === action.payload.question._id
       );
       state.questions[questionIndex] = action.payload.question;
-
-      
     });
 
     builder.addCase(deleteQuestionService.pending, (state, action) => {
@@ -100,6 +102,7 @@ export const QuestionSlice = createSlice({
   },
 });
 
-export const { markAsCorrectAnswerClicked } = QuestionSlice.actions;
+export const { markAsCorrectAnswerClicked, filterTabClicked } =
+  QuestionSlice.actions;
 
 export default QuestionSlice.reducer;

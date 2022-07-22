@@ -68,7 +68,7 @@ const activitySlice = createSlice({
         state.answers.downvoted = action.payload.activity.answers.downvoted;
         state.loadingStatus = `success`;
         state.message = action.payload.message!;
-        console.log(`current state `, current(state));
+        
       }
     });
 

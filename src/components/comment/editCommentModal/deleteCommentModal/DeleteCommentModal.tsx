@@ -12,15 +12,17 @@ import {
 import { toast } from 'react-toastify'
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks'
 import { Comment } from '../../../../constants'
-import { deleteCommentOnQuestionService } from '../../../../services'
+import { deleteCommentonAnswerService, deleteCommentOnQuestionService } from '../../../../services'
 export const DeleteCommentModal = ({
     isOpen,
     onClose,
-    comment
+    comment,
+    questionId
 }: {
     isOpen: boolean,
     onClose: () => void,
-    comment: Comment
+    comment: Comment,
+    questionId?: string;
 }) => {
     const dispatch = useAppDispatch();
     const { profile } = useAppSelector(state => state.profile)
@@ -44,14 +46,24 @@ export const DeleteCommentModal = ({
                                     toast.error(`Please login to avail these features`)
                                     return;
                                 }
-                                if (comment.question) {
+                                if (comment.answer && questionId) {
+                                    dispatch(deleteCommentonAnswerService({
+                                        answerId: comment.answer,
+                                        questionId: questionId,
+                                        commentId: comment._id
+
+                                    }));
+                                    toast.success(`Comment Deleted Successfully`)
+                                }
+                                else if (comment.question) {
                                     dispatch(deleteCommentOnQuestionService({
                                         commentId: comment._id,
                                         questionId: comment.question
                                     }))
+                                    toast.success(`Comment Deleted Successfully`)
                                 }
+                                onClose();
 
-                                toast.success(`Question Deleted Successfully`)
                             }}
                         >Yes</Button>
                         <Button onClick={onClose}>No</Button>

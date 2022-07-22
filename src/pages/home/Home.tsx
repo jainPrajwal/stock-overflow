@@ -10,9 +10,11 @@ import { loadQuestions } from "../../services";
 import { Question } from "../../constants";
 import { QuestionComponent } from "../../components/question/Question";
 import { toast } from "react-toastify";
+import { useSearchParams } from "react-router-dom";
+import { filterTabClicked } from "../../features/question/QuestionSlice";
 
 
-const TABS = [`All`, `Hot`, `Week`, `Month`];
+const TABS = [`All`, `Hot`];
 
 export const Home = () => {
     const { questions, loadingStatus, error, message } = useAppSelector(state => {
@@ -28,6 +30,11 @@ export const Home = () => {
         }
 
     }, [loadingStatus, dispatch, message]);
+
+
+    const hotQuestions = [...questions].sort((question1, question2) => {
+        return question2.views - question1.views
+    })
 
     return (
         <>
@@ -55,7 +62,16 @@ export const Home = () => {
                                 <TabList justifyContent="space-around">
                                     {
                                         TABS.map(tab => {
-                                            return <Tab key={tab}>{tab}</Tab>
+                                            return <Tab key={tab} w={`100%`}
+                                                onClick={() => {
+                                                    
+                                                    if (tab) {
+                                                        dispatch(filterTabClicked({
+                                                            tab: tab
+                                                        }))
+                                                    }
+                                                }}
+                                            >{tab}</Tab>
                                         })
                                     }
                                 </TabList>
@@ -88,7 +104,30 @@ export const Home = () => {
                                         </Flex>
                                     </TabPanel>
                                     <TabPanel>
-                                        <p>two!</p>
+                                        <Flex flexBasis="calc(50% - 1rem)" maxWidth="100%">
+                                            {loadingStatus === `success` && <Box
+
+                                                flexGrow="1">
+
+                                                {
+                                                    hotQuestions.map((question: Question) => {
+                                                        return question.isDeleted ? null :
+                                                            <QuestionComponent question={question} key={question._id} />
+                                                    })
+                                                }
+
+                                            </Box>}
+                                            {
+                                                loadingStatus === `loading` ? <Flex justify="center" w="100%"><Spinner
+                                                    thickness='4px'
+                                                    speed='0.65s'
+                                                    emptyColor='gray.200'
+                                                    color='blue.500'
+                                                    size='xl'
+
+                                                /></Flex> : <>{error}</>
+                                            }
+                                        </Flex>
                                     </TabPanel>
                                     <TabPanel>
                                         <p>three!</p>

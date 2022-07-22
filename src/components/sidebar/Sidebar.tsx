@@ -1,38 +1,37 @@
 import { Box, Flex, Show, Text } from "@chakra-ui/react";
 import React from "react";
+import {  useNavigate } from "react-router-dom";
 export const Sidebar = () => {
+  const navigate = useNavigate();
   return (
     <Show above="md">
-      <Flex width="220px" direction="column">
-        <Box height="100%" pos="fixed" p="12px" width="100%" maxW="220px">
+      <Flex minWidth="220px" height={`100vh`}>
+        <Box height="100%" pos="fixed" p="12px" width="100%" maxW="220px" top={`4rem`} left={`0px`}
+          bg={`#f0f9ff`}
+        >
           <Box
             p="12px"
             m="8px"
             _hover={{
-              background: "blue.50",
+              background: "blue.100",
               cursor: "pointer"
+            }}
+            onClick={() => {
+              navigate(`/`)
             }}
           >
             {" "}
-            <Text>Home</Text>
+            Home
           </Box>
           <Box
             p="12px"
             m="8px"
             _hover={{
-              background: "blue.50",
+              background: "blue.100",
               cursor: "pointer"
             }}
-          >
-            {" "}
-            <Text>Questions</Text>
-          </Box>
-          <Box
-            p="12px"
-            m="8px"
-            _hover={{
-              background: "blue.50",
-              cursor: "pointer"
+            onClick={() => {
+              navigate(`/questions/tagged`);
             }}
           >
             {" "}
@@ -42,19 +41,25 @@ export const Sidebar = () => {
             p="12px"
             m="8px"
             _hover={{
-              background: "blue.50",
+              background: "blue.100",
               cursor: "pointer"
+            }}
+            onClick={() => {
+              navigate(`/user/bookmarks`)
             }}
           >
             {" "}
-            <Text>Users</Text>
+            Bookmarks
           </Box>
           <Box
             p="12px"
             m="8px"
             _hover={{
-              background: "blue.50",
+              background: "blue.100",
               cursor: "pointer"
+            }}
+            onClick={() => {
+              navigate(`/questions/unanswered`);
             }}
           >
             {" "}

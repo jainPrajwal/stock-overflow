@@ -21,6 +21,7 @@ import { UserDefinedQuestionsType } from "../../constants";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addQuestionService } from "../../services/question/addQuestionService";
 import { toast } from "react-toastify";
+import { SectionHeading } from "../../components/heading/SectionHeading";
 
 
 export const AskQuestion = () => {
@@ -34,7 +35,7 @@ export const AskQuestion = () => {
         }
     });
 
-    const { loadingStatus, questions, error, message } = useAppSelector(state => state.question);
+    const { loadingStatus, error, message } = useAppSelector(state => state.question);
     const { profile } = useAppSelector(state => state.profile)
 
     useEffect(() => {
@@ -48,14 +49,17 @@ export const AskQuestion = () => {
     return (
         <>
             <Box mt="4rem" p="12px">
-                <Heading fontSize="xx-large" m="1rem">
+                {/* <Heading fontSize="xx-large" m="1rem">
                     Ask a Public Question
-                </Heading>
+                </Heading> */}
+                <SectionHeading
+                    heading="Ask a Public Question"
+                />
                 <Flex gap="24px">
                     <Box flexGrow="1" maxW="870px">
                         <form
                             onSubmit={(e) => {
-                               
+
                                 e.preventDefault();
                                 if (!profile) {
                                     toast.error(`Please login to avail these features`)

@@ -1,5 +1,8 @@
 import {
+  Box,
+  Button,
   Flex,
+  Icon,
   Tag,
   Text,
 } from "@chakra-ui/react";
@@ -7,18 +10,30 @@ import "react-quill/dist/quill.snow.css";
 import "./Question.css";
 
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { formatDistance } from "date-fns";
-import { Question } from "../../constants";
+import { ICON_ALREADY_BOOKMARKED, ICON_BOOKMARK, Question } from "../../constants";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { updateQuestionService } from "../../services/question/updateQuestionService";
 import { getTimeAgo } from "../../utils/common/getTimeAgo";
 import { toast } from "react-toastify";
+import { checkIfTheQuestionIsAlreadyBookmarked } from "../../utils/question";
+import { updateActivityQuestionService } from "../../services";
 
 export const QuestionComponent = ({ question }: { question: Question }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { token } = useAppSelector(state => state.auth)
+  const activity = useAppSelector(state => state.activity);
+  const { profile } = useAppSelector(state => state.profile)
+  const { token } = useAppSelector(state => state.auth);
+  const location = useLocation();
+
+  const isQuestionAlreadyBookmarked = checkIfTheQuestionIsAlreadyBookmarked({
+    bookmarkedQuestions: activity.questions.bookmarked,
+    questionId: question._id
+  })
+
+
   return (
     <Flex
       wrap={[`wrap`, `unset`]}
@@ -29,6 +44,7 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
       key={question._id}
       cursor={`pointer`}
       onClick={() => {
+     
         if (!token) {
           toast.error(`Please login to avail these features`)
           return;
@@ -39,7 +55,61 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
           question: { views: question.views + 1 }
         }))
       }}
+      pos={`relative`}
     >
+      {location.pathname === `/user/bookmarks` && <Box pos={`absolute`} right={`10px`} top={`10px`} >
+        <Button
+          isDisabled={activity.loadingStatus === `loading`}
+          bg="transparent"
+
+          borderRadius="full"
+          p={["4px", "4px", "8px"]}
+          width={["24px", "48px", "48px"]}
+          minW="none"
+          height={["24px", "48px", "48px"]}
+          onClick={(e) => {
+            e.stopPropagation();
+
+            if (!profile) {
+              toast.error(`Please login to avail these features`)
+              return;
+            }
+            if (!isQuestionAlreadyBookmarked) {
+              dispatch(updateActivityQuestionService({
+                activity: {
+                  activity: {
+                    ...activity,
+                    questions: {
+                      ...activity.questions,
+                      bookmarked: activity.questions.bookmarked.concat(question),
+                    },
+                  }
+
+                },
+                questionId: question._id
+              }))
+            } else {
+              dispatch(updateActivityQuestionService({
+                activity: {
+                  activity: {
+                    ...activity,
+                    questions: {
+                      ...activity.questions,
+                      bookmarked: activity.questions.bookmarked.filter(bookmarkedQuestion => bookmarkedQuestion._id !== question._id),
+                    },
+                  }
+
+                },
+                questionId: question._id
+              }))
+            }
+
+          }}
+        >
+
+          <Icon width="60%" height="60%" as={!isQuestionAlreadyBookmarked ? ICON_BOOKMARK : ICON_ALREADY_BOOKMARKED} />
+        </Button>
+      </Box>}
       <Flex
         direction="column"
         justify="center"
@@ -66,7 +136,7 @@ export const QuestionComponent = ({ question }: { question: Question }) => {
                 <Tag
                   size={`md`}
                   variant="solid"
-                  colorScheme="blue"
+                  bg="blue.400"
                   key={`${tag}`}
                 >
                   {tag}

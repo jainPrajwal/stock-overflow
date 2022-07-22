@@ -11,3 +11,5 @@ export { getQuestionWithQuestionIdService } from "./question/getQuestionWithQues
 export { getProfileService } from "./profile/getProfileService";
 export { deleteQuestionService } from "./question/deleteQuestionService";
 export { deleteCommentOnQuestionService } from "./comment/deleteCommentOnQuestionService";
+export { updateCommentonAnswerService } from "./comment/updateCommentOnAnswerService";
+export { deleteCommentonAnswerService } from "./comment/deleteCommentOnAnswerService";

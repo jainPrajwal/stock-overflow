@@ -1,15 +1,17 @@
 import { Box, Button, Flex, Icon, Link, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useAppSelector } from "../../app/hooks";
-import { Comment } from "../../constants";
+import { Answer, Comment } from "../../constants";
 import { ICON_DELETE, ICON_EDIT } from "../../constants/common.types";
 import { getTimeAgo } from "../../utils/common/getTimeAgo";
 import { DeleteCommentModal } from "./editCommentModal/deleteCommentModal/DeleteCommentModal";
 import { EditCommentModal } from "./editCommentModal/EditCommentModal";
 export const CommentComponent = ({
-    comment
+    comment,
+    answer
 }: {
-    comment: Comment
+    comment: Comment,
+    answer?: Answer
 }) => {
     const { isOpen: isCommentModalOpen, onClose: onCommentModalClose, onOpen: onCommentModalOpen } = useDisclosure();
     const { isOpen: isDeleteCommentModalOpen, onClose: onCommentDeleteModalClose, onOpen: onCommentDeleteModalOpen } = useDisclosure();
@@ -21,6 +23,7 @@ export const CommentComponent = ({
                     comment={comment}
                     onClose={onCommentModalClose}
                     isOpen={isCommentModalOpen}
+                    questionId={answer?.question}
                 />
             }
             {
@@ -28,6 +31,7 @@ export const CommentComponent = ({
                     isOpen={isDeleteCommentModalOpen}
                     onClose={onCommentDeleteModalClose}
                     comment={comment}
+                    questionId={answer?.question}
                 />
             }
 

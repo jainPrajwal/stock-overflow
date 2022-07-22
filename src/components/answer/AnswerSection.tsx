@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { loadAnswersOfTheQuestion } from "../../features/answer/AnswerSlice"
 import React from "react"
-import { Answer } from "../../constants"
+import { Answer, HIGHEST_SCORE, NEWEST_FIRST, OLDEST_FIRST } from "../../constants"
 import { CustomQuillToolbar, formats, modules } from "../CustomToolbar"
 import ReactQuill from "react-quill"
 import { addAnswerService, updateAnswerService, updateQuestionService } from "../../services"
@@ -20,7 +20,7 @@ import { toast } from "react-toastify"
 
 
 export const AnswerSection = () => {
-    const { loadingStatus, answers } = useAppSelector(state => state.answer);
+    const { loadingStatus, answers, sortBy } = useAppSelector(state => state.answer);
     const { questionId } = useParams();
     const answersOnSpecifiedQuestion = answers.filter(answer => answer.question === questionId);
     const { questions } = useAppSelector(state => state.question);
@@ -36,6 +36,23 @@ export const AnswerSection = () => {
 
 
 
+    let sortedData = [...answers];
+
+    if (sortBy) {
+        switch (sortBy) {
+            case HIGHEST_SCORE: sortedData = [...sortedData].sort((answer1, answer2) => answer2.votes.count - answer1.votes.count);
+                break;
+            case NEWEST_FIRST: sortedData = [...sortedData].sort((answer1, answer2) => new Date(answer2.updatedAt).getMilliseconds() - new Date(answer1.updatedAt).getMilliseconds());
+
+                break;
+
+            case OLDEST_FIRST: sortedData = [...sortedData].sort((answer1, answer2) => new Date(answer1.createdAt).getMilliseconds() - new Date(answer2.createdAt).getMilliseconds());
+
+                break;
+
+            default: 
+        }
+    }
 
     useEffect(() => {
         if (questionId) {
@@ -57,7 +74,7 @@ export const AnswerSection = () => {
                     <AnswerFilters />
                 </Flex>
                 {
-                    answersOnSpecifiedQuestion?.length > 0 ? answersOnSpecifiedQuestion.map((answer: Answer) => {
+                    sortedData?.length > 0 ? sortedData.map((answer: Answer) => {
 
                         return <AnswerComponent answer={answer} key={answer._id}
                             questionId={questionId}
@@ -96,12 +113,13 @@ export const AnswerSection = () => {
 
                                                         dispatch(updateQuestionService({
                                                             questionId: question._id,
-                                                            question: { totalAnswers: question.totalAnswers + 1, 
-                                                          
+                                                            question: {
+                                                                totalAnswers: question.totalAnswers + 1,
+
                                                             }
                                                         }))
-                                                       
-                                                      
+
+
                                                     }
                                                     setAnswer(prevState => ({ text: null }))
                                                 }
@@ -113,7 +131,7 @@ export const AnswerSection = () => {
                                                 <ReactQuill
                                                     theme="snow"
                                                     onChange={(value) => {
-                                                        console.log(`value `, value);
+                                                        
                                                         setAnswer(() => ({ text: value }));
 
                                                     }}

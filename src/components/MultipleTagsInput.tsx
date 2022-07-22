@@ -104,7 +104,7 @@ export const MultipleTagsInput = ({ questionDetails, setQuestionDetails }: {
                 !inputTag?.input &&
                 isKeyReleased
               ) {
-                console.log(`delte`)
+                
                 setQuestionDetails(prevState => {
                   return {
                     ...prevState,

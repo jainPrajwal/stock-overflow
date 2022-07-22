@@ -1,6 +1,16 @@
-import { createAsyncThunk, createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  current,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import axios from "axios";
-import { AnswerResponseType, AnswersState, BASE_API, ServerError } from "../../constants";
+import {
+  AnswerResponseType,
+  AnswersState,
+  BASE_API,
+  ServerError,
+} from "../../constants";
 import { addAnswerService, updateAnswerService } from "../../services";
 
 const initialState: AnswersState = {
@@ -24,12 +34,18 @@ export const loadAnswersOfTheQuestion = createAsyncThunk(
 const AnswerSlice = createSlice({
   name: `answer`,
   initialState,
-  reducers: {},
+  reducers: {
+    sortyByDrowpdownClicked: (
+      state,
+      action: PayloadAction<{ sortBy: string }>
+    ) => {
+     
+      state.sortBy = action.payload.sortBy;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(loadAnswersOfTheQuestion.fulfilled, (state, action) => {
-      
       state.answers = action.payload.answers;
-      
     });
 
     builder.addCase(loadAnswersOfTheQuestion.pending, (state) => {
@@ -62,12 +78,16 @@ const AnswerSlice = createSlice({
       state.message = (action.payload as ServerError).message;
     });
 
-    builder.addCase(addAnswerService.fulfilled, (state, action: PayloadAction<AnswerResponseType>) => {
-      if (`answer` in action.payload) {
-        state.answers.push(action.payload.answer);
+    builder.addCase(
+      addAnswerService.fulfilled,
+      (state, action: PayloadAction<AnswerResponseType>) => {
+        if (`answer` in action.payload) {
+          state.answers.push(action.payload.answer);
+        }
       }
-    });
+    );
   },
 });
 
+export const {sortyByDrowpdownClicked} = AnswerSlice.actions;
 export default AnswerSlice.reducer;

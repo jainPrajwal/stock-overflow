@@ -23,7 +23,7 @@ import { toast } from "react-toastify";
 
 
 export const QuestionSection = () => {
-  const { questionId } = useParams();
+  const { questionId, tag } = useParams();
   const { questions, loadingStatus } = useAppSelector(state => state.question);
   const { comments } = useAppSelector(state => state.comment);
   const dispatch = useAppDispatch();
@@ -35,7 +35,7 @@ export const QuestionSection = () => {
   const { isOpen: isDeleteModalOpen, onOpen: onDeleteModalOpen, onClose: onDeleteModalClose } = useDisclosure();
   useEffect(() => {
     if (loadingStatus === `idle` && questionId) {
-      console.log(`fire API to get the question`);
+      
       dispatch(getQuestionWithQuestionIdService({
         questionId
       }))
@@ -45,7 +45,7 @@ export const QuestionSection = () => {
   useEffect(() => {
     if (comments.questionsMeta.loadingStatus === `idle`) {
       if (questionId) {
-        console.log(`getting comments on question`)
+        
         dispatch(getCommentsOnQuestionService({
           questionId
         }))
@@ -240,6 +240,6 @@ export const QuestionSection = () => {
 
   }
 
-  return <>Invalid ID..!</>
+    return <>Invalid ID..!</>
 
-};
+  };

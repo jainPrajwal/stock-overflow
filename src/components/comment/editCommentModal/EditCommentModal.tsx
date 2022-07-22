@@ -25,16 +25,19 @@ import { useState } from 'react';
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { Comment } from "../../../constants";
+import { updateCommentonAnswerService } from '../../../services';
 import { updateCommentonQuestionService } from '../../../services/comment/updateCommentonQuestionService';
 
 export const EditCommentModal = ({
     comment,
     onClose,
-    isOpen
+    isOpen,
+    questionId
 }: {
     comment: Comment,
     onClose: () => void,
     isOpen: boolean
+    questionId?: string;
 }) => {
     const { profile } = useAppSelector(state => state.profile);
     const [commentText, setCommentText] = useState<{ text: string }>({
@@ -52,14 +55,25 @@ export const EditCommentModal = ({
                         toast.error(`Please login to avail these features`)
                         return;
                     }
-                    if (comment.comment !== commentText.text && comment.question) {
+                    if (comment.comment !== commentText.text && questionId && comment.answer) {
+                        
+
+                        dispatch(updateCommentonAnswerService({
+                            answerId: comment.answer,
+                            comment: {comment: commentText.text},
+                            commentId: comment._id,
+                            questionId
+                        }))
+                       
+                    }
+                    else if (comment.comment !== commentText.text && comment.question) {
                         dispatch(updateCommentonQuestionService({
                             questionId: comment.question,
-                            comment: {comment: commentText.text},
+                            comment: { comment: commentText.text },
                             commentId: comment._id
-                            
+
                         }))
-                        console.log(`comment `, commentText.text)
+                        
                     }
                     onClose();
                 }}
