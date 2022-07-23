@@ -17,10 +17,9 @@ import { TaggedQuestionsPage } from './pages/tag/TaggedQuestionsPage';
 import { TaggedQuestionPage } from './pages/tag/TaggedQuestionPage';
 import { UnansweredQuestionsPage } from './pages/unanswered/UnansweredQuestionsPage';
 import { Signup } from './pages/auth/Signup';
-import { useAppSelector } from './app/hooks';
 
 function App() {
-    const { token } = useAppSelector(state => state.auth)
+  
     return (
         <>
             <ToastContainer
@@ -34,7 +33,7 @@ function App() {
                 draggable
                 pauseOnHover
             />
-            {token && <Header />}
+            {<Header />}
             <Show below="md">
                 <Flex pos="fixed" bottom="10px" right="10px" zIndex="1">
                     <Button

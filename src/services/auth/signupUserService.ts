@@ -8,7 +8,7 @@ import {
   
 } from "../../constants";
 
-export const signUserService = createAsyncThunk(
+export const signupUserService = createAsyncThunk(
   `auth/signup`,
   async (userSignupDetails: UserSignupCredentials, thunkAPI) => {
     try {

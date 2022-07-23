@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AuthState, ServerError } from "../../constants";
 import { loginUserService } from "../../services";
+import { signupUserService } from "../../services/auth/signupUserService";
 
 const localStorageToken = localStorage.getItem(`user`);
 const token = localStorageToken && JSON.parse(localStorageToken).token;
@@ -35,6 +36,14 @@ const authSlice = createSlice({
     builder.addCase(loginUserService.rejected, (state, action) => {
       state.loadingStatus = `error`;
       state.toastMessage = (action.payload as ServerError).message;
+    });
+
+    builder.addCase(signupUserService.fulfilled, (state, action) => {
+      state.loadingStatus = `success`;
+
+      state.email = action.payload.user.email;
+      state.token = action.payload.token;
+      state.toastMessage = action.payload.message;
     });
   },
 });

@@ -10,6 +10,7 @@ import { useAppDispatch } from "../../app/hooks";
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 import { getActivitiesService } from "../../services/activity/getActivitiesService";
+import { signupUserService } from "../../services/auth/signupUserService";
 
 
 const Signup = () => {
@@ -29,7 +30,6 @@ const Signup = () => {
         email: "",
         initialPassword: "",
         confirmPassword: "",
-        gender: "",
         touched: {
             name: false,
             email: false,
@@ -110,7 +110,7 @@ const Signup = () => {
             minHeight={`100vh`}
         >
 
-           
+
             <Flex align={`center`} mt="48px" p="12px" justify={`center`} >
                 <Box w="48px" h="48px">
                     <Image
@@ -145,7 +145,11 @@ const Signup = () => {
                         e.preventDefault();
 
                         if (form.isFormValid) {
-
+                            dispatch(signupUserService({
+                                name: form.name,
+                                email: form.email,
+                                password: form.confirmPassword
+                            }))
 
 
                         }
@@ -457,9 +461,9 @@ const Signup = () => {
 
                     </Flex>
                 </form>
-               
+
                 <Box pt="12px" textAlign={`center`}>
-                   Already have an account with us?
+                    Already have an account with us?
                     <NavLink to="/login" className={`activeLink`}>
                         Click here to Login
                     </NavLink>
