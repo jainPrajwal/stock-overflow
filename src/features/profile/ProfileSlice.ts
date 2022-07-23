@@ -1,5 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { ProfileState } from "../../constants";
+import { ProfileState, ServerError } from "../../constants";
 import { getProfileService } from "../../services";
 import { updateProfileService } from "../../services/profile/updateProfileService";
 
@@ -18,7 +18,7 @@ const profileSlice = createSlice({
       if (`profile` in action.payload) {
         state.loadingStatus = `success`;
         state.profile = action.payload.profile;
-        
+
         state.message = action.payload.message;
       }
     });
@@ -29,6 +29,16 @@ const profileSlice = createSlice({
         state.loadingStatus = `success`;
         state.message = action.payload.message;
       }
+    });
+
+    builder.addCase(updateProfileService.pending, (state, action) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(updateProfileService.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.message = (action.payload as ServerError).message;
+      
     });
   },
 });

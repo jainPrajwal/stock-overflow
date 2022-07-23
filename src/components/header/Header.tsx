@@ -49,7 +49,7 @@ const Header = () => {
                 pos="fixed"
                 top={0}
                 gap={[`8px`, `12px`]}
-                justify="space-between"
+                justify="space-around"
                 p={`12px`}
                 zIndex={2}
             >
@@ -119,7 +119,7 @@ const Header = () => {
                     </Button>
                 </Show>}
                 <Flex align="center" gap="10px">
-                    {token ? <Popover>
+                    {token ? <Popover placement="bottom-start">
                         <PopoverTrigger>
                             <Flex
                                 align={`center`}
@@ -131,8 +131,8 @@ const Header = () => {
 
                                 <Image
                                     src={`https://res.cloudinary.com/dmk11fqw8/image/upload/v1657350555/unitag_qrcode_standard_srgab6.png`}
-                                    width={`24px`}
-                                    height={`24px`}
+                                    width={`28px`}
+                                    height={`28px`}
                                 ></Image>
                                 <Text fontSize={`xs`} padding={`0.5`}>
                                     {profile?.reputation}
@@ -146,15 +146,26 @@ const Header = () => {
                             <PopoverArrow />
 
 
-                            <PopoverBody justifyContent={`center`}><Button size={`sm`}
-                                onClick={() => {
-                                    localStorage.clear();
-                                    dispatch(logoutButtonPressed());
-                                    navigate(`/`)
-                                }}
-                            >
-                                Logout
-                            </Button></PopoverBody>
+                            <PopoverBody justifyContent={`center`}>
+                                <Flex direction={`column`} gap={`12px`}>
+                                    <Button size={`sm`}
+                                        onClick={() => {
+
+                                            navigate(`/user/profile`)
+                                        }}
+                                    >
+                                        Profile
+                                    </Button>
+                                    <Button size={`sm`}
+                                        onClick={() => {
+                                            localStorage.clear();
+                                            dispatch(logoutButtonPressed());
+                                            navigate(`/`)
+                                        }}
+                                    >
+                                        Logout
+                                    </Button>
+                                </Flex></PopoverBody>
                         </PopoverContent>
                     </Popover>
                         : <>
@@ -169,7 +180,7 @@ const Header = () => {
                                 }}
                             >
                                 Signup
-                            </Button> 
+                            </Button>
                             <Button
                                 colorScheme="telegram"
                                 height={`32px`}

@@ -4,6 +4,7 @@ import {
   IoIosArrowDropdownCircle,
   IoIosArrowDropupCircle,
   IoMdTrash,
+  IoIosRocket
 } from "react-icons/io";
 import { IoBookmarkOutline, IoBookmarkSharp } from "react-icons/io5";
 import { MdEdit } from "react-icons/md";
@@ -35,6 +36,7 @@ export const ICON_BOOKMARK = IoBookmarkOutline;
 export const ICON_ALREADY_BOOKMARKED = IoBookmarkSharp;
 export const ICON_EDIT = MdEdit;
 export const ICON_DELETE = IoMdTrash;
+export const ICON_MEMBER_FOR = IoIosRocket;
 
 // sort by
 export const HIGHEST_SCORE = `HIGHEST_SCORE`;

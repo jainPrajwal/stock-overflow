@@ -24,6 +24,7 @@ export { ICON_ALREADY_DOWNVOTED } from "./common.types";
 export { ICON_ALREADY_UPVOTED } from "./common.types";
 export { ICON_BOOKMARK } from "./common.types";
 export { ICON_ALREADY_BOOKMARKED } from "./common.types";
+export { ICON_MEMBER_FOR } from "./common.types";
 export { HIGHEST_SCORE } from "./common.types";
 export { NEWEST_FIRST } from "./common.types";
 export { OLDEST_FIRST } from "./common.types";

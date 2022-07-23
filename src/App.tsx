@@ -1,6 +1,6 @@
 import { Button, Flex, Show } from '@chakra-ui/react';
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { Header } from './components/header/Header';
 
@@ -19,7 +19,7 @@ import { UnansweredQuestionsPage } from './pages/unanswered/UnansweredQuestionsP
 import { Signup } from './pages/auth/Signup';
 
 function App() {
-  
+  const location = useLocation();
     return (
         <>
             <ToastContainer
@@ -33,7 +33,7 @@ function App() {
                 draggable
                 pauseOnHover
             />
-            {<Header />}
+            {(location.pathname !== `/login` && location.pathname !== `/signup`) && <Header />}
             <Show below="md">
                 <Flex pos="fixed" bottom="10px" right="10px" zIndex="1">
                     <Button
@@ -51,7 +51,7 @@ function App() {
                 <Route path="/" element={<Home />}></Route>
                 <Route path='/questions/ask' element={<PrivateRoute><AskQuestion /></PrivateRoute>}></Route>
                 <Route path='/questions/:questionId' element={<SingleQuestionPage />}></Route>
-                <Route path='/user/profile' element={<Profile />}></Route>
+                <Route path='/user/profile' element={<PrivateRoute><Profile /></PrivateRoute>}></Route>
                 <Route path='/questions/tagged' element={<TaggedQuestionsPage />}></Route>
                 <Route path='/questions/tagged/:tag' element={<TaggedQuestionPage />}></Route>
                 {/* <Route path='/user/drafts' element={<Drafts />}></Route> */}
@@ -59,6 +59,7 @@ function App() {
                 <Route path='/signup' element={<Signup />}> </Route>
                 <Route path='/questions/unanswered' element={<UnansweredQuestionsPage />}></Route>
                 <Route path='/login' element={<Login />}></Route>
+                
             </Routes>
 
         </>

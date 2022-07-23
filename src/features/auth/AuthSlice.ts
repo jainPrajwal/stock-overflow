@@ -45,6 +45,19 @@ const authSlice = createSlice({
       state.token = action.payload.token;
       state.toastMessage = action.payload.message;
     });
+
+    builder.addCase(loginUserService.pending, (state) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(signupUserService.pending, (state) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(signupUserService.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.toastMessage = (action.payload as ServerError).message;
+    });
   },
 });
 
