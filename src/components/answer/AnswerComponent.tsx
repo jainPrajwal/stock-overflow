@@ -1,9 +1,8 @@
-import { Box, Button, Divider, Flex, Image, Text, Tooltip, useDisclosure } from "@chakra-ui/react"
-import { useEffect } from "react"
+import { Box, Button, Flex, Image, Text, Tooltip, useDisclosure } from "@chakra-ui/react"
+import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { Answer, ICON_ALREADY_DOWNVOTED, ICON_ALREADY_UPVOTED, ICON_DOWNVOTE, ICON_UPVOTE } from "../../constants"
-import { markAsCorrectAnswerClicked } from "../../features/question/QuestionSlice"
 import { updateAnswerService, updateQuestionService } from "../../services"
 import { getCommentsOnAnswerService } from "../../services/comment/getCommentsOnAnswerService"
 import { updateProfileService } from "../../services/profile/updateProfileService"
@@ -12,7 +11,7 @@ import { getQuestionFromQuestionId } from "../../utils/question"
 import { AnswerCommentSecion } from "../comment/AnswerCommentSection"
 import { CommentInput } from "../commentInput/CommentInput"
 import { AnswerFlair } from "../flair/AnswerFlair"
-import { Flair } from "../flair/Flair"
+
 import { CustomIconButton } from "../icon/CustomIconButton"
 import { AnswerDescription } from "./AnswerDescription"
 import { DeleteAnswerModal } from "./deleteAnswerModal/deleteAnswerModal"
@@ -31,7 +30,8 @@ export const AnswerComponent = ({
     const { comments } = useAppSelector(state => state.comment);
     const dispatch = useAppDispatch();
     const { profile } = useAppSelector(state => state.profile)
-    const { questions } = useAppSelector(state => state.question)
+    const { questions } = useAppSelector(state => state.question);
+
 
     const isAlreadyDownvoted = checkIfTheAnswerIsAlreadyDownVoted({
         downvotedAnswers: activity.answers.downvoted,
@@ -45,15 +45,16 @@ export const AnswerComponent = ({
 
     useEffect(() => {
 
-
-        if (questionId && answerId) {
-            dispatch(getCommentsOnAnswerService({
-                questionId,
-                answerId
-            }))
-
+        if (comments.answersMeta.loadingStatus === `idle`) {
+            if (questionId && answerId) {
+                dispatch(getCommentsOnAnswerService({
+                    questionId,
+                    answerId
+                }))
+            }
         }
     }, [comments.answersMeta.loadingStatus, answerId, questionId, dispatch]);
+
 
     const commentsOnSpecifiedAnswer = comments.answersMeta.answers.filter(commentOnAnswer => commentOnAnswer.answer === answerId)
 
@@ -71,6 +72,7 @@ export const AnswerComponent = ({
                 onClose={onEditModalClose}
                 key={answer._id}
                 answer={answer}
+
             />
         }
         {
@@ -78,6 +80,7 @@ export const AnswerComponent = ({
                 isOpen={isDeleteModalOpen}
                 onClose={onDeleteModalClose}
                 answer={answer}
+
             />
         }
         <Flex pt="1rem" width="100%" gap={["2px", "12px", "2rem"]} >
@@ -211,7 +214,7 @@ export const AnswerComponent = ({
                         </>
                     }
 
-                   
+
                 </Flex>
                 <Flex
                     justify="end"

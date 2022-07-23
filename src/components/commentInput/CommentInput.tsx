@@ -6,7 +6,7 @@ import {
   Input,
   Tooltip
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addCommentsOnAnswerService } from "../../services/comment/addCommentsOnAnswerService";
@@ -22,7 +22,35 @@ export const CommentInput = ({
   const { profile } = useAppSelector(state => state.profile);
   const [comment, setComment] = useState<{ text: string | null }>({
     text: null
+  });
+  const [isCommentAdded, setIsCommentAdded] = useState({
+    question: false,
+    answer: false
   })
+  const { comments: { questionsMeta: { loadingStatus: questionLoadingStatus, error: questionError, message: questionMessage }, answersMeta: { loadingStatus: answerLoadingStatus, message: answerMessage, error: answerError } } } = useAppSelector(state => state.comment);
+
+  useEffect(() => {
+    if (isCommentAdded.answer) {
+      if (answerLoadingStatus === `success`) {
+        toast.success(`${answerMessage}`)
+      }
+      if (answerLoadingStatus === `error`) {
+        toast.error(`${answerMessage}`)
+      }
+    }
+    if (isCommentAdded.question) {
+      if (questionLoadingStatus === `success`) {
+        toast.success(`${questionMessage}`)
+       
+      }
+      if (questionLoadingStatus === `error`) {
+        toast.error(`${questionMessage}`)
+      }
+    }
+
+  }, [questionLoadingStatus, isCommentAdded, answerLoadingStatus, answerMessage, questionMessage])
+
+
   return (
     <Box my="12px">
       <form
@@ -37,14 +65,15 @@ export const CommentInput = ({
             toast.error(`You need at least 3 reputation to upvote or downvote!`)
           } else {
             if (questionId && answerId && comment.text) {
-              
+
               dispatch(addCommentsOnAnswerService({
                 questionId,
                 answerId,
                 comment: { comment: comment.text }
               }))
+              setIsCommentAdded(prevState => ({ ...prevState, answer: true }));
             } else if (questionId) {
-              
+
               if (comment.text) {
                 dispatch(addCommentsOnQuestionService({
                   questionId,
@@ -55,8 +84,9 @@ export const CommentInput = ({
                   text: ``
                 })
               }
-
+              setIsCommentAdded(prevState => ({ ...prevState, question: true }));
             }
+
           }
         }}
       >

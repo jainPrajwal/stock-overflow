@@ -14,6 +14,8 @@ const profileSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    
+    // getProfileService
     builder.addCase(getProfileService.fulfilled, (state, action) => {
       if (`profile` in action.payload) {
         state.loadingStatus = `success`;
@@ -23,6 +25,17 @@ const profileSlice = createSlice({
       }
     });
 
+    builder.addCase(getProfileService.pending, (state) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(getProfileService.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.message = (action.payload as ServerError)?.message;
+      state.errorMessage = action.error.message;
+    });
+
+    // updateProfileService
     builder.addCase(updateProfileService.fulfilled, (state, action) => {
       if (`profile` in action.payload) {
         state.profile = action.payload.profile;
@@ -38,7 +51,6 @@ const profileSlice = createSlice({
     builder.addCase(updateProfileService.rejected, (state, action) => {
       state.loadingStatus = `error`;
       state.message = (action.payload as ServerError).message;
-      
     });
   },
 });

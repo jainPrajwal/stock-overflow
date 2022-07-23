@@ -1,4 +1,5 @@
 import { Flex, Tag, } from "@chakra-ui/react"
+import { useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../app/hooks"
 import { SectionHeading } from "../../components/heading/SectionHeading"
 import { Sidebar } from "../../components/sidebar/Sidebar"
@@ -10,6 +11,8 @@ export const TaggedQuestionsPage = () => {
     const allTags = [...new Set(questions.reduce((acc: Array<string>, current: Question) => {
         return [...acc, ...current.tags.map(tag => tag)]
     }, []))]
+
+    const navigate = useNavigate();
 
     return <Flex
         padding={`12px`}
@@ -31,6 +34,11 @@ export const TaggedQuestionsPage = () => {
                                 variant="solid"
                                 bg="blue.400"
                                 key={`${tag}`}
+                                onClick={() => {
+                                    navigate(`/questions/tagged/${tag}`)
+                                }}
+
+                                cursor={`pointer`}
                             >
                                 {tag}
                             </Tag>

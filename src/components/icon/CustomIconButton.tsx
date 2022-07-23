@@ -1,6 +1,6 @@
 import { Box, Button, Icon } from "@chakra-ui/react";
 import { IconType } from "react-icons/lib";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import { Answer } from "../../constants";
@@ -13,7 +13,20 @@ export const CustomIconButton = ({ icon, answer, questionId }: { icon: IconType,
     const dispatch = useAppDispatch();
     const { profile } = useAppSelector(state => state.profile);
     const activity = useAppSelector(state => state.activity);
-    const { questions } = useAppSelector(state => state.question)
+    const { questions } = useAppSelector(state => state.question);
+    const [hasActivityOccured, setHasActivityOccured] = useState(false);
+
+    useEffect(() => {
+        if (hasActivityOccured) {
+            if (activity.loadingStatus === `success`) {
+                toast.success(`${activity.message}`);
+                setHasActivityOccured(false)
+            } else if (activity.loadingStatus === `error`) {
+                toast.error(`${activity.message}`)
+            }
+        }
+
+    }, [activity, hasActivityOccured])
 
     const question = getQuestionFromQuestionId(questions, questionId);
     return (
@@ -35,7 +48,7 @@ export const CustomIconButton = ({ icon, answer, questionId }: { icon: IconType,
                         toast.error(`You need at least 3 reputation to upvote or downvote!`)
                     } else {
                         if (answer && question) {
-
+                            setHasActivityOccured(true);
                             handleAnswerActivity({
                                 icon,
                                 activity,
@@ -46,7 +59,7 @@ export const CustomIconButton = ({ icon, answer, questionId }: { icon: IconType,
                             })
                         }
                         else if (question && !answer) {
-
+                            setHasActivityOccured(true)
                             handleQuestionActivity({
                                 icon,
                                 question,

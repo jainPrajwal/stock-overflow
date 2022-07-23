@@ -37,8 +37,21 @@ export const AskQuestion = () => {
     });
 
     const { loadingStatus, error, message } = useAppSelector(state => state.question);
+    const [isQuestionAdded, setIsQuestionAdded] = useState(false);
     const { token } = useAppSelector(state => state.auth)
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isQuestionAdded) {
+            if (loadingStatus === `success`) {
+                toast.success(`Question Added Successfully`)
+            }
+            if (loadingStatus === `error`) {
+                toast.error(`${message}`)
+            }
+        }
+
+    }, [loadingStatus, isQuestionAdded, message])
 
     const dispatch = useAppDispatch();
     return (
@@ -60,6 +73,7 @@ export const AskQuestion = () => {
                                     toast.error(`Please login to avail these features`)
                                     return;
                                 }
+                                setIsQuestionAdded(true);
                                 dispatch(addQuestionService({
                                     question: questionDetails
                                 }))
@@ -129,6 +143,7 @@ export const AskQuestion = () => {
                                         fontSize={`sm`}
                                         fontWeight={`normal`}
                                         type="submit"
+                                        isLoading={loadingStatus === `loading`}
                                     >
                                         Post Question
                                     </Button>

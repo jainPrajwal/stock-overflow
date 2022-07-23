@@ -21,7 +21,7 @@ import {
     TabPanel,
 
 } from '@chakra-ui/react'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -37,7 +37,8 @@ import { CustomQuillToolbar, formats, modules } from '../../CustomToolbar';
 export const EditAnswerModal = ({ isOpen, onClose, answer }: {
     isOpen: boolean;
     onClose: () => void;
-    answer: Answer
+    answer: Answer;
+
 }) => {
 
     const [answerDetails, setAnswerDetails] = useState<{ answer: string }>({
@@ -45,8 +46,18 @@ export const EditAnswerModal = ({ isOpen, onClose, answer }: {
     });
     const dispatch = useAppDispatch();
     const { questionId } = useParams();
-    const { profile } = useAppSelector(state => state.profile)
+    const { profile } = useAppSelector(state => state.profile);
+    const { loadingStatus, message } = useAppSelector(state => state.answer);
+    const [isEdited, setIsEdited] = useState(false);
 
+    useEffect(() => {
+        if (isEdited) {
+            if (loadingStatus === `success` || loadingStatus === `error`) {
+                onClose();
+                toast.success(`${message}`)
+            }
+        }
+    }, [loadingStatus, message, onClose, isEdited])
     return <>
         <Modal onClose={onClose} isOpen={isOpen} size={`3xl`}
             variant={`dark`}
@@ -76,6 +87,7 @@ export const EditAnswerModal = ({ isOpen, onClose, answer }: {
                                                     return;
                                                 }
                                                 if (questionId) {
+                                                    setIsEdited(true);
                                                     dispatch(updateAnswerService({
                                                         answer: {
                                                             ...answer,
@@ -84,9 +96,9 @@ export const EditAnswerModal = ({ isOpen, onClose, answer }: {
                                                         answerId: answer._id,
                                                         questionId,
                                                     }))
-                                                    toast.success(`Answer Updated Successfully`)
+
                                                 }
-                                                onClose();
+
                                             }}
                                             style={{
                                                 display: "flex",
@@ -125,6 +137,7 @@ export const EditAnswerModal = ({ isOpen, onClose, answer }: {
                                                         fontSize={`sm`}
                                                         fontWeight={`normal`}
                                                         type="submit"
+                                                        isLoading={loadingStatus === `loading`}
                                                     >
                                                         Edit Answer
                                                     </Button>

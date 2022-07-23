@@ -3,12 +3,12 @@ import { AnswerFilters } from "./AnswerFilters"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { loadAnswersOfTheQuestion } from "../../features/answer/AnswerSlice"
+
 import React from "react"
 import { Answer, HIGHEST_SCORE, NEWEST_FIRST, OLDEST_FIRST } from "../../constants"
 import { CustomQuillToolbar, formats, modules } from "../CustomToolbar"
 import ReactQuill from "react-quill"
-import { addAnswerService, updateAnswerService, updateQuestionService } from "../../services"
+import { addAnswerService, loadAnswersOfTheQuestionService, updateQuestionService } from "../../services"
 import { AnswerComponent } from "./AnswerComponent"
 import { checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect } from "../../utils/answer/checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect"
 import { getQuestionFromQuestionId } from "../../utils/question"
@@ -20,13 +20,13 @@ import { toast } from "react-toastify"
 
 
 export const AnswerSection = () => {
-    const { loadingStatus, answers, sortBy } = useAppSelector(state => state.answer);
+    const { loadingStatus, answers, sortBy, message } = useAppSelector(state => state.answer);
     const { questionId } = useParams();
     const answersOnSpecifiedQuestion = answers.filter(answer => answer.question === questionId && !answer.isDeleted);
     const { questions } = useAppSelector(state => state.question);
     const { profile } = useAppSelector(state => state.profile)
     const isThereAnAnswerWhichIsAlreadyMarkedAsCorrect = checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect(answers);
-
+    const [isAnswerAdded, setIsAnswerAdded] = useState(false);
 
     const dispatch = useAppDispatch();
 
@@ -56,11 +56,21 @@ export const AnswerSection = () => {
 
     useEffect(() => {
         if (questionId) {
-            dispatch(loadAnswersOfTheQuestion({
+            dispatch(loadAnswersOfTheQuestionService({
                 questionId
             }))
         }
-    }, [loadingStatus, questionId, dispatch]);
+    }, [questionId, dispatch]);
+
+    useEffect(() => {
+        if (isAnswerAdded) {
+
+            if (loadingStatus === `success` || loadingStatus === `error`) {
+                toast.success(`${message}`)
+            }
+
+        }
+    }, [isAnswerAdded, loadingStatus, message])
 
     if (questionId) {
         const question = getQuestionFromQuestionId(questions, questionId);
@@ -108,6 +118,7 @@ export const AnswerSection = () => {
                                                     return;
                                                 }
                                                 if (answer.text && answer.text.length > 0) {
+                                                    setIsAnswerAdded(true);
                                                     dispatch(addAnswerService({
                                                         answer: answer.text,
                                                         questionId
@@ -156,6 +167,7 @@ export const AnswerSection = () => {
                                                     fontSize={`sm`}
                                                     fontWeight={`normal`}
                                                     type="submit"
+                                                    isLoading={loadingStatus === `loading`}
                                                 >
                                                     Post Answer
                                                 </Button>

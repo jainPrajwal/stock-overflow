@@ -26,19 +26,8 @@ const authSlice = createSlice({
   },
 
   extraReducers: (builder) => {
+    // loginUserService
     builder.addCase(loginUserService.fulfilled, (state, action) => {
-      state.loadingStatus = `success`;
-
-      state.email = action.payload.user.email;
-      state.token = action.payload.token;
-      state.toastMessage = action.payload.message;
-    });
-    builder.addCase(loginUserService.rejected, (state, action) => {
-      state.loadingStatus = `error`;
-      state.toastMessage = (action.payload as ServerError).message;
-    });
-
-    builder.addCase(signupUserService.fulfilled, (state, action) => {
       state.loadingStatus = `success`;
 
       state.email = action.payload.user.email;
@@ -48,6 +37,20 @@ const authSlice = createSlice({
 
     builder.addCase(loginUserService.pending, (state) => {
       state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(loginUserService.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.toastMessage = (action.payload as ServerError).message;
+    });
+
+    // signupUserService
+    builder.addCase(signupUserService.fulfilled, (state, action) => {
+      state.loadingStatus = `success`;
+
+      state.email = action.payload.user.email;
+      state.token = action.payload.token;
+      state.toastMessage = action.payload.message;
     });
 
     builder.addCase(signupUserService.pending, (state) => {

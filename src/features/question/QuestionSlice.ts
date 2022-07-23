@@ -7,7 +7,6 @@ import {
 } from "../../services";
 import { addQuestionService } from "../../services/question/addQuestionService";
 import { updateQuestionService } from "../../services/question/updateQuestionService";
-import { getQuestionFromQuestionId } from "../../utils/question";
 
 const initialState: QuestionsState = {
   questions: [],
@@ -30,11 +29,11 @@ export const QuestionSlice = createSlice({
     },
 
     filterTabClicked: (state, action: PayloadAction<{ tab: string }>) => {
-      
       state.filterBy = action.payload.tab;
     },
   },
   extraReducers: (builder) => {
+    // loadQuestions
     builder.addCase(loadQuestions.fulfilled, (state, action) => {
       if (`questions` in action.payload) {
         state.questions = action.payload.questions;
@@ -52,6 +51,7 @@ export const QuestionSlice = createSlice({
       state.error = action.error;
     });
 
+    // addQuestionService
     builder.addCase(addQuestionService.fulfilled, (state, action) => {
       if (`question` in action.payload) {
         state.questions.push(action.payload.question);
@@ -70,12 +70,23 @@ export const QuestionSlice = createSlice({
       state.error = action.error;
     });
 
+    // updateQuestionService
     builder.addCase(updateQuestionService.fulfilled, (state, action) => {
       const questionIndex = state.questions.findIndex(
         (question) => question._id === action.payload.question._id
       );
       state.questions[questionIndex] = action.payload.question;
       state.loadingStatus = `success`;
+    });
+
+    builder.addCase(updateQuestionService.pending, (state, action) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(updateQuestionService.rejected, (state, action) => {
+      state.message = (action.payload as ServerError).message;
+      state.loadingStatus = `error`;
+      state.error = action.error;
     });
 
     builder.addCase(
@@ -89,6 +100,22 @@ export const QuestionSlice = createSlice({
       }
     );
 
+    builder.addCase(
+      getQuestionWithQuestionIdService.pending,
+      (state, action) => {
+        state.loadingStatus = `loading`;
+      }
+    );
+
+    builder.addCase(
+      getQuestionWithQuestionIdService.rejected,
+      (state, action) => {
+        state.message = (action.payload as ServerError).message;
+        state.loadingStatus = `error`;
+        state.error = action.error;
+      }
+    );
+
     builder.addCase(deleteQuestionService.fulfilled, (state, action) => {
       const questionIndex = state.questions.findIndex(
         (question) => question._id === action.payload.question._id
@@ -98,6 +125,12 @@ export const QuestionSlice = createSlice({
 
     builder.addCase(deleteQuestionService.pending, (state, action) => {
       state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(deleteQuestionService.rejected, (state, action) => {
+      state.message = (action.payload as ServerError).message;
+      state.loadingStatus = `error`;
+      state.error = action.error;
     });
   },
 });

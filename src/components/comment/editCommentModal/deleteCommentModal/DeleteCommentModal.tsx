@@ -53,14 +53,14 @@ export const DeleteCommentModal = ({
                                         commentId: comment._id
 
                                     }));
-                                    toast.success(`Comment Deleted Successfully`)
+                                  
                                 }
                                 else if (comment.question) {
                                     dispatch(deleteCommentOnQuestionService({
                                         commentId: comment._id,
                                         questionId: comment.question
                                     }))
-                                    toast.success(`Comment Deleted Successfully`)
+                                  
                                 }
                                 onClose();
 

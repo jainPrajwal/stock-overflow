@@ -13,6 +13,7 @@ import {
 } from "../../constants";
 import { addAnswerService, updateAnswerService } from "../../services";
 import { deleteAnswerService } from "../../services/answer/deleteAnswerService";
+import { loadAnswersOfTheQuestionService } from "../../services/answer/loadAnswersOftheQuestionService";
 
 const initialState: AnswersState = {
   answers: [],
@@ -22,16 +23,7 @@ const initialState: AnswersState = {
   error: null,
   message: null,
 };
-export const loadAnswersOfTheQuestion = createAsyncThunk(
-  `answers/loadAnswersOfTheQuestion`,
-  async ({ questionId }: { questionId: string }) => {
-    const response = await axios.get(
-      `${BASE_API}/questions/${questionId}/answers`
-    );
 
-    return response.data;
-  }
-);
 const AnswerSlice = createSlice({
   name: `answer`,
   initialState,
@@ -43,21 +35,32 @@ const AnswerSlice = createSlice({
       state.sortBy = action.payload.sortBy;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(loadAnswersOfTheQuestion.fulfilled, (state, action) => {
-      state.answers = action.payload.answers;
-    });
 
-    builder.addCase(loadAnswersOfTheQuestion.pending, (state) => {
+
+  extraReducers: (builder) => {
+    // loadAnswersOfTheQuestionService
+    builder.addCase(
+      loadAnswersOfTheQuestionService.fulfilled,
+      (state, action) => {
+        state.answers = action.payload.answers;
+        state.loadingStatus = `success`;
+      }
+    );
+
+    builder.addCase(loadAnswersOfTheQuestionService.pending, (state) => {
       state.loadingStatus = `loading`;
     });
 
-    builder.addCase(loadAnswersOfTheQuestion.rejected, (state, action) => {
-      state.loadingStatus = `error`;
-      state.error = action.error;
-      state.message = (action.payload as ServerError).message;
-    });
+    builder.addCase(
+      loadAnswersOfTheQuestionService.rejected,
+      (state, action) => {
+        state.loadingStatus = `error`;
+        state.error = action.error;
+        state.message = (action.payload as ServerError).message;
+      }
+    );
 
+    // updateAnswerService
     builder.addCase(updateAnswerService.fulfilled, (state, action) => {
       if (`answer` in action.payload) {
         const answerIndex = state.answers.findIndex(
@@ -65,6 +68,7 @@ const AnswerSlice = createSlice({
         );
         state.answers[answerIndex] = action.payload.answer;
         state.message = action.payload.message;
+        state.loadingStatus = `success`;
       }
     });
 
@@ -78,14 +82,27 @@ const AnswerSlice = createSlice({
       state.message = (action.payload as ServerError).message;
     });
 
+    // addAnswerService
     builder.addCase(
       addAnswerService.fulfilled,
-      (state, action: PayloadAction<AnswerResponseType>) => {
+      (state, action) => {
         if (`answer` in action.payload) {
           state.answers.push(action.payload.answer);
+          state.loadingStatus = `success`;
+          state.message = action.payload.message;
         }
       }
     );
+
+    builder.addCase(addAnswerService.pending, (state) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(addAnswerService.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.error = action.error;
+      state.message = (action.payload as ServerError).message;
+    });
 
     builder.addCase(deleteAnswerService.fulfilled, (state, action) => {
       if (`answer` in action.payload) {
@@ -94,7 +111,19 @@ const AnswerSlice = createSlice({
         );
         state.answers[answerIndex] = action.payload.answer;
         state.message = action.payload.message;
+        state.loadingStatus = `success`;
+       
       }
+    });
+
+    builder.addCase(deleteAnswerService.pending, (state) => {
+      state.loadingStatus = `loading`;
+    });
+
+    builder.addCase(deleteAnswerService.rejected, (state, action) => {
+      state.loadingStatus = `error`;
+      state.error = action.error;
+      state.message = (action.payload as ServerError).message;
     });
   },
 });

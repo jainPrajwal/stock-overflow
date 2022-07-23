@@ -9,57 +9,94 @@ import {
     Button,
     Flex,
 } from '@chakra-ui/react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { Answer } from '../../../constants';
+import { updateQuestionService } from '../../../services';
 import { deleteAnswerService } from '../../../services/answer/deleteAnswerService';
+import { getQuestionFromQuestionId } from '../../../utils/question';
 export const DeleteAnswerModal = ({ onClose, isOpen, answer }: {
     isOpen: boolean,
     onClose: () => void,
-    answer: Answer
+    answer: Answer,
+
 }) => {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
     const { profile } = useAppSelector(state => state.profile);
+    const { questions } = useAppSelector(state => state.question)
     const { questionId } = useParams();
+    const [isDeleted, setIsDeleted] = useState(false);
+    const { loadingStatus, message } = useAppSelector(state => state.answer);
+
+    useEffect(() => {
+
+        if (isDeleted && (loadingStatus === `success` || loadingStatus === `error`)) {
+            onClose();
+
+            toast.success(`${message}`)
+        }
+    }, [loadingStatus, isDeleted, message, onClose])
 
 
-    return <>
-        <Modal onClose={onClose} size={`xl`} isOpen={isOpen}>
-            <ModalOverlay />
-            <ModalContent>
-                <ModalHeader>Modal Title</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                    Are you sure you want to delete the Answer..?
+    if (questionId) {
 
-                </ModalBody>
-                <ModalFooter>
-                    <Flex gap="12px">
-                        <Button
-                            variant={`solid`}
-                            colorScheme={`red`}
-                            onClick={() => {
-                                if (!profile) {
-                                    toast.error(`Please login to avail these features`)
-                                    return;
-                                }
+        const question = getQuestionFromQuestionId(questions, questionId);
+        if (question) {
+            return <>
+                <Modal onClose={onClose} size={`xl`} isOpen={isOpen}>
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>Delete Answer</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            Are you sure you want to delete the Answer..?
 
-                                if (questionId) {
-                                    dispatch(deleteAnswerService({
-                                        answerId: answer._id,
-                                        questionId
-                                    }))
-                                }
+                        </ModalBody>
+                        <ModalFooter>
+                            <Flex gap="12px">
+                                <Button
+                                    variant={`solid`}
+                                    colorScheme={`red`}
+                                    isLoading={loadingStatus === `loading`}
+                                    onClick={() => {
+                                        if (!profile) {
+                                            toast.error(`Please login to avail these features`)
+                                            return;
+                                        }
+                                        console.log(`clicked`)
+                                        if (questionId) {
+                                            setIsDeleted(true)
+                                            dispatch(deleteAnswerService({
+                                                answerId: answer._id,
+                                                questionId
+                                            }))
+                                            dispatch(updateQuestionService({
+                                                question: {
+                                                    ...question,
+                                                    totalAnswers: question.totalAnswers - 1
+                                                },
+                                                questionId
+                                            }))
 
-                                toast.success(`Answer Deleted Successfully`)
-                            }}
-                        >Yes</Button>
-                        <Button onClick={onClose}>No</Button>
-                    </Flex>
+                                        }
 
-                </ModalFooter>
-            </ModalContent>
-        </Modal></>
+
+                                    }}
+                                >Yes</Button>
+                                <Button onClick={onClose}>No</Button>
+                            </Flex>
+
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal></>
+        }
+        return <></>
+    }
+    return <></>
+
+
+
+
 }

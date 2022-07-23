@@ -12,7 +12,7 @@ import { ICON_ALREADY_BOOKMARKED, ICON_ALREADY_DOWNVOTED, ICON_ALREADY_UPVOTED, 
 import { QuestionDescription } from "./QuestionDescription";
 import { checkIfTheQuestionIsAlreadyBookmarked, checkIfTheQuestionIsAlreadyDownVoted, checkIfTheQuestionIsAlreadyUpvoted, getQuestionFromQuestionId } from "../../utils/question";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getQuestionWithQuestionIdService, updateActivityQuestionService } from "../../services";
 import { QuestionCommentSecion } from "../comment/QuestionCommentSection";
 import { getCommentsOnQuestionService } from "../../services/comment/getCommentsOnQuestionService";
@@ -35,6 +35,23 @@ export const QuestionSection = () => {
   const { isOpen: isEditModalOpen, onOpen: onEditModalOpen, onClose: onEditModalClose } = useDisclosure();
 
   const { isOpen: isDeleteModalOpen, onOpen: onDeleteModalOpen, onClose: onDeleteModalClose } = useDisclosure();
+
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  useEffect(() => {
+    
+    if (isBookmarked) {
+      if (activity.loadingStatus === `success`) {
+        toast.success(`${activity.message}`);
+        setIsBookmarked(false)
+      } else if (activity.loadingStatus === `error`) {
+        toast.error(`${activity.message}`)
+      }
+    }
+
+  }, [activity, isBookmarked])
+
+
   useEffect(() => {
     if (loadingStatus === `idle` && questionId) {
 
@@ -121,6 +138,7 @@ export const QuestionSection = () => {
                         return;
                       }
                       if (!isQuestionAlreadyBookmarked) {
+                        setIsBookmarked(true);
                         dispatch(updateActivityQuestionService({
                           activity: {
                             activity: {
@@ -135,6 +153,7 @@ export const QuestionSection = () => {
                           questionId: question._id
                         }))
                       } else {
+                        setIsBookmarked(true)
                         dispatch(updateActivityQuestionService({
                           activity: {
                             activity: {

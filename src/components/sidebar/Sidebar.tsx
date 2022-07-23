@@ -1,6 +1,8 @@
 import { Box, Flex, Show, Text } from "@chakra-ui/react";
 import React from "react";
-import {  useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
+const toggleActive = ({ isActive }: { isActive: boolean }) => isActive ? `nav-link nav-link-active` : `nav-link`
 export const Sidebar = () => {
   const navigate = useNavigate();
   return (
@@ -22,49 +24,55 @@ export const Sidebar = () => {
           >
             {" "}
             Home
+          
+
+            <Box
+              p="12px"
+              m="8px"
+              _hover={{
+                background: "blue.100",
+                cursor: "pointer"
+              }}
+              onClick={() => {
+                navigate(`/questions/tagged`);
+              }}
+            >
+              {" "}
+              <Text>Tags</Text>
+            </Box>
+            <Box
+              p="12px"
+              m="8px"
+              _hover={{
+                background: "blue.100",
+                cursor: "pointer"
+              }}
+              onClick={() => {
+                navigate(`/user/bookmarks`)
+              }}
+            >
+              {" "}
+              Bookmarks
+            </Box>
+            <Box
+              p="12px"
+              m="8px"
+              _hover={{
+                background: "blue.100",
+                cursor: "pointer"
+              }}
+              onClick={() => {
+                navigate(`/questions/unanswered`);
+              }}
+            >
+              {" "}
+              <Text>Unanswered</Text>
+            </Box>
+
           </Box>
-          <Box
-            p="12px"
-            m="8px"
-            _hover={{
-              background: "blue.100",
-              cursor: "pointer"
-            }}
-            onClick={() => {
-              navigate(`/questions/tagged`);
-            }}
-          >
-            {" "}
-            <Text>Tags</Text>
-          </Box>
-          <Box
-            p="12px"
-            m="8px"
-            _hover={{
-              background: "blue.100",
-              cursor: "pointer"
-            }}
-            onClick={() => {
-              navigate(`/user/bookmarks`)
-            }}
-          >
-            {" "}
-            Bookmarks
-          </Box>
-          <Box
-            p="12px"
-            m="8px"
-            _hover={{
-              background: "blue.100",
-              cursor: "pointer"
-            }}
-            onClick={() => {
-              navigate(`/questions/unanswered`);
-            }}
-          >
-            {" "}
-            <Text>Unanswered</Text>
-          </Box>
+
+
+
         </Box>
       </Flex>
     </Show>

@@ -13,3 +13,4 @@ export { deleteQuestionService } from "./question/deleteQuestionService";
 export { deleteCommentOnQuestionService } from "./comment/deleteCommentOnQuestionService";
 export { updateCommentonAnswerService } from "./comment/updateCommentOnAnswerService";
 export { deleteCommentonAnswerService } from "./comment/deleteCommentOnAnswerService";
+export { loadAnswersOfTheQuestionService } from "./answer/loadAnswersOftheQuestionService";

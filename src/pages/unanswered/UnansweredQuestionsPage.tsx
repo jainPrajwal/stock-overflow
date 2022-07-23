@@ -1,11 +1,23 @@
-import { Flex,  Text } from "@chakra-ui/react"
-import { useAppSelector } from "../../app/hooks"
+import { Flex, Text } from "@chakra-ui/react"
+import { useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { ErrorFallback } from "../../components/errorBoundary/ErrorFallback"
 import { SectionHeading } from "../../components/heading/SectionHeading"
+import { Loader } from "../../components/loader/Loader"
 import { QuestionComponent } from "../../components/question/Question"
 import { Sidebar } from "../../components/sidebar/Sidebar"
+import { loadQuestions } from "../../services"
 
 export const UnansweredQuestionsPage = () => {
-    const { questions } = useAppSelector(state => state.question);
+    const { questions, loadingStatus } = useAppSelector(state => state.question);
+    const dispatch = useAppDispatch();
+
+
+    useEffect(() => {
+        if (questions.length <= 0 && loadingStatus === `idle`) {
+            dispatch(loadQuestions())
+        }
+    }, [loadingStatus, dispatch, questions]);
 
     return <Flex
         padding={`12px`}
@@ -18,7 +30,7 @@ export const UnansweredQuestionsPage = () => {
         <Flex gap="12px" direction={`column`} flexGrow={1}>
 
             <SectionHeading heading="Unanswered Questions" />
-            <Flex direction={`column`} gap="12px">
+            {loadingStatus === `success` ? <Flex direction={`column`} gap="12px">
                 {
                     questions.length > 0 ? questions.map(question => {
                         if (question.totalAnswers <= 0) {
@@ -34,7 +46,7 @@ export const UnansweredQuestionsPage = () => {
 
                     </>
                 }
-            </Flex>
+            </Flex> : loadingStatus === `loading` ? <Loader /> : <ErrorFallback />}
         </Flex>
     </Flex>
 }

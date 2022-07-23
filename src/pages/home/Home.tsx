@@ -44,7 +44,7 @@ export const Home = () => {
                 maxW="1340"
                 overflowY="auto"
             >
-                <Flex gap="0">
+                <Flex gap="0"> 
                     <Sidebar />
                     <Flex
                         flexGrow="1"
