@@ -117,7 +117,9 @@ export const handleQuestionActivity = ({
           questionId: question._id,
           question: {
             votes: {
-              count: question.votes.count + 1,
+              count: isAlreadyDownvoted
+                ? question.votes.count + 2
+                : question.votes.count + 1,
             },
             questioner: {
               ...question.questioner,
@@ -167,7 +169,9 @@ export const handleQuestionActivity = ({
           questionId: question._id,
           question: {
             votes: {
-              count: question.votes.count - 1,
+              count: isAlreadyUpvoted
+                ? question.votes.count - 2
+                : question.votes.count - 1,
             },
             questioner: {
               ...question.questioner,

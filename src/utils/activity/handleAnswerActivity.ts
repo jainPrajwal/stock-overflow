@@ -130,7 +130,9 @@ export const handleAnswerActivity = ({
           questionId,
           answer: {
             votes: {
-              count: answer.votes.count + 1,
+              count: isAlreadyDownvoted
+                ? answer.votes.count + 2
+                : answer.votes.count + 1,
             },
             answerer: {
               ...answer.answerer,
@@ -181,7 +183,9 @@ export const handleAnswerActivity = ({
           questionId,
           answer: {
             votes: {
-              count: answer.votes.count - 1,
+              count: isAlreadyUpvoted
+                ? answer.votes.count - 2
+                : answer.votes.count - 1,
             },
             answerer: {
               ...answer.answerer,
@@ -228,7 +232,6 @@ export const handleAnswerActivity = ({
         })
       );
 
-
       // If the user undoes the downvote to an answer, increase his 1 point
       dispatch(
         updateProfileService({
@@ -239,7 +242,6 @@ export const handleAnswerActivity = ({
         })
       );
 
-      
       // Remove Question from Downvoted list
       updatedActivity = removeAnswerFromDownvotes({
         answer,
