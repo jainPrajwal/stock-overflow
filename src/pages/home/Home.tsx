@@ -11,6 +11,7 @@ import { Question } from "../../constants";
 import { QuestionComponent } from "../../components/question/Question";
 import { toast } from "react-toastify";
 import { filterTabClicked } from "../../features/question/QuestionSlice";
+import { Outlet } from "react-router-dom";
 
 
 const TABS = [`All`, `Hot`];
@@ -37,20 +38,12 @@ export const Home = () => {
 
     return (
         <>
-            <Box
-                padding={`12px`}
-                marginTop={`4rem`}
-                marginInline="auto"
-                maxW="1340"
-                overflowY="auto"
-            >
-                <Flex gap="0"> 
-                    <Sidebar />
+              
                     <Flex
                         flexGrow="1"
                         direction="column"
                         flexBasis="calc(50% - 1rem)"
-                        maxW="700px"
+                        maxW="820px"
                         paddingBlock={`12px`}
                     >
                         <Heading as="h3" size="lg">
@@ -63,7 +56,7 @@ export const Home = () => {
                                         TABS.map(tab => {
                                             return <Tab key={tab} w={`100%`}
                                                 onClick={() => {
-                                                    
+
                                                     if (tab) {
                                                         dispatch(filterTabClicked({
                                                             tab: tab
@@ -222,9 +215,9 @@ export const Home = () => {
                             </Box>
                         </Flex>
                     </Show>
-                </Flex>
+              
 
-            </Box>
+           
         </>
     )
 }

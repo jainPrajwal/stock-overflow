@@ -15,15 +15,7 @@ export const TaggedQuestionPage = () => {
         const questionsWithTag = questions.filter(question => question.tags.includes(tag));
 
         return (
-            <Box
-                padding={`12px`}
-                marginTop={`4rem`}
-                marginInline="auto"
-                maxW="1340"
-                overflowY="auto"
-            >
-                <Flex gap="12px">
-                    <Sidebar />
+         
                     <Flex gap="12px" direction={`column`} flexGrow={1}>
                         <SectionHeading heading="Tagged Questions" />
 
@@ -42,8 +34,7 @@ export const TaggedQuestionPage = () => {
                         </Flex>
                     </Flex>
 
-                </Flex>
-            </Box>
+                
         );
     }
 

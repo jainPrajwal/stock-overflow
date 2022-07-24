@@ -1,11 +1,10 @@
-import { Flex, Text } from "@chakra-ui/react"
+import {  Flex, Text } from "@chakra-ui/react"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { ErrorFallback } from "../../components/errorBoundary/ErrorFallback"
 import { SectionHeading } from "../../components/heading/SectionHeading"
 import { Loader } from "../../components/loader/Loader"
 import { QuestionComponent } from "../../components/question/Question"
-import { Sidebar } from "../../components/sidebar/Sidebar"
 import { loadQuestions } from "../../services"
 
 export const UnansweredQuestionsPage = () => {
@@ -19,34 +18,27 @@ export const UnansweredQuestionsPage = () => {
         }
     }, [loadingStatus, dispatch, questions]);
 
-    return <Flex
-        padding={`12px`}
-        marginTop={`4rem`}
-        marginInline="auto"
-        maxW="1340"
-        overflowY="auto"
-    >
-        <Sidebar />
-        <Flex gap="12px" direction={`column`} flexGrow={1}>
+    return <Flex gap="12px" direction={`column`} flexGrow={1}>
 
-            <SectionHeading heading="Unanswered Questions" />
-            {loadingStatus === `success` ? <Flex direction={`column`} gap="12px">
-                {
-                    questions.length > 0 ? questions.map(question => {
-                        if (question.totalAnswers <= 0) {
+                <SectionHeading heading="Unanswered Questions" />
+                {loadingStatus === `success` ? <Flex direction={`column`} gap="12px">
+                    {
+                        questions.length > 0 ? questions.map(question => {
+                            if (question.totalAnswers <= 0) {
 
-                            return <QuestionComponent
-                                question={question}
-                                key={question._id}
-                            />
-                        }
-                        return null;
-                    }) : <>
-                        <Text textAlign={`center`} fontSize={`md`} >No bookmarks found..!</Text>
+                                return <QuestionComponent
+                                    question={question}
+                                    key={question._id}
+                                />
+                            }
+                            return null;
+                        }) : <>
+                            <Text textAlign={`center`} fontSize={`md`} >No bookmarks found..!</Text>
 
-                    </>
-                }
-            </Flex> : loadingStatus === `loading` ? <Loader /> : <ErrorFallback />}
-        </Flex>
-    </Flex>
+                        </>
+                    }
+                </Flex> : loadingStatus === `loading` ? <Loader /> : <ErrorFallback />}
+            </Flex>
+       
+
 }

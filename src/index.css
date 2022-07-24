@@ -84,12 +84,12 @@ body::-webkit-scrollbar-thumb {
 }
 
 .nav-link {
-  padding: 12px;
-  margin: 8px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  width: 100%;;
+  display: block;
 }
 
 .nav-link:hover , .nav-link-active{
   background: #BEE3F8;
+  
 }

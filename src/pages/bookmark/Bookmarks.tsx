@@ -1,4 +1,4 @@
-import { Button, Flex, Spinner, Text } from "@chakra-ui/react"
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
@@ -37,39 +37,31 @@ export const Bookmarks = () => {
     }, [loadingStatus, dispatch, activity]);
 
 
-    return <Flex
-        padding={`12px`}
-        marginTop={`4rem`}
-        marginInline="auto"
-        maxW="1340"
-        overflowY="auto"
-    >
-        <Sidebar />
-        <Flex gap="12px" direction={`column`} flexGrow={1}>
+    return <Flex gap="12px" direction={`column`} flexGrow={1}>
 
-            <SectionHeading heading="Bookmarks" />
-            {loadingStatus === `success` ? <Flex direction={`column`} gap="12px">
-                {
-                    questions.bookmarked.length > 0 ? questions.bookmarked.map(question => {
-                        return <QuestionComponent
-                            question={question}
-                            key={question._id}
-                            setIsBookmarked={setIsBookmarked}
-                        />
-                    }) : <>
-                        <Text textAlign={`center`} fontSize={`md`} >No bookmarks found..!</Text>
-                        <Button
-                            colorScheme={`telegram`}
-                            size={`md`}
-                            maxW={`280px`}
-                            margin={`0 auto`}
-                            onClick={() => navigate(`/`)}
+        <SectionHeading heading="Bookmarks" />
+        {loadingStatus === `success` ? <Flex direction={`column`} gap="12px">
+            {
+                questions.bookmarked.length > 0 ? questions.bookmarked.map(question => {
+                    return <QuestionComponent
+                        question={question}
+                        key={question._id}
+                        setIsBookmarked={setIsBookmarked}
+                    />
+                }) : <>
+                    <Text textAlign={`center`} fontSize={`md`} >No bookmarks found..!</Text>
+                    <Button
+                        colorScheme={`telegram`}
+                        size={`md`}
+                        maxW={`280px`}
+                        margin={`0 auto`}
+                        onClick={() => navigate(`/`)}
 
-                        >Explore more questions</Button>
-                    </>
-                }
-            </Flex> : loadingStatus === `loading` ? <Loader /> : <ErrorFallback />}
-        </Flex>
+                    >Explore more questions</Button>
+                </>
+            }
+        </Flex> : loadingStatus === `loading` ? <Loader /> : <ErrorFallback />}
     </Flex>
+
 
 }

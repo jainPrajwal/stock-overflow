@@ -14,39 +14,31 @@ export const TaggedQuestionsPage = () => {
 
     const navigate = useNavigate();
 
-    return <Flex
-        padding={`12px`}
-        marginTop={`4rem`}
-        marginInline="auto"
-        maxW="1340"
-        overflowY="auto"
-    >
-        <Sidebar />
-        <Flex gap="12px" direction={`column`} flexGrow={1}>
+    return <Flex gap="12px" direction={`column`} flexGrow={1}>
 
-            <SectionHeading heading="Tags"></SectionHeading>
-            <Flex gap="12px" flexWrap={`wrap`}>
-                {
-                    allTags.map(tag => {
-                        return (
-                            <Tag
-                                size={`md`}
-                                variant="solid"
-                                bg="blue.400"
-                                key={`${tag}`}
-                                onClick={() => {
-                                    navigate(`/questions/tagged/${tag}`)
-                                }}
+        <SectionHeading heading="Tags"></SectionHeading>
+        <Flex gap="12px" flexWrap={`wrap`}>
+            {
+                allTags.map(tag => {
+                    return (
+                        <Tag
+                            size={`md`}
+                            variant="solid"
+                            bg="blue.400"
+                            key={`${tag}`}
+                            onClick={() => {
+                                navigate(`/questions/tagged/${tag}`)
+                            }}
 
-                                cursor={`pointer`}
-                            >
-                                {tag}
-                            </Tag>
-                        )
-                    })
-                }
-            </Flex>
+                            cursor={`pointer`}
+                        >
+                            {tag}
+                        </Tag>
+                    )
+                })
+            }
         </Flex>
     </Flex>
+
 
 }

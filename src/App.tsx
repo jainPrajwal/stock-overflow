@@ -1,6 +1,6 @@
-import { Button, Flex, Show } from '@chakra-ui/react';
+import { Box, Button, Flex, Show } from '@chakra-ui/react';
 
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 
 import { Header } from './components/header/Header';
 
@@ -17,9 +17,11 @@ import { TaggedQuestionsPage } from './pages/tag/TaggedQuestionsPage';
 import { TaggedQuestionPage } from './pages/tag/TaggedQuestionPage';
 import { UnansweredQuestionsPage } from './pages/unanswered/UnansweredQuestionsPage';
 import { Signup } from './pages/auth/Signup';
+import { LandingPage } from './pages/landingPage/LandingPage';
+
 
 function App() {
-  const location = useLocation();
+    const location = useLocation();
     return (
         <>
             <ToastContainer
@@ -33,6 +35,10 @@ function App() {
                 draggable
                 pauseOnHover
             />
+
+
+
+
             {(location.pathname !== `/login` && location.pathname !== `/signup`) && <Header />}
             <Show below="md">
                 <Flex pos="fixed" bottom="10px" right="10px" zIndex="1">
@@ -48,18 +54,19 @@ function App() {
                 </Flex>
             </Show>
             <Routes>
-                <Route path="/" element={<Home />}></Route>
-                <Route path='/questions/ask' element={<PrivateRoute><AskQuestion /></PrivateRoute>}></Route>
-                <Route path='/questions/:questionId' element={<SingleQuestionPage />}></Route>
-                <Route path='/user/profile' element={<PrivateRoute><Profile /></PrivateRoute>}></Route>
-                <Route path='/questions/tagged' element={<TaggedQuestionsPage />}></Route>
-                <Route path='/questions/tagged/:tag' element={<TaggedQuestionPage />}></Route>
-                {/* <Route path='/user/drafts' element={<Drafts />}></Route> */}
-                <Route path='/user/bookmarks' element={<PrivateRoute><Bookmarks /></PrivateRoute>}></Route>
-                <Route path='/signup' element={<Signup />}> </Route>
-                <Route path='/questions/unanswered' element={<UnansweredQuestionsPage />}></Route>
-                <Route path='/login' element={<Login />}></Route>
-                
+                <Route path='/' element={<LandingPage />}  >
+                    <Route path="" element={<Home />} />
+                    <Route path='questions/ask' element={<PrivateRoute><AskQuestion /></PrivateRoute>} />
+                    <Route path='questions/:questionId' element={<SingleQuestionPage />} />
+                    <Route path='user/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
+                    <Route path='questions/tagged' element={<TaggedQuestionsPage />} />
+                    <Route path='questions/tagged/:tag' element={<TaggedQuestionPage />} />
+                    <Route path='user/bookmarks' element={<PrivateRoute><Bookmarks /></PrivateRoute>} />
+                    <Route path='questions/unanswered' element={<UnansweredQuestionsPage />} />
+                </Route>
+
+                <Route path='/signup' element={<Signup />} />
+                <Route path='/login' element={<Login />} />
             </Routes>
 
         </>

@@ -13,24 +13,28 @@ import {
     MenuList,
     Show,
     Text,
-    Tooltip
+    
 } from "@chakra-ui/react";
 import {
     Popover,
     PopoverTrigger,
     PopoverContent,
-    PopoverHeader,
+    
     PopoverBody,
-    PopoverFooter,
+    
     PopoverArrow,
-    PopoverCloseButton,
-    PopoverAnchor,
+    
+    
 } from '@chakra-ui/react'
 import React from "react";
 import { IoMdMenu } from "react-icons/io"
 import { useNavigate } from "react-router";
+import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logoutButtonPressed } from "../../features/auth/AuthSlice";
+
+const toggleActive = ({ isActive }: { isActive: boolean }) => isActive ? `nav-link nav-link-active` : `nav-link`
+
 
 const Header = () => {
     const navigate = useNavigate();
@@ -63,18 +67,27 @@ const Header = () => {
                                 variant="outline"
                             />
                             <MenuList>
-                                {/* <MenuItem icon={<AddIcon />} command="⌘T">
-                    New Tab
-                  </MenuItem>
-                  <MenuItem icon={<ExternalLinkIcon />} command="⌘N">
-                    New Window
-                  </MenuItem>
-                  <MenuItem icon={<RepeatIcon />} command="⌘⇧N">
-                    Open Closed Tab
-                  </MenuItem>
-                  <MenuItem icon={<EditIcon />} command="⌘O">
-                    Open File...
-                  </MenuItem> */}
+                                <MenuItem display={`block`} _hover={{background: `transparent`}} >
+                                    <NavLink
+                                        to={`/`} className={toggleActive}>Home</NavLink>
+                                </MenuItem>
+                                <MenuItem display={`block`} _hover={{background: `transparent`}}   >
+                                    <NavLink
+
+                                        to={`/questions/tagged`} className={toggleActive}>Tags</NavLink>
+                                </MenuItem>
+                                <MenuItem display={`block`} _hover={{background: `transparent`}}  >
+                                    <NavLink
+
+                                        to={`/user/bookmarks`} className={toggleActive}>Bookmarks</NavLink>
+                                </MenuItem>
+
+                                <MenuItem display={`block`} _hover={{background: `transparent`}}  >
+                                    <NavLink
+
+                                        to={`/questions/unanswered`} className={toggleActive}>Unanswered</NavLink>
+                                </MenuItem>
+
                             </MenuList>
                         </Menu>
                     </Show>

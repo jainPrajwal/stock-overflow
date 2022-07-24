@@ -1,80 +1,73 @@
 import { Box, Flex, Show, Text } from "@chakra-ui/react";
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
+import {
+  List,
+  ListItem,
+  ListIcon,
+  OrderedList,
+  UnorderedList,
+} from '@chakra-ui/react'
 const toggleActive = ({ isActive }: { isActive: boolean }) => isActive ? `nav-link nav-link-active` : `nav-link`
 export const Sidebar = () => {
-  const navigate = useNavigate();
+  
   return (
-    <Show above="md">
-      <Flex minWidth="220px" height={`100vh`}>
-        <Box height="100%" pos="fixed" p="12px" width="100%" maxW="220px" top={`4rem`} left={`0px`}
-          bg={`#f0f9ff`}
+   
+      <Box height="100%" pos="fixed" p="12px" width="220px"  top={`4rem`} left={`0px`}
+        bg={`#f0f9ff`}  margin={`0`} >
+
+        <UnorderedList  listStyleType={`none`} display={`flex`} flexDirection={`column`} gap={`12px`}
         >
-          <Box
-            p="12px"
+          <ListItem
+
             m="8px"
-            _hover={{
-              background: "blue.100",
-              cursor: "pointer"
-            }}
-            onClick={() => {
-              navigate(`/`)
-            }}
+
+
           >
-            {" "}
-            Home
-          
+            <NavLink to={`/`} className={toggleActive}>Home</NavLink>
 
-            <Box
-              p="12px"
-              m="8px"
-              _hover={{
-                background: "blue.100",
-                cursor: "pointer"
-              }}
-              onClick={() => {
-                navigate(`/questions/tagged`);
-              }}
-            >
-              {" "}
-              <Text>Tags</Text>
-            </Box>
-            <Box
-              p="12px"
-              m="8px"
-              _hover={{
-                background: "blue.100",
-                cursor: "pointer"
-              }}
-              onClick={() => {
-                navigate(`/user/bookmarks`)
-              }}
-            >
-              {" "}
-              Bookmarks
-            </Box>
-            <Box
-              p="12px"
-              m="8px"
-              _hover={{
-                background: "blue.100",
-                cursor: "pointer"
-              }}
-              onClick={() => {
-                navigate(`/questions/unanswered`);
-              }}
-            >
-              {" "}
-              <Text>Unanswered</Text>
-            </Box>
 
-          </Box>
+          </ListItem>
+          <ListItem
+
+            m="8px"
+
+
+          >
+            <NavLink to={`/questions/tagged`} className={toggleActive}>Tags</NavLink>
+
+
+          </ListItem>
+
+          <ListItem
+
+            m="8px"
+
+
+          >
+            <NavLink to={`/user/bookmarks`} className={toggleActive}>Bookmarks</NavLink>
+
+
+          </ListItem>
+
+          <ListItem
+
+            m="8px"
+
+
+          >
+            <NavLink to={`/questions/unanswered`} className={toggleActive}>Unanswered</NavLink>
+
+
+          </ListItem>
 
 
 
-        </Box>
-      </Flex>
-    </Show>
+        </UnorderedList>
+
+
+
+      </Box>
+   
   );
 };
