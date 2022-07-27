@@ -106,13 +106,16 @@ const Signup = () => {
 
     return (
         <Box p="1rem"
-            backgroundImage={`-webkit-linear-gradient(-78deg,#ebf8ff 60%,#4299e1 0)`}
+            backgroundImage={`https://res.cloudinary.com/dmk11fqw8/image/upload/v1658839811/finance-bg-2_hogybc.svg`}
+            backgroundRepeat={`no-repeat`}
+            backgroundSize={`cover`}
             minHeight={`100vh`}
+            backgroundColor={`blue.50`}
         >
 
 
             <Flex align={`center`} mt="48px" p="12px" justify={`center`} >
-                <Box w="48px" h="48px">
+                <Box w={["36px", "48px"]} h={["36px", "48px"]}>
                     <Image
                         src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657353864/layers_1_gil6bz.png"
                         height="100%"
@@ -134,7 +137,7 @@ const Signup = () => {
             </Flex>
 
             <Box
-                p="12px"
+                py="2rem" px="1rem"
                 maxW="420px"
                 margin={`0 auto`}
                 bg={`white`}
@@ -302,7 +305,7 @@ const Signup = () => {
                                         }}
                                     />
                                     {showPassword?.initial ? (
-                                        <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="2" cursor={`pointer`} >
+                                        <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="12" cursor={`pointer`} >
                                             <svg
 
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -320,7 +323,7 @@ const Signup = () => {
                                             </svg>
                                         </Icon>
                                     ) : (
-                                        <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="2" cursor={`pointer`} >
+                                        <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="12" cursor={`pointer`} >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 640 512"
@@ -403,7 +406,7 @@ const Signup = () => {
                                         }}
                                     />
                                     {showPassword?.confirm ? (
-                                        <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="2" cursor={`pointer`} >
+                                        <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="12" cursor={`pointer`} >
                                             <svg
 
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -421,7 +424,7 @@ const Signup = () => {
                                             </svg>
                                         </Icon>
                                     ) : (
-                                        <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="2" cursor={`pointer`} >
+                                        <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="12" cursor={`pointer`} >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 640 512"

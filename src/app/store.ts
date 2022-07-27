@@ -11,6 +11,7 @@ import authReducer from "../features/auth/AuthSlice";
 import activityReducer from "../features/activity/ActivitySlice";
 import commentReducer from "../features/comment/CommentSlice";
 import profileReducer from "../features/profile/ProfileSlice";
+import videoReducer from "../features/video/videoSlice";
 import axios from "axios";
 import {
   AnswersState,
@@ -45,6 +46,7 @@ export const store = configureStore({
     activity: activityReducer,
     comment: commentReducer,
     profile: profileReducer,
+    video: videoReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(axiosMiddleware);

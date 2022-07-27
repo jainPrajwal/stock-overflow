@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import { checkIfTheQuestionIsAlreadyBookmarked } from "../../utils/question";
 import { updateActivityQuestionService } from "../../services";
 
-export const QuestionComponent = ({ question,setIsBookmarked }: { question: Question,setIsBookmarked?: React.Dispatch<React.SetStateAction<boolean>> }) => {
+export const QuestionComponent = ({ question, setIsBookmarked }: { question: Question, setIsBookmarked?: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const activity = useAppSelector(state => state.activity);
@@ -46,12 +46,12 @@ export const QuestionComponent = ({ question,setIsBookmarked }: { question: Ques
       key={question._id}
       cursor={`pointer`}
       onClick={() => {
-
+        navigate(`/questions/${question._id}`);
         if (!token) {
-          toast.error(`Please login to avail these features`)
+
           return;
         }
-        navigate(`/questions/${question._id}`);
+
         dispatch(updateQuestionService({
           questionId: question._id,
           question: { views: question.views + 1 }

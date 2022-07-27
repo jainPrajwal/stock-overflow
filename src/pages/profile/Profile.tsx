@@ -7,6 +7,7 @@ import { SectionHeading } from "../../components/heading/SectionHeading";
 import { Sidebar } from "../../components/sidebar/Sidebar";
 import { ICON_MEMBER_FOR } from "../../constants";
 import { ICON_EDIT } from "../../constants/common.types";
+import { useScrollToTop } from "../../hooks/useScrollToTop";
 import { getProfileService } from "../../services";
 import { getTimeAgo } from "../../utils/common/getTimeAgo";
 import { EditProfileModal } from "./EditProfileModal";
@@ -17,6 +18,7 @@ export const Profile = () => {
     const dispatch = useAppDispatch();
     const [isProfileUpdated, setIsProfileUpdated] = useState(false);
     const { isOpen, onClose, onOpen } = useDisclosure();
+    useScrollToTop();
     useEffect(() => {
         if (!profile && loadingStatus === `idle`) {
             dispatch(getProfileService())
@@ -33,6 +35,7 @@ export const Profile = () => {
             marginInline="auto"
             maxW="1340"
             overflowY="auto"
+            flexGrow={`1`}
         >
             {
                 isOpen && <EditProfileModal
@@ -43,7 +46,7 @@ export const Profile = () => {
                 />
             }
             <Sidebar />
-            <Flex gap="12px" direction={`column`} flexGrow={1}>
+            <Flex gap="12px" direction={`column`} flexGrow={`1`}>
 
                 <SectionHeading heading="Profile" />
                 {loadingStatus === `loading` ? <Flex justify={`center`}>

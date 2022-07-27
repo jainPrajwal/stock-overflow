@@ -10,7 +10,7 @@ export type Question = {
   description: string;
   tags: Array<string>;
   isDeleted: boolean;
-  votes: {count: number};
+  votes: { count: number };
   questioner: Profile;
   isFlaged: boolean;
   createdAt: string;
@@ -33,7 +33,8 @@ export type QuestionsState = {
   error: unknown;
   sortBy: string | null;
   filterBy: string | null;
-  message:string |  null;
+  message: string | null;
+  searchBy: string | null;
 };
 
 export type UserDefinedQuestionsType = {
@@ -52,16 +53,15 @@ export type QuestionResponseType = {
   question: Question;
 };
 
-
 export type QuestionRequestType = {
   title?: string;
   description?: string;
   tags?: Array<string>;
   isDeleted?: boolean;
-  votes?: {count: number};
+  votes?: { count: number };
   isFlaged?: boolean;
   views?: number;
   totalAnswers?: number;
   isAcceptedAnswerPresent?: boolean;
-  questioner?:Profile;
-}
+  questioner?: Profile;
+};

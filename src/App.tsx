@@ -55,7 +55,7 @@ function App() {
             </Show>
             <Routes>
                 <Route path='/' element={<LandingPage />}  >
-                    <Route path="" element={<Home />} />
+                    <Route path="" element={<Home />}  />
                     <Route path='questions/ask' element={<PrivateRoute><AskQuestion /></PrivateRoute>} />
                     <Route path='questions/:questionId' element={<SingleQuestionPage />} />
                     <Route path='user/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />

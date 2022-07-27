@@ -1,26 +1,18 @@
-import { Box, Flex, Show } from "@chakra-ui/react";
+import {  Show } from "@chakra-ui/react";
 import { SingleQuestionSection } from "../../components/question/singleQuestionSection/SingleQuestionSection";
 import { RelatedQuestions } from "../../components/relatedQuestions/RelatedQuestions";
-import { Sidebar } from "../../components/sidebar/Sidebar";
+
 import React from "react";
+import { useScrollToTop } from "../../hooks/useScrollToTop";
 export const SingleQuestionPage = () => {
-    
+    useScrollToTop();
 
     return (
-        <Box
-            padding={`12px`}
-            marginTop={`4rem`}
-            marginInline="auto"
-            maxW="1340"
-            overflowY="auto"
-        >
-            <Flex gap="12px">
-                <Sidebar />
-                <SingleQuestionSection />
-                <Show above="lg">
-                    <RelatedQuestions />
-                </Show>
-            </Flex>
-        </Box>
+        <>
+            <SingleQuestionSection />
+            <Show above="lg">
+                <RelatedQuestions />
+            </Show>
+        </>
     );
 }

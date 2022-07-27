@@ -1,5 +1,6 @@
-import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import React from "react";
+import { Link } from "react-router-dom";
 import { Question } from "../../constants";
 export const RelatedQuestion = ({
   question
@@ -14,8 +15,8 @@ export const RelatedQuestion = ({
       >
         <Text>{question.totalAnswers}</Text>
       </Box>
-      <Box ml="12px">
-        <Link fontSize="sm">
+      <Box ml="12px" fontSize={`sm`}>
+        <Link to={`/questions/${question._id}`}>
           {question.title}
         </Link>
       </Box>

@@ -20,6 +20,8 @@ import { EditQuestionModal } from "./editQuestionModal/EditQuestionModal";
 import { DeleteQuestionModal } from "./deleteQuestionModal/DeleteQuestionModal";
 import { toast } from "react-toastify";
 import { handleLinkShare } from "../../utils/handleLinkShare";
+import { ErrorFallback } from "../errorBoundary/ErrorFallback";
+import { Loader } from "../loader/Loader";
 
 
 
@@ -39,7 +41,7 @@ export const QuestionSection = () => {
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
-    
+
     if (isBookmarked) {
       if (activity.loadingStatus === `success`) {
         toast.success(`${activity.message}`);
@@ -108,7 +110,7 @@ export const QuestionSection = () => {
           <SectionHeading
             heading={`${question.title}`}
           />
-          <Flex pt="2rem" width="100%" gap={["12px", "2rem"]} >
+          {loadingStatus === `success` ? <Flex pt="2rem" width="100%" gap={["12px", "2rem"]} flexGrow={`1`} maxW={`820px`}>
 
             <Flex direction="column" justify="start" align="center" gap="8px">
               <CustomIconButton icon={isAlreadyUpvoted ? ICON_ALREADY_UPVOTED : ICON_UPVOTE} questionId={questionId} answer={null}
@@ -254,14 +256,14 @@ export const QuestionSection = () => {
 
 
             </Flex>
-          </Flex>
+          </Flex> : loadingStatus === `loading` ? <Loader /> : <ErrorFallback />}
         </>
       );
     }
-    return <>Invalid ID..!</>
+    return <Box p="1rem">{loadingStatus === `loading` ? <Loader /> : `Invalid ID..!`}</Box>
 
   }
 
-  return <>Invalid ID..!</>
+  return <Box p="1rem">{loadingStatus === `loading` ? <Loader /> : `Invalid ID..!`}</Box>
 
 };

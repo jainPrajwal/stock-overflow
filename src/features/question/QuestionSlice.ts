@@ -15,6 +15,7 @@ const initialState: QuestionsState = {
   sortBy: null,
   filterBy: null,
   message: null,
+  searchBy: null,
 };
 
 export const QuestionSlice = createSlice({
@@ -30,6 +31,10 @@ export const QuestionSlice = createSlice({
 
     filterTabClicked: (state, action: PayloadAction<{ tab: string }>) => {
       state.filterBy = action.payload.tab;
+    },
+
+    onSearchChange: (state, action: PayloadAction<{ searchBy: string }>) => {
+      state.searchBy = action.payload.searchBy;
     },
   },
   extraReducers: (builder) => {
@@ -135,7 +140,7 @@ export const QuestionSlice = createSlice({
   },
 });
 
-export const { markAsCorrectAnswerClicked, filterTabClicked } =
+export const { markAsCorrectAnswerClicked, filterTabClicked , onSearchChange} =
   QuestionSlice.actions;
 
 export default QuestionSlice.reducer;

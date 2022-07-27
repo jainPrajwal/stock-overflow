@@ -36,9 +36,9 @@ export const CustomIconButton = ({ icon, answer, questionId }: { icon: IconType,
                 bg="transparent"
                 borderRadius="full"
                 p={["4px", "4px", "12px"]}
-                width={["24px", "48px", "64px"]}
+                width={["36px", "48px", "64px"]}
                 minW="none"
-                height={["24px", "48px", "64px"]}
+                height={["36px", "48px", "64px"]}
                 onClick={() => {
                     if (!profile) {
                         toast.error(`Please login to avail these features`)

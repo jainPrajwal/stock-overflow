@@ -13,6 +13,7 @@ import { AnswerComponent } from "./AnswerComponent"
 import { checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect } from "../../utils/answer/checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect"
 import { getQuestionFromQuestionId } from "../../utils/question"
 import { toast } from "react-toastify"
+import { Loader } from "../loader/Loader"
 
 
 
@@ -76,12 +77,12 @@ export const AnswerSection = () => {
         const question = getQuestionFromQuestionId(questions, questionId);
         return (
             <>
-                <Flex justify={`space-between`} mt="12px">
+                <Flex justify={`space-between`} my="12px">
                     <Text as="h4" fontSize="larger">
                         {answersOnSpecifiedQuestion.length} Answers
                     </Text>
 
-                    <AnswerFilters />
+                    {sortedData?.length > 0 && <AnswerFilters />}
                 </Flex>
                 {
                     sortedData?.length > 0 ? sortedData.map((answer: Answer) => {
@@ -93,7 +94,7 @@ export const AnswerSection = () => {
                         }
                         return null;
 
-                    }) : <>No Answers Yet..!</>
+                    }) : <Box p="1rem">{loadingStatus === `loading` ? <Loader /> : `No Answers Yet..!`}</Box>
                 }
                 <Divider />
                 <Flex direction={`column`} gap={`12px`} my="12px">
@@ -193,8 +194,8 @@ export const AnswerSection = () => {
 
 
 
-    return <>No Answers Yet..!</>
 
+    return <Box p="1rem">{loadingStatus === `loading` ? <Loader /> : `No Answers Yet..!`}</Box>
 
 
 

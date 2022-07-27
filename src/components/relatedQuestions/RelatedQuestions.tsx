@@ -25,36 +25,44 @@ export const RelatedQuestions = () => {
 
                 return new2.map(new1 => new1);
             })].flat()
-            console.log(`rela `, relatedQuestions)
+
             // map through questions
             // find all those questions which has at least one tag of the opened question
-            return (
+            if (relatedQuestions) {
+                return (
 
-                <Flex direction="column" p="12px" maxW="340px" gap="12px">
-                    {
+                    <Flex direction="column" p="12px" maxW="340px" gap="12px" flexGrow={`1`}>
 
-                    }
-                    <Box my="12px">
-                        <Text textAlign="center" fontSize="larger">
-                            Related Questions
-                        </Text>
-                    </Box>
-                    {
-                        relatedQuestions.map(relatedQuestion => {
-                            if (relatedQuestion) {
+                        <Box my="12px">
+                            <Text textAlign="center" fontSize="x-large">
+                                Related Questions
+                            </Text>
+                        </Box>
+                        {
+                            relatedQuestions.length > 0 ? relatedQuestions.map(relatedQuestion => {
+                                if (relatedQuestion) {
 
-                                return <RelatedQuestion
-                                    question={relatedQuestion}
-                                />
-                            }
-                            return <></>
-                        })
-                    }
+                                    return <RelatedQuestion
+                                        question={relatedQuestion}
+                                    />
+                                }
+                                return <></>
+                            }) : <Text textAlign="center" fontSize="larger">
+                                No Related Questions Found..
+                            </Text>
+                        }
 
 
 
-                </Flex>
-            );
+                    </Flex>
+                );
+            }
+
+            return <></>
+
+
+
+
         }
 
     }

@@ -13,25 +13,26 @@ import {
     MenuList,
     Show,
     Text,
-    
+
 } from "@chakra-ui/react";
 import {
     Popover,
     PopoverTrigger,
     PopoverContent,
-    
+
     PopoverBody,
-    
+
     PopoverArrow,
-    
-    
+
+
 } from '@chakra-ui/react'
-import React from "react";
+import React, { useState } from "react";
 import { IoMdMenu } from "react-icons/io"
 import { useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logoutButtonPressed } from "../../features/auth/AuthSlice";
+import { SearchBar } from "../searchbar/SearchBar";
 
 const toggleActive = ({ isActive }: { isActive: boolean }) => isActive ? `nav-link nav-link-active` : `nav-link`
 
@@ -40,7 +41,8 @@ const Header = () => {
     const navigate = useNavigate();
     const { token } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
-    const { profile } = useAppSelector(state => state.profile)
+    const { profile } = useAppSelector(state => state.profile);
+    const [searchbar, setSearchbar] = useState(true);
 
     return (
         <>
@@ -67,22 +69,22 @@ const Header = () => {
                                 variant="outline"
                             />
                             <MenuList>
-                                <MenuItem display={`block`} _hover={{background: `transparent`}} >
+                                <MenuItem display={`block`} _hover={{ background: `transparent` }} >
                                     <NavLink
                                         to={`/`} className={toggleActive}>Home</NavLink>
                                 </MenuItem>
-                                <MenuItem display={`block`} _hover={{background: `transparent`}}   >
+                                <MenuItem display={`block`} _hover={{ background: `transparent` }}   >
                                     <NavLink
 
                                         to={`/questions/tagged`} className={toggleActive}>Tags</NavLink>
                                 </MenuItem>
-                                <MenuItem display={`block`} _hover={{background: `transparent`}}  >
+                                <MenuItem display={`block`} _hover={{ background: `transparent` }}  >
                                     <NavLink
 
                                         to={`/user/bookmarks`} className={toggleActive}>Bookmarks</NavLink>
                                 </MenuItem>
 
-                                <MenuItem display={`block`} _hover={{background: `transparent`}}  >
+                                <MenuItem display={`block`} _hover={{ background: `transparent` }}  >
                                     <NavLink
 
                                         to={`/questions/unanswered`} className={toggleActive}>Unanswered</NavLink>
@@ -93,7 +95,7 @@ const Header = () => {
                     </Show>
 
                     <Flex align="center">
-                        <Box w="48px" h="48px">
+                        <Box w={["28px", "28px", "48px"]} h={["28px", "28px", "48px"]}>
                             <Image
                                 src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657353864/layers_1_gil6bz.png"
                                 height="100%"
@@ -111,11 +113,9 @@ const Header = () => {
                     </Flex>
                 </Flex>
 
-                <Input
-                    variant="outline"
-                    placeholder="Work in Progress.."
-                    size="sm"
-                    width={[`80%`, `80%`, `50%`, `60%`]}
+                <SearchBar
+                    searchbar={searchbar}
+                    setSearchbar={setSearchbar}
                 />
                 {token && <Show above="md">
                     <Button

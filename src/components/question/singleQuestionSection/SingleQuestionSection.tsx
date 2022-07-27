@@ -14,28 +14,29 @@ export const SingleQuestionSection = () => {
   const activity = useAppSelector(state => state.activity)
   const { questions, loadingStatus } = useAppSelector(state => state.question);
   const profile = useAppSelector(state => state.profile);
+  const { token } = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch();
 
 
   useEffect(() => {
-    if (activity.loadingStatus === `idle`) {
+    if (activity.loadingStatus === `idle` && token) {
       dispatch(getActivitiesService());
     }
-  }, [activity.loadingStatus, dispatch]);
+  }, [activity.loadingStatus, dispatch, token]);
 
   useEffect(() => {
     if (questions.length <= 0 && loadingStatus === `idle`) {
       dispatch(loadQuestions())
     }
-  }, [loadingStatus, dispatch, questions]);
+  }, [loadingStatus, dispatch, questions, token]);
 
 
   useEffect(() => {
-    if (profile.loadingStatus === `idle` && profile.profile === null) {
-      
+    if (profile.loadingStatus === `idle` && token) {
+
       dispatch(getProfileService())
     }
-  }, [loadingStatus, profile, dispatch])
+  }, [loadingStatus, profile, dispatch, token])
 
   return (
     <Flex

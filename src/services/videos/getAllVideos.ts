@@ -1,21 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
-import { BASE_API, QuestionResponseType, ServerError } from "../../constants";
+import { ServerError } from "../../constants";
+import { FINANCYY_API } from "../../constants/api";
+import { VideosResponseType } from "../../constants/videos.types";
 
-export const getQuestionWithQuestionIdService = createAsyncThunk(
-  `questions/getQuestionWithQuestionId`,
-  async (
-    {
-      questionId,
-    }: {
-      questionId: string;
-    },
-    thunkAPI
-  ) => {
+export const getAllVideos = createAsyncThunk(
+  `videos/getAllVideos`,
+  async (_, thunkAPI) => {
     try {
-      const response = await axios.get<QuestionResponseType>(
-        `${BASE_API}/questions/${questionId}`
+      const response = await axios.get<VideosResponseType>(
+        `${FINANCYY_API}/videos`,
+        {
+          params: {
+            pageNo: 1,
+            limit: 10,
+          },
+        }
       );
+
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {

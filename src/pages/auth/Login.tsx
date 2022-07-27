@@ -2,8 +2,8 @@
 
 
 import { useEffect, useState } from "react";
-import {  toast } from "react-toastify";
-import {  NavLink, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
 import { loginUserService } from "../../services";
 import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Image, Input, Spinner, Tooltip, Text } from "@chakra-ui/react";
@@ -11,6 +11,7 @@ import { useAppDispatch } from "../../app/hooks";
 import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 import { getActivitiesService } from "../../services/activity/getActivitiesService";
+import { Loader } from "../../components/loader/Loader";
 
 const Login = () => {
 
@@ -82,17 +83,22 @@ const Login = () => {
 
   return (
     <Box p="1rem"
-      backgroundImage={`-webkit-linear-gradient(-78deg,#ebf8ff 60%,#4299e1 0)`}
+      backgroundImage={`https://res.cloudinary.com/dmk11fqw8/image/upload/v1658839811/finance-bg-2_hogybc.svg`}
+      backgroundRepeat={`no-repeat`}
+      backgroundSize={`cover`}
       minHeight={`100vh`}
+      backgroundColor={`blue.50`}
     >
 
       <Flex justify="center" align="center"
 
       >
-        
+
       </Flex>
-      <Flex align={`center`} mt="48px" p="12px" justify={`center`} >
-        <Box w="48px" h="48px">
+      <Flex align={`center`} mt="48px" p="12px" justify={`center`}
+
+      >
+        <Box w={["36px", "48px"]} h={["36px", "48px"]}>
           <Image
             src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657353864/layers_1_gil6bz.png"
             height="100%"
@@ -100,7 +106,7 @@ const Login = () => {
         </Box>
         <Box>
           <Heading
-            ml="20px"
+            ml="0.5rem"
             textAlign={`center`}
           >
             <span style={{
@@ -114,10 +120,11 @@ const Login = () => {
       </Flex>
 
       <Box
-        p="12px"
+        py="2rem" px="1rem"
         maxW="420px"
         margin={`0 auto`}
         bg={`white`}
+
       >
 
         <form
@@ -231,7 +238,7 @@ const Login = () => {
                   />
 
                   {showPassword?.initial ? (
-                    <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="2" cursor={`pointer`} >
+                    <Icon pos="absolute" translateY={`-50%`} right="10px" height="100%" w={"20px"} zIndex="12" cursor={`pointer`} >
                       <svg
 
                         xmlns="http://www.w3.org/2000/svg"
@@ -293,7 +300,7 @@ const Login = () => {
 
               dispatch(loginUserService({
                 email: `email@gmail.com`,
-                password: `email@123`
+                password: `initial`
               }))
             }}
             name="loginAsGest"
@@ -314,14 +321,7 @@ const Login = () => {
 
       </Box>
       <div className="pt-lg">
-        {loadingStatus === `loading` && <Flex justify={`center`} align={`center`}>
-          <Spinner
-            thickness='4px'
-            speed='0.65s'
-            emptyColor='gray.200'
-            color='blue.500'
-            size='xl'
-          /></Flex>}
+        {loadingStatus === `loading` && <Box p={`12px`}><Loader /></Box>}
       </div>
 
     </Box >

@@ -8,6 +8,7 @@ import { SectionHeading } from "../../components/heading/SectionHeading"
 import { Loader } from "../../components/loader/Loader"
 import { QuestionComponent } from "../../components/question/Question"
 import { Sidebar } from "../../components/sidebar/Sidebar"
+import { useScrollToTop } from "../../hooks/useScrollToTop"
 import { getActivitiesService } from "../../services"
 
 export const Bookmarks = () => {
@@ -16,6 +17,7 @@ export const Bookmarks = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [isBookmarked, setIsBookmarked] = useState(false);
+    useScrollToTop();
 
     useEffect(() => {
 

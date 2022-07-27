@@ -41,6 +41,7 @@ export const AnswerComponent = ({
 
     const answerId = answer._id;
     const question = getQuestionFromQuestionId(questions, questionId);
+    const [isActivityPerformed, setIsActivityPerformed] = useState(false);
 
 
     useEffect(() => {
@@ -54,6 +55,14 @@ export const AnswerComponent = ({
             }
         }
     }, [comments.answersMeta.loadingStatus, answerId, questionId, dispatch]);
+
+    useEffect(() => {
+        if (activity.loadingStatus === `success` && isActivityPerformed) {
+            toast.success(`${activity.message}`)
+        } else if (activity.loadingStatus === `error`) {
+            toast.error(`${activity.message}`)
+        }
+    }, [activity.loadingStatus, isActivityPerformed, activity.message])
 
 
     const commentsOnSpecifiedAnswer = comments.answersMeta.answers.filter(commentOnAnswer => commentOnAnswer.answer === answerId)
@@ -135,6 +144,7 @@ export const AnswerComponent = ({
                                             toast.error(`Please login to avail these features`)
                                         } else {
                                             if (!isThereAnAnswerWhichIsAlreadyMarkedAsCorrect) {
+                                                setIsActivityPerformed(true);
                                                 dispatch(updateAnswerService({
                                                     answer: {
                                                         ...answer, isMarkedAsCorrectAnswer: true,
