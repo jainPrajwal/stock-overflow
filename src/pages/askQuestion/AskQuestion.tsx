@@ -71,7 +71,7 @@ export const AskQuestion = () => {
         <>
 
 
-            <Flex gap="24px" flexGrow={`1`} >
+            {!showPreview ? <Flex gap="24px" flexGrow={`1`} >
                 <Box flexGrow={`1`}>
                     <SectionHeading
                         heading="Ask a Public Question"
@@ -97,74 +97,59 @@ export const AskQuestion = () => {
                                 <FormLabel margin="0" htmlFor="title">
                                     Title
                                 </FormLabel>
-                                {!showPreview ?
-                                    <>
-                                        <FormHelperText marginBlock="8px">
-                                            Be specific and imagine you’re asking a question to another
-                                            person
-                                        </FormHelperText>
-                                        <Input variant="outline" placeholder="Title" id="title"
-                                            onChange={(e) => {
-                                                setQuestionDetails(prevState => ({ ...prevState, title: e.target.value }));
-                                            }}
-                                        />
-                                    </> : <Box><Text>{questionDetails.title}</Text></Box>
-                                }
+
+                                <FormHelperText marginBlock="8px">
+                                    Be specific and imagine you’re asking a question to another
+                                    person
+                                </FormHelperText>
+                                <Input variant="outline" placeholder="Title" id="title"
+                                    value={questionDetails.title || ``}
+                                    onChange={(e) => {
+                                        setQuestionDetails(prevState => ({ ...prevState, title: e.target.value }));
+                                    }}
+                                />
+
+
                             </FormControl>
 
                             <FormControl paddingBlock="12px">
                                 <FormLabel margin="0" htmlFor="description">
                                     Description
                                 </FormLabel>
-                                {!showPreview ? <>
-                                    <FormHelperText marginBlock="8px">
-                                        Include all the information someone would need to answer your
-                                        question
-                                    </FormHelperText>
-                                    <CustomQuillToolbar toolbarId={"t1"} />
-                                    <ReactQuill
-                                        theme="snow"
-                                        onChange={(value) => {
 
-                                            setQuestionDetails(prevState => ({ ...prevState, description: value }));
+                                <FormHelperText marginBlock="8px">
+                                    Include all the information someone would need to answer your
+                                    question
+                                </FormHelperText>
+                                <CustomQuillToolbar toolbarId={"t1"} />
+                                <ReactQuill
+                                    theme="snow"
+                                    defaultValue={questionDetails.description || ``}
+                                    onChange={(value) => {
 
-                                        }}
-                                        placeholder={"Write something awesome..."}
-                                        modules={modules("t1")}
-                                        formats={formats}
-                                    />
-                                </> : <Box dangerouslySetInnerHTML={{ __html: questionDetails.description || `` }}></Box>}
+                                        setQuestionDetails(prevState => ({ ...prevState, description: value }));
+
+                                    }}
+                                    placeholder={"Write something awesome..."}
+                                    modules={modules("t1")}
+                                    formats={formats}
+                                />
+
                             </FormControl>
 
                             <FormControl paddingBlock="12px">
                                 <FormLabel margin="0" htmlFor="tags">
                                     Tags
                                 </FormLabel>
-                                {!showPreview ?
-                                    <>
-                                        <FormHelperText marginBlock="8px">
-                                            Add up to 5 tags to describe what your question is about
-                                        </FormHelperText>
 
-                                        <MultipleTagsInput setQuestionDetails={setQuestionDetails}
-                                            questionDetails={questionDetails}
-                                        />
-                                    </> : <Flex gap="8px" align="center" flexGrow="1" py={`0.5rem`}>
-                                        {
-                                            questionDetails.inputTag.tags.map(tag => {
-                                                return (
-                                                    <Tag
-                                                        size={`md`}
-                                                        variant="solid"
-                                                        bg="blue.400"
-                                                        key={`${tag}`}
-                                                    >
-                                                        {tag}
-                                                    </Tag>
-                                                )
-                                            })
-                                        }
-                                    </Flex>}
+                                <FormHelperText marginBlock="8px">
+                                    Add up to 5 tags to describe what your question is about
+                                </FormHelperText>
+
+                                <MultipleTagsInput setQuestionDetails={setQuestionDetails}
+                                    questionDetails={questionDetails}
+                                />
+
                             </FormControl>
 
 
@@ -172,15 +157,7 @@ export const AskQuestion = () => {
                         </form>
                         <Box paddingBlock="12px">
                             <ButtonGroup gap="4" w={`100%`} justifyContent={`flex-end`}>
-                                <Button
-                                    height={`32px`}
-                                    borderRadius={`2px`}
-                                    fontSize={`sm`}
-                                    fontWeight={`normal`}
-                                    onClick={() => setShowPreview(prevState => !prevState)}
-                                >
-                                    {showPreview ? `Close Preview` : `Show Preview`}
-                                </Button>
+
                                 <Button
                                     colorScheme="telegram"
                                     height={`32px`}
@@ -205,6 +182,162 @@ export const AskQuestion = () => {
                                     isLoading={loadingStatus === `loading` && isQuestionAdded}
                                 >
                                     Post Question
+                                </Button>
+                                <Button
+                                    height={`32px`}
+                                    borderRadius={`2px`}
+                                    fontSize={`sm`}
+                                    fontWeight={`normal`}
+                                    onClick={() => setShowPreview(prevState => !prevState)}
+                                >
+                                    {showPreview ? `Close Preview` : `Show Preview`}
+                                </Button>
+                            </ButtonGroup>
+                        </Box>
+
+
+                    </Flex>
+                </Box>
+
+
+                <Show above="md">
+                    <Box border="1px" borderColor="gray.200" w="320px" p={`0.8rem`}>
+                        <Heading fontSize="large" my="1rem">
+                            Draft Your Question
+                        </Heading>
+                        <Box>
+                            <Box my="1rem">
+                                The community is here to help you with questions about money or personal finance. Provide details and share research with your question.
+                            </Box>
+                            <Accordion allowToggle>
+                                <AccordionItem >
+
+                                    <h2>
+                                        <AccordionButton>
+                                            <Box flex='1' textAlign='left'>
+                                                Summarize the Question
+                                            </Box>
+                                            <AccordionIcon />
+                                        </AccordionButton>
+                                    </h2>
+                                    <AccordionPanel pb={4} >
+                                        <OrderedList display={`flex`} gap={`12px`} flexDirection={`column`}>
+                                            <ListItem> Include details about your goal</ListItem>
+                                            <ListItem> Describe expected and actual results</ListItem>
+                                            <ListItem> Include any references that can be helpful</ListItem>
+
+                                        </OrderedList>
+
+
+
+
+
+                                    </AccordionPanel>
+
+                                </AccordionItem>
+
+                                <AccordionItem >
+
+                                    <h2>
+                                        <AccordionButton>
+                                            <Box flex='1' textAlign='left'>
+                                                Describe the Quetion in Detail
+                                            </Box>
+                                            <AccordionIcon />
+                                        </AccordionButton>
+                                    </h2>
+                                    <AccordionPanel pb={4} >
+                                        <OrderedList display={`flex`} gap={`12px`} flexDirection={`column`}>
+                                            <ListItem> Be clear with the description</ListItem>
+                                            <ListItem> Describe expected and actual results</ListItem>
+                                            <ListItem> Include any references that can be helpful</ListItem>
+
+                                        </OrderedList>
+
+
+
+
+
+                                    </AccordionPanel>
+
+                                </AccordionItem>
+
+                            </Accordion>
+                        </Box>
+                    </Box>
+
+                </Show>
+            </Flex> : <Flex gap="24px" flexGrow={`1`} >
+                <Box flexGrow={`1`}>
+                    <SectionHeading
+                        heading="Ask a Public Question"
+                    />
+                    <Flex flexGrow="1" maxW="870px" direction={`column`}>
+                        <form
+                            onSubmit={(e) => {
+
+                                e.preventDefault();
+
+
+                            }}
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                padding: "12px",
+                                flexGrow: `1`,
+                                minHeight: `71vh`
+
+                            }}
+                        >
+                            <FormControl paddingBlock="12px">
+                                <FormLabel margin="0" htmlFor="title">
+                                    Title
+                                </FormLabel>
+                                <Box><Text>{questionDetails.title}</Text></Box>
+
+                            </FormControl>
+
+                            <FormControl paddingBlock="12px">
+                                <FormLabel margin="0" htmlFor="description">
+                                    Description </FormLabel>
+                                <Box dangerouslySetInnerHTML={{ __html: questionDetails.description || `` }}></Box>
+                            </FormControl>
+
+                            <FormControl paddingBlock="12px">
+                                <FormLabel margin="0" htmlFor="tags">
+                                    Tags
+                                </FormLabel>
+                                <Flex gap="8px" align="center" flexGrow="1" py={`0.5rem`}>
+                                    {
+                                        questionDetails.inputTag.tags.map(tag => {
+                                            return (
+                                                <Tag
+                                                    size={`md`}
+                                                    variant="solid"
+                                                    bg="blue.400"
+                                                    key={`${tag}`}
+                                                >
+                                                    {tag}
+                                                </Tag>
+                                            )
+                                        })
+                                    }
+                                </Flex>
+                            </FormControl>
+
+
+
+                        </form>
+                        <Box paddingBlock="12px">
+                            <ButtonGroup gap="4" w={`100%`} justifyContent={`flex-end`}>
+                                <Button
+                                    height={`32px`}
+                                    borderRadius={`2px`}
+                                    fontSize={`sm`}
+                                    fontWeight={`normal`}
+                                    onClick={() => setShowPreview(prevState => !prevState)}
+                                >
+                                    {showPreview ? `Close Preview` : `Show Preview`}
                                 </Button>
 
                             </ButtonGroup>
@@ -283,6 +416,8 @@ export const AskQuestion = () => {
 
                 </Show>
             </Flex>
+            }
+
 
         </>
     );
