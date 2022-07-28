@@ -190,33 +190,35 @@ const Header = () => {
                                 </Flex></PopoverBody>
                         </PopoverContent>
                     </Popover>
-                        : <>
-                            <Button
-                                colorScheme="telegram"
-                                height={`32px`}
-                                borderRadius={`2px`}
-                                fontSize={`sm`}
-                                fontWeight={`normal`}
-                                onClick={() => {
-                                    navigate(`/signup`)
-                                }}
-                            >
-                                Signup
-                            </Button>
-                            <Button
-                                colorScheme="telegram"
-                                height={`32px`}
-                                borderRadius={`2px`}
-                                fontSize={`sm`}
-                                variant={`outline`}
-                                fontWeight={`normal`}
-                                onClick={() => {
-                                    navigate(`/login`);
-                                }}
-                            >
-                                Login
-                            </Button>
-                        </>
+                        : <Show above="md">
+                            <>
+                                <Button
+                                    colorScheme="telegram"
+                                    height={`32px`}
+                                    borderRadius={`2px`}
+                                    fontSize={`sm`}
+                                    fontWeight={`normal`}
+                                    onClick={() => {
+                                        navigate(`/signup`)
+                                    }}
+                                >
+                                    Signup
+                                </Button>
+                                <Button
+                                    colorScheme="telegram"
+                                    height={`32px`}
+                                    borderRadius={`2px`}
+                                    fontSize={`sm`}
+                                    variant={`outline`}
+                                    fontWeight={`normal`}
+                                    onClick={() => {
+                                        navigate(`/login`);
+                                    }}
+                                >
+                                    Login
+                                </Button>
+                            </>
+                        </Show>
 
                     }
 

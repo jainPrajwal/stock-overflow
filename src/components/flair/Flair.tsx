@@ -12,7 +12,7 @@ export const Flair = ({
   isEdited?: boolean;
   question: Question
 }) => {
-  const { profile } = useAppSelector(state => state.profile)
+ 
   if (question) {
     return (
       <>
@@ -34,7 +34,7 @@ export const Flair = ({
             width={`fit-content`}
           >
             <Image
-              src={`${profile?.profileImageUrl}`}
+              src={`${question.questioner.profileImageUrl}`}
               width={`36px`}
               height={`36px`}
             ></Image>

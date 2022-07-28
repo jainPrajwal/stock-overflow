@@ -12,7 +12,7 @@ export const AnswerFlair = ({
   isEdited?: boolean;
   answer: Answer
 }) => {
-  const { profile } = useAppSelector(state => state.profile)
+
 
   if (answer) {
     return (
@@ -35,7 +35,7 @@ export const AnswerFlair = ({
             width={`fit-content`}
           >
             <Image
-              src={`${profile?.profileImageUrl}`}
+              src={`${answer.answerer.profileImageUrl}`}
               width={`36px`}
               height={`36px`}
             ></Image>

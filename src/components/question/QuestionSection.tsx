@@ -182,7 +182,7 @@ export const QuestionSection = () => {
 
             <Flex direction="column" flexGrow={`1`}>
               <QuestionDescription description={question.description} />
-              <Flex gap="12px">
+              <Flex gap="12px" wrap={`wrap`}>
                 <Flex gap="12px">
                   {question.tags.map(tag => <Tag tag={tag}
                     key={tag}
