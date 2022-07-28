@@ -38,6 +38,7 @@ const profileSlice = createSlice({
     // updateProfileService
     builder.addCase(updateProfileService.fulfilled, (state, action) => {
       if (`profile` in action.payload) {
+        console.log(`FROM SLICE `, action.payload.profile)
         state.profile = action.payload.profile;
         state.loadingStatus = `success`;
         state.message = action.payload.message;

@@ -16,6 +16,8 @@ import { useScrollToTop } from "../../hooks/useScrollToTop";
 import { getAllVideos } from "../../services/videos/getAllVideos";
 import { Video } from "../../constants/videos.types";
 import { useNavigate } from "react-router-dom";
+import { ErrorFallback } from "../../components/errorBoundary/ErrorFallback";
+import { Loader } from "../../components/loader/Loader";
 
 
 const TABS = [`All`, `Hot`];
@@ -225,7 +227,7 @@ export const Home = () => {
                                 <Heading as={`h6`} fontSize={`lg`}>Helpful Videos</Heading>
                                 <Flex direction="column" gap="1rem" mt="12px">
                                     {
-                                        mostWatched.map(video => {
+                                        videosLoadingStatus === `success` ? mostWatched.map(video => {
                                             return <a
                                                 key={video._id}
                                                 className={`${cardWrapper} cursor-pointer`} role={`button`}
@@ -257,7 +259,7 @@ export const Home = () => {
                                                     </div>
                                                 </div>
                                             </a>
-                                        })
+                                        }) : videosLoadingStatus === `loading` ? <Loader /> : <ErrorFallback />
                                     }
                                 </Flex>
                             </Flex>

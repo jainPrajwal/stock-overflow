@@ -1,5 +1,6 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
+import { useAppSelector } from "../../app/hooks";
 import { Answer } from "../../constants";
 import { getTimeAgo } from "../../utils/common/getTimeAgo";
 export const AnswerFlair = ({
@@ -11,6 +12,7 @@ export const AnswerFlair = ({
   isEdited?: boolean;
   answer: Answer
 }) => {
+  const { profile } = useAppSelector(state => state.profile)
 
   if (answer) {
     return (
@@ -33,7 +35,7 @@ export const AnswerFlair = ({
             width={`fit-content`}
           >
             <Image
-              src={`https://res.cloudinary.com/dmk11fqw8/image/upload/v1657350555/unitag_qrcode_standard_srgab6.png`}
+              src={`${profile?.profileImageUrl}`}
               width={`36px`}
               height={`36px`}
             ></Image>

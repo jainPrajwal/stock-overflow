@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Icon, Image, Spinner, Stack, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, Image, Spinner, Text, useDisclosure } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -13,8 +13,10 @@ import { getTimeAgo } from "../../utils/common/getTimeAgo";
 import { EditProfileModal } from "./EditProfileModal";
 
 
+
 export const Profile = () => {
-    const { profile, loadingStatus } = useAppSelector(state => state.profile);
+    const { profile, loadingStatus , message} = useAppSelector(state => state.profile);
+
     const dispatch = useAppDispatch();
     const [isProfileUpdated, setIsProfileUpdated] = useState(false);
     const { isOpen, onClose, onOpen } = useDisclosure();
@@ -24,9 +26,11 @@ export const Profile = () => {
             dispatch(getProfileService())
         }
         if (loadingStatus === `success` && isProfileUpdated) {
-            toast.success(`Profile updated successfully`);
+            onClose();
+            toast.success(`${message}`);
         }
-    }, [loadingStatus, dispatch, profile, isProfileUpdated])
+    }, [loadingStatus, dispatch, profile, isProfileUpdated, message, onClose]);
+
 
     if (profile) {
         return <Flex
@@ -70,11 +74,12 @@ export const Profile = () => {
                     </Box>
                     <Box maxW={`160px`}>
                         <Image
-                            src={`https://res.cloudinary.com/dmk11fqw8/image/upload/v1657350555/unitag_qrcode_standard_srgab6.png`}
+                            src={`${profile?.profileImageUrl}`}
 
                         ></Image>
                     </Box>
                     <Box>
+
                         <Text fontSize={`2xl`}>{profile.name}</Text>
                         <Flex align={`center`} color={`gray.500`}>
 

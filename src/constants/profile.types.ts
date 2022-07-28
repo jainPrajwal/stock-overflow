@@ -5,6 +5,7 @@ export type Profile = {
   name: string;
   email: string;
   reputation: number;
+  profileImageUrl: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -27,4 +28,33 @@ export type ProfileState = {
 export type ProfileRequestType = {
   name?: string;
   reputation?: number;
+  profileImageUrl?: string;
+};
+
+export type ProfileImageState = {
+  message: string | null;
+  profileImage: ProfileImage | null;
+  loadingStatus: loading;
+  error?: unknown;
+};
+export type ProfileImage = {
+  asset_id: string;
+  public_id: string;
+  created_at: string;
+  url: string;
+  secure_url: string;
+};
+
+export type ProfileImageResponseType = {
+  profileImage: {
+    asset_id: string;
+    public_id: string;
+    created_at: string;
+    url: string;
+    secure_url: string;
+  };
+};
+
+export type ProfileImageRequestType = {
+  data: FormData;
 };

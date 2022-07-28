@@ -1,23 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
-import { BASE_API, ProfileRequestType, ProfileResponseType, ServerError } from "../../constants";
+import { ProfileImageResponseType, ServerError } from "../../constants";
+import { CLOUDINARY_API } from "../../constants/api";
 
-export const updateProfileService = createAsyncThunk(
-  `profile/updateProfile`,
+export const uploadProfileImageService = createAsyncThunk(
+  `profileImage/uploadProfileImage`,
   async (
     {
-      profile,
+      data,
     }: {
-      profile: ProfileRequestType;
+      data: FormData;
     },
     thunkAPI
   ) => {
-    console.log(`PROFILE BEFORE UPDATING `, profile)
     try {
-      const response = await axios.post<ProfileResponseType>(`${BASE_API}/user/profile`, {
-        profile,
-      });
-      return response.data;
+      const response = await fetch(`${CLOUDINARY_API}`, {
+        method: `post`,
+        body: data,
+      }).then(res => res.json());
+      console.log(`RES `, response)
+      return {profileImage: response} as ProfileImageResponseType;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const serverError = error as AxiosError<ServerError>;

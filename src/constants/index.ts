@@ -25,6 +25,7 @@ export { ICON_ALREADY_UPVOTED } from "./common.types";
 export { ICON_BOOKMARK } from "./common.types";
 export { ICON_ALREADY_BOOKMARKED } from "./common.types";
 export { ICON_MEMBER_FOR } from "./common.types";
+export {ICON_UPLOAD_IMAGE} from "./common.types"
 export { HIGHEST_SCORE } from "./common.types";
 export { NEWEST_FIRST } from "./common.types";
 export { OLDEST_FIRST } from "./common.types";
@@ -48,3 +49,6 @@ export type { Profile } from "./profile.types";
 export type { ProfileResponseType } from "./profile.types";
 export type { ProfileState } from "./profile.types";
 export type { ProfileRequestType } from "./profile.types";
+export type { ProfileImageState } from "./profile.types";
+export type { ProfileImageRequestType } from "./profile.types";
+export type { ProfileImageResponseType } from "./profile.types";

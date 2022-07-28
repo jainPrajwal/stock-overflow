@@ -26,12 +26,13 @@ import {
 
 
 } from '@chakra-ui/react'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdMenu } from "react-icons/io"
 import { useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logoutButtonPressed } from "../../features/auth/AuthSlice";
+import { getProfileService } from "../../services";
 import { SearchBar } from "../searchbar/SearchBar";
 
 const toggleActive = ({ isActive }: { isActive: boolean }) => isActive ? `nav-link nav-link-active` : `nav-link`
@@ -41,8 +42,16 @@ const Header = () => {
     const navigate = useNavigate();
     const { token } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
-    const { profile } = useAppSelector(state => state.profile);
+    const { profile, loadingStatus } = useAppSelector(state => state.profile);
     const [searchbar, setSearchbar] = useState(true);
+
+
+    useEffect(() => {
+        if (loadingStatus === `idle` && token) {
+
+            dispatch(getProfileService())
+        }
+    }, [loadingStatus, profile, dispatch, token])
 
     return (
         <>
@@ -143,7 +152,7 @@ const Header = () => {
                             >
 
                                 <Image
-                                    src={`https://res.cloudinary.com/dmk11fqw8/image/upload/v1657350555/unitag_qrcode_standard_srgab6.png`}
+                                    src={`${profile?.profileImageUrl}`}
                                     width={`28px`}
                                     height={`28px`}
                                 ></Image>
