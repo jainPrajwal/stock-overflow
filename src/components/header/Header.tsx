@@ -134,7 +134,7 @@ const Header = () => {
                         fontSize={`sm`}
                         fontWeight={`normal`}
                         onClick={() => {
-                            token ? navigate(`/questions/ask`) : navigate(`/login`);
+                            navigate(`/questions/ask`)
                         }}
                     >
                         Ask Question

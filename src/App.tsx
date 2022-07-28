@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Show } from '@chakra-ui/react';
 
-import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { Header } from './components/header/Header';
 
@@ -22,6 +22,7 @@ import { LandingPage } from './pages/landingPage/LandingPage';
 
 function App() {
     const location = useLocation();
+    const navigate = useNavigate();
     return (
         <>
             <ToastContainer
@@ -48,6 +49,9 @@ function App() {
                         borderRadius={`2px`}
                         fontSize={`sm`}
                         fontWeight={`normal`}
+                        onClick={() => {
+                            navigate(`/questions/ask`)
+                        }}
                     >
                         Ask Question
                     </Button>
@@ -55,7 +59,7 @@ function App() {
             </Show>
             <Routes>
                 <Route path='/' element={<LandingPage />}  >
-                    <Route path="" element={<Home />}  />
+                    <Route path="" element={<Home />} />
                     <Route path='questions/ask' element={<PrivateRoute><AskQuestion /></PrivateRoute>} />
                     <Route path='questions/:questionId' element={<SingleQuestionPage />} />
                     <Route path='user/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
