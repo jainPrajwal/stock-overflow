@@ -19,17 +19,18 @@ export const Profile = () => {
 
     const dispatch = useAppDispatch();
     const [isProfileUpdated, setIsProfileUpdated] = useState(false);
+    const {loadingStatus: uploadProfileImageLoadingStatus} = useAppSelector(state => state.profileImage)
     const { isOpen, onClose, onOpen } = useDisclosure();
     useScrollToTop();
     useEffect(() => {
         if (!profile && loadingStatus === `idle`) {
             dispatch(getProfileService())
         }
-        if (loadingStatus === `success` && isProfileUpdated) {
+        else if (loadingStatus === `success` && isProfileUpdated && uploadProfileImageLoadingStatus === `success`) {
             onClose();
             toast.success(`${message}`);
         }
-    }, [loadingStatus, dispatch, profile, isProfileUpdated, message, onClose]);
+    }, [loadingStatus, dispatch, profile, isProfileUpdated, message, onClose, uploadProfileImageLoadingStatus]);
 
 
     if (profile) {

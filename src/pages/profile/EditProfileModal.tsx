@@ -50,7 +50,7 @@ export const EditProfileModal = ({
     setIsProfileUpdated: React.Dispatch<React.SetStateAction<boolean>>
 
 }) => {
-    const { profile, loadingStatus, message } = useAppSelector(state => state.profile);
+    const { profile} = useAppSelector(state => state.profile);
 
     const dispatch = useAppDispatch();
     const [editProfile, setEditProfile] = useState<{ name: string | null }>({
@@ -63,8 +63,8 @@ export const EditProfileModal = ({
     
 
     useEffect(() => {
-
-        if (uploadProfileImageLoadingStatus === `success` && profileImage?.secure_url) {
+       
+        if (uploadProfileImageLoadingStatus === `success` && image && profileImage) {
             dispatch(updateProfileService({
                 profile: {
                     ...profile,
@@ -72,7 +72,7 @@ export const EditProfileModal = ({
                 }
             }))
         }
-    }, [uploadProfileImageLoadingStatus, profileImage]);
+    }, [uploadProfileImageLoadingStatus, profileImage, image]);
 
 
 
@@ -115,7 +115,7 @@ export const EditProfileModal = ({
 
                         }
 
-                        onClose();
+                      
                     }}
                         style={{
                             display: "flex",

@@ -66,7 +66,7 @@ const Login = () => {
 
       dispatch(getActivitiesService());
       const from = ((state) as { from: string })?.from;
-      from ? navigate(`/${from}`) : navigate(`/`)
+      from ? navigate(`/user/${from}`) : navigate(`/`)
 
     }
     else if (loadingStatus === `error`) {
@@ -74,11 +74,7 @@ const Login = () => {
     }
   }, [loadingStatus, toastMessage, email, token, dispatch, navigate, state]);
 
-  // useEffect(() => {
-  //   if (loadingStatus === `idle`) {
 
-  //   }
-  // }, [])
 
 
   return (
