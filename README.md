@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657353864/layers_1_gil6bz.png" height="120" width="120" alt="Stock Overflow Logo"/>
+  <img src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1657353864/layers_1_gil6bz.png" height="60" width="60" alt="Stock Overflow Logo"/>
   
 # Stock Overflow
 Stock Overflow is an online question-answer platform where you can ask questions related to the stock market and get correct answers for your queries, You can also give back to the community by answering the questions.
@@ -48,3 +48,5 @@ Stock Overflow is a one stop question-answer platform to learn stock markkets an
   - Encryption using brcypt
 
 ## Demo
+[Stock Overflow Demo](https://user-images.githubusercontent.com/56448543/182310526-df3726e2-09bb-4ff3-a0d9-585c3e01cad8.webm)
+
