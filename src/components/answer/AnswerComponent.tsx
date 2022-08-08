@@ -180,7 +180,7 @@ export const AnswerComponent = ({
                                     }}
                                 >
 
-                                    <Image src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1658323486/check_cm3r8w.svg" width={`32px`} height={`32px`}
+                                    <Image src="https://res.cloudinary.com/dmk11fqw8/image/upload/v1659699502/checkmark_hsxuov.png" width={`32px`} height={`32px`}
                                         cursor={`pointer`} m="0"
                                     />
                                 </Button>

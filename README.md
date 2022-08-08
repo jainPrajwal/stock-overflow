@@ -48,5 +48,9 @@ Stock Overflow is a one stop question-answer platform to learn stock markkets an
   - Encryption using brcypt
 
 ## Demo
+
 [Stock Overflow Demo](https://user-images.githubusercontent.com/56448543/182310526-df3726e2-09bb-4ff3-a0d9-585c3e01cad8.webm)
 
+## Icons Credit
+
+<a href="https://www.flaticon.com/free-icons/green-check" title="green check icons">Green check icons created by kornkun - Flaticon</a>

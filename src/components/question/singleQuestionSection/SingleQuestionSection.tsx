@@ -25,7 +25,7 @@ export const SingleQuestionSection = () => {
   }, [activity.loadingStatus, dispatch, token]);
 
   useEffect(() => {
-    if (questions.length <= 0 && loadingStatus === `idle`) {
+    if (questions.length <= 0 && loadingStatus === `idle` && token) {
       dispatch(loadQuestions())
     }
   }, [loadingStatus, dispatch, questions, token]);

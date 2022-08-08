@@ -65,8 +65,9 @@ const Login = () => {
       localStorage.setItem(`user`, JSON.stringify(user));
 
       dispatch(getActivitiesService());
+      console.log(`state `, state)
       const from = ((state) as { from: string })?.from;
-      from ? navigate(`/user/${from}`) : navigate(`/`)
+      from ? navigate(`${from}`) : navigate(`/`)
 
     }
     else if (loadingStatus === `error`) {

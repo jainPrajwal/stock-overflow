@@ -2,7 +2,6 @@ import { Flex, Tag, } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../app/hooks"
 import { SectionHeading } from "../../components/heading/SectionHeading"
-import { Sidebar } from "../../components/sidebar/Sidebar"
 import { Question } from "../../constants"
 
 export const TaggedQuestionsPage = () => {
@@ -11,6 +10,8 @@ export const TaggedQuestionsPage = () => {
     const allTags = [...new Set(questions.reduce((acc: Array<string>, current: Question) => {
         return [...acc, ...current.tags.map(tag => tag)]
     }, []))]
+
+    console.log(`all Tags `, allTags)
 
     const navigate = useNavigate();
 
