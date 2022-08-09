@@ -18,11 +18,16 @@ import { TaggedQuestionPage } from './pages/tag/TaggedQuestionPage';
 import { UnansweredQuestionsPage } from './pages/unanswered/UnansweredQuestionsPage';
 import { Signup } from './pages/auth/Signup';
 import { LandingPage } from './pages/landingPage/LandingPage';
+import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorFallback } from './components/errorBoundary/ErrorFallback';
+import { useAppDispatch } from './app/hooks';
+import { logoutButtonPressed } from './features/auth/AuthSlice';
 
 
 function App() {
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     return (
         <>
             <ToastContainer
@@ -57,22 +62,37 @@ function App() {
                     </Button>
                 </Flex>
             </Show>
-            <Routes>
-                <Route path='/' element={<LandingPage />}  >
-                    <Route path="" element={<Home />} />
-                    <Route path='questions/ask' element={<PrivateRoute><AskQuestion /></PrivateRoute>} />
-                    <Route path='questions/:questionId' element={<SingleQuestionPage />} />
-                    <Route path='user/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
-                    <Route path='questions/tagged' element={<TaggedQuestionsPage />} />
-                    <Route path='questions/tagged/:tag' element={<TaggedQuestionPage />} />
-                    <Route path='user/bookmarks' element={<PrivateRoute><Bookmarks /></PrivateRoute>} />
-                    <Route path='questions/unanswered' element={<UnansweredQuestionsPage />} />
-                </Route>
+            <ErrorBoundary
+                key={location.pathname}
+                FallbackComponent={ErrorFallback}
+                onReset={() => {
+                    console.log(`on reset called`)
+                    // reset the state of your app so the error doesn't happen again
+                    dispatch(logoutButtonPressed());
+                }}
+                onError={() => {
+                    console.log(`on error called`);
+                    dispatch(logoutButtonPressed());
 
-                <Route path='/signup' element={<Signup />} />
-                <Route path='/login' element={<Login />} />
-            </Routes>
+                    // navigate(`/login`)
+                }}
+            >
+                <Routes>
+                    <Route path='/' element={<LandingPage />}  >
+                        <Route path="" element={<Home />} />
+                        <Route path='questions/ask' element={<PrivateRoute><AskQuestion /></PrivateRoute>} />
+                        <Route path='questions/:questionId' element={<SingleQuestionPage />} />
+                        <Route path='user/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
+                        <Route path='questions/tagged' element={<TaggedQuestionsPage />} />
+                        <Route path='questions/tagged/:tag' element={<TaggedQuestionPage />} />
+                        <Route path='user/bookmarks' element={<PrivateRoute><Bookmarks /></PrivateRoute>} />
+                        <Route path='questions/unanswered' element={<UnansweredQuestionsPage />} />
+                    </Route>
 
+                    <Route path='/signup' element={<Signup />} />
+                    <Route path='/login' element={<Login />} />
+                </Routes>
+            </ErrorBoundary>
         </>
     );
 

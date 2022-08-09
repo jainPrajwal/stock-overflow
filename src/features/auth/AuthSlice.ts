@@ -9,7 +9,9 @@ const token = localStorageToken && JSON.parse(localStorageToken).token;
 const initialState: AuthState = {
   email: null,
   token: token ?? null,
-  loadingStatus: `idle`,
+
+  signupLoadingStatus: `idle`,
+  loginLoadingStatus: `idle`,
   toastMessage: null,
 };
 
@@ -20,7 +22,8 @@ const authSlice = createSlice({
     logoutButtonPressed: (state) => {
       state.email = null;
       state.toastMessage = `See you soon :(`;
-      state.loadingStatus = `idle`;
+      state.signupLoadingStatus = `idle`;
+      state.loginLoadingStatus = `idle`;
       state.token = null;
     },
   },
@@ -28,7 +31,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     // loginUserService
     builder.addCase(loginUserService.fulfilled, (state, action) => {
-      state.loadingStatus = `success`;
+      state.loginLoadingStatus = `success`;
 
       state.email = action.payload.user.email;
       state.token = action.payload.token;
@@ -36,17 +39,19 @@ const authSlice = createSlice({
     });
 
     builder.addCase(loginUserService.pending, (state) => {
-      state.loadingStatus = `loading`;
+      state.loginLoadingStatus = `loading`;
     });
 
     builder.addCase(loginUserService.rejected, (state, action) => {
-      state.loadingStatus = `error`;
-      state.toastMessage = (action.payload as ServerError).message;
+      console.log(`rejected`, action);
+      state.loginLoadingStatus = `error`;
+      state.toastMessage =
+        (action.payload as ServerError)?.message || `Somehting went wrong..!`;
     });
 
     // signupUserService
     builder.addCase(signupUserService.fulfilled, (state, action) => {
-      state.loadingStatus = `success`;
+      state.signupLoadingStatus = `success`;
 
       state.email = action.payload.user.email;
       state.token = action.payload.token;
@@ -54,11 +59,11 @@ const authSlice = createSlice({
     });
 
     builder.addCase(signupUserService.pending, (state) => {
-      state.loadingStatus = `loading`;
+      state.signupLoadingStatus = `loading`;
     });
 
     builder.addCase(signupUserService.rejected, (state, action) => {
-      state.loadingStatus = `error`;
+      state.signupLoadingStatus = `error`;
       state.toastMessage = (action.payload as ServerError).message;
     });
   },

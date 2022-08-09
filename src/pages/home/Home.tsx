@@ -136,7 +136,7 @@ export const Home = () => {
                                                 color='blue.500'
                                                 size='xl'
 
-                                            /></Flex> : <>{error}</>
+                                            /></Flex> : loadingStatus === `error` && <><ErrorFallback /></>
                                         }
                                     </Flex>
                                 </TabPanel>
@@ -259,7 +259,7 @@ export const Home = () => {
                                                     </div>
                                                 </div>
                                             </a>
-                                        }) : videosLoadingStatus === `loading` ? <Loader /> : <ErrorFallback />
+                                        }) : videosLoadingStatus === `loading` ? <Loader /> : videosLoadingStatus === `error` && <ErrorFallback />
                                     }
                                 </Flex>
                             </Flex>

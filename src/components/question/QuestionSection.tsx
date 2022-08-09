@@ -256,7 +256,7 @@ export const QuestionSection = () => {
 
 
             </Flex>
-          </Flex> : loadingStatus === `loading` ? <Loader /> : <ErrorFallback />}
+          </Flex> : loadingStatus === `loading` ?  <Loader /> : loadingStatus === `error` && <ErrorFallback />}
         </>
       );
     }
@@ -265,5 +265,4 @@ export const QuestionSection = () => {
   }
 
   return <Box p="1rem">{loadingStatus === `loading` ? <Loader /> : `Invalid ID..!`}</Box>
-
 };

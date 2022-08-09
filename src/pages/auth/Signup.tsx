@@ -82,7 +82,7 @@ const Signup = () => {
         }
     });
 
-    const { loadingStatus, toastMessage, email, token } = useAuth();
+    const { signupLoadingStatus: loadingStatus, toastMessage, email, token } = useAuth();
 
     useEffect(() => {
         if (loadingStatus === `success`) {

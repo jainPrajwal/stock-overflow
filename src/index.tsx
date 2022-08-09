@@ -5,10 +5,8 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import {  ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter as Router } from "react-router-dom";
-import { ErrorBoundary } from 'react-error-boundary';
-import { ErrorFallback } from './components/errorBoundary/ErrorFallback';
 const container = document.getElementById('root')!;
 const root = createRoot(container);
 
@@ -18,14 +16,9 @@ root.render(
   <Provider store={store}>
     <ChakraProvider resetCSS>
       <Router >
-        <ErrorBoundary
-          FallbackComponent={ErrorFallback}
-          onReset={() => {
-            // reset the state of your app so the error doesn't happen again
-          }}
-        >
-          <App />
-        </ErrorBoundary>
+
+        <App />
+
       </Router>
     </ChakraProvider>
   </Provider>

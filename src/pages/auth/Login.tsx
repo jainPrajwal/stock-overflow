@@ -55,9 +55,10 @@ const Login = () => {
     }
   });
 
-  const { loadingStatus, toastMessage, email, token } = useAuth();
+  const { loginLoadingStatus: loadingStatus, toastMessage, email, token } = useAuth();
 
   useEffect(() => {
+   
     if (loadingStatus === `success`) {
       toast.success(`${toastMessage}`);
       const user = { token, email }
@@ -65,7 +66,7 @@ const Login = () => {
       localStorage.setItem(`user`, JSON.stringify(user));
 
       dispatch(getActivitiesService());
-      console.log(`state `, state)
+   
       const from = ((state) as { from: string })?.from;
       from ? navigate(`${from}`) : navigate(`/`)
 
