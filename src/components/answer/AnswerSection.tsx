@@ -138,7 +138,7 @@ export const AnswerSection = () => {
                                                     }
                                                     let element = document.getElementsByClassName("ql-editor");
                                                     element[0].innerHTML = "";
-                                                    console.log(`elemt`, element)
+                                                    
                                                 } else {
                                                     toast.error(`Answer cannot be empty`)
                                                 }

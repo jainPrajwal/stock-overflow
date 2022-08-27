@@ -25,6 +25,7 @@ const authSlice = createSlice({
       state.signupLoadingStatus = `idle`;
       state.loginLoadingStatus = `idle`;
       state.token = null;
+      
     },
   },
 
@@ -43,7 +44,7 @@ const authSlice = createSlice({
     });
 
     builder.addCase(loginUserService.rejected, (state, action) => {
-      console.log(`rejected`, action);
+      
       state.loginLoadingStatus = `error`;
       state.toastMessage =
         (action.payload as ServerError)?.message || `Somehting went wrong..!`;

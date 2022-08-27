@@ -15,15 +15,15 @@ import { EditProfileModal } from "./EditProfileModal";
 
 
 export const Profile = () => {
-    const { profile, loadingStatus , message} = useAppSelector(state => state.profile);
+    const { profile, loadingStatus, message } = useAppSelector(state => state.profile);
 
     const dispatch = useAppDispatch();
     const [isProfileUpdated, setIsProfileUpdated] = useState(false);
-    const {loadingStatus: uploadProfileImageLoadingStatus} = useAppSelector(state => state.profileImage)
+    const { loadingStatus: uploadProfileImageLoadingStatus } = useAppSelector(state => state.profileImage)
     const { isOpen, onClose, onOpen } = useDisclosure();
     useScrollToTop();
     useEffect(() => {
-        if (!profile && loadingStatus === `idle`) {
+        if (!profile) {
             dispatch(getProfileService())
         }
         else if (loadingStatus === `success` && isProfileUpdated && uploadProfileImageLoadingStatus === `success`) {

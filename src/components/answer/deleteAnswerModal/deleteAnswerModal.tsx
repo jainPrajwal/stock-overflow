@@ -65,7 +65,7 @@ export const DeleteAnswerModal = ({ onClose, isOpen, answer }: {
                                             toast.error(`Please login to avail these features`)
                                             return;
                                         }
-                                        console.log(`clicked`)
+                                        
                                         if (questionId) {
                                             setIsDeleted(true)
                                             dispatch(deleteAnswerService({

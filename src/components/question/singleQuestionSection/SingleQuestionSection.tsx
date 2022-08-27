@@ -3,7 +3,6 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { getActivitiesService, getProfileService, loadQuestions } from "../../../services";
 import { AnswerSection } from "../../answer/AnswerSection";
@@ -13,7 +12,7 @@ import { QuestionSection } from "../QuestionSection";
 export const SingleQuestionSection = () => {
   const activity = useAppSelector(state => state.activity)
   const { questions, loadingStatus } = useAppSelector(state => state.question);
-  const profile = useAppSelector(state => state.profile);
+  const {profile} = useAppSelector(state => state.profile);
   const { token } = useAppSelector(state => state.auth)
   const dispatch = useAppDispatch();
 
@@ -32,7 +31,8 @@ export const SingleQuestionSection = () => {
 
 
   useEffect(() => {
-    if (profile.loadingStatus === `idle` && token) {
+    
+    if (!profile) {
 
       dispatch(getProfileService())
     }

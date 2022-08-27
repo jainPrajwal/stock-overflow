@@ -31,6 +31,7 @@ const setInterceptors = (
     profile: ProfileState;
   }>
 ) => {
+  
   if (store.getState().auth.token) {
     axios.defaults.headers.common[`authorization`] = `Bearer ${
       store.getState().auth.token

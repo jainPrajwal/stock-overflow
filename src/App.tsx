@@ -1,6 +1,6 @@
-import { Box, Button, Flex, Show } from '@chakra-ui/react';
+import {  Button, Flex, Show } from '@chakra-ui/react';
 
-import { Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import {  Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import { Header } from './components/header/Header';
 
@@ -22,7 +22,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { ErrorFallback } from './components/errorBoundary/ErrorFallback';
 import { useAppDispatch } from './app/hooks';
 import { logoutButtonPressed } from './features/auth/AuthSlice';
-
+import { resetProfileOnLogout } from "./features/profile/ProfileSlice";
 
 function App() {
     const location = useLocation();
@@ -66,14 +66,15 @@ function App() {
                 key={location.pathname}
                 FallbackComponent={ErrorFallback}
                 onReset={() => {
-                    console.log(`on reset called`)
+                
                     // reset the state of your app so the error doesn't happen again
                     dispatch(logoutButtonPressed());
+                    dispatch(resetProfileOnLogout())
                 }}
                 onError={() => {
-                    console.log(`on error called`);
+                    
                     dispatch(logoutButtonPressed());
-
+                    dispatch(resetProfileOnLogout());
                     // navigate(`/login`)
                 }}
             >

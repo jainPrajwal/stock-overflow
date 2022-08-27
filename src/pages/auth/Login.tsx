@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks";
-import { loginUserService } from "../../services";
+import { getProfileService, loginUserService } from "../../services";
 import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Heading, Icon, Image, Input, Spinner, Tooltip, Text } from "@chakra-ui/react";
 import { useAppDispatch } from "../../app/hooks";
 import 'react-toastify/dist/ReactToastify.css';
@@ -66,6 +66,7 @@ const Login = () => {
       localStorage.setItem(`user`, JSON.stringify(user));
 
       dispatch(getActivitiesService());
+      dispatch(getProfileService())
 
       const from = ((state) as { from: string })?.from;
       from ? navigate(`${from}`) : navigate(`/`)
@@ -127,7 +128,9 @@ const Login = () => {
 
         <form
           onSubmit={(e) => {
+           
             e.preventDefault();
+            
 
             if (form.isFormValid) {
 
@@ -135,6 +138,9 @@ const Login = () => {
                 email: form.email,
                 password: form.password
               }));
+
+             
+            
 
 
             }
@@ -292,6 +298,8 @@ const Login = () => {
 
           </Flex>
         </form>
+
+
         <div className="p-md">
           <Button
             onClick={() => {
@@ -299,7 +307,8 @@ const Login = () => {
               dispatch(loginUserService({
                 email: `email@gmail.com`,
                 password: `initial`
-              }))
+              }));
+             
             }}
             name="loginAsGest"
 
@@ -310,6 +319,8 @@ const Login = () => {
             <span >{`${`log in as guest`}`.toUpperCase()}</span>
           </Button>
         </div>
+
+
         <Box pt="12px" textAlign={`center`}>
           Don't have an Account with us?
           <NavLink to="/signup" className={`activeLink`}>

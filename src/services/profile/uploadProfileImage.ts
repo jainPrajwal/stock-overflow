@@ -18,7 +18,7 @@ export const uploadProfileImageService = createAsyncThunk(
         method: `post`,
         body: data,
       }).then(res => res.json());
-      console.log(`RES `, response)
+      
       return {profileImage: response} as ProfileImageResponseType;
     } catch (error) {
       if (axios.isAxiosError(error)) {

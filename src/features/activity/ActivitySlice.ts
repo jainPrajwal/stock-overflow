@@ -61,7 +61,7 @@ const activitySlice = createSlice({
             action.payload.activity.questions.bookmarked;
           state.loadingStatus = `success`;
           state.message = action.payload.message!;
-          console.log(`STATE `, current(state))
+          
         }
       }
     );

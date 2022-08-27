@@ -12,9 +12,14 @@ const initialState: ProfileState = {
 const profileSlice = createSlice({
   name: `profile`,
   initialState,
-  reducers: {},
+  reducers: {
+    resetProfileOnLogout: (state) => {
+      
+      state.profile = null;
+      state.loadingStatus = `idle`;
+    },
+  },
   extraReducers: (builder) => {
-    
     // getProfileService
     builder.addCase(getProfileService.fulfilled, (state, action) => {
       if (`profile` in action.payload) {
@@ -38,7 +43,7 @@ const profileSlice = createSlice({
     // updateProfileService
     builder.addCase(updateProfileService.fulfilled, (state, action) => {
       if (`profile` in action.payload) {
-        console.log(`FROM SLICE `, action.payload.profile)
+        
         state.profile = action.payload.profile;
         state.loadingStatus = `success`;
         state.message = action.payload.message;
@@ -55,5 +60,5 @@ const profileSlice = createSlice({
     });
   },
 });
-
+export const { resetProfileOnLogout } = profileSlice.actions;
 export default profileSlice.reducer;

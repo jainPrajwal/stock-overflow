@@ -11,7 +11,7 @@ export const TaggedQuestionsPage = () => {
         return [...acc, ...current.tags.map(tag => tag)]
     }, []))]
 
-    console.log(`all Tags `, allTags)
+    
 
     const navigate = useNavigate();
 

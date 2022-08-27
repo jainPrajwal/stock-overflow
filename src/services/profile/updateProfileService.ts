@@ -12,7 +12,7 @@ export const updateProfileService = createAsyncThunk(
     },
     thunkAPI
   ) => {
-    console.log(`PROFILE BEFORE UPDATING `, profile)
+    
     try {
       const response = await axios.post<ProfileResponseType>(`${BASE_API}/user/profile`, {
         profile,

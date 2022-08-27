@@ -126,6 +126,7 @@ export const QuestionSlice = createSlice({
         (question) => question._id === action.payload.question._id
       );
       state.questions[questionIndex] = action.payload.question;
+      state.loadingStatus = `success`;
     });
 
     builder.addCase(deleteQuestionService.pending, (state, action) => {

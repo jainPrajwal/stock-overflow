@@ -69,7 +69,7 @@ const Signup = () => {
             },
             validateBothPasswords: function (initial: string, confirm: string) {
                 if (initial !== confirm) {
-                    console.log(`validateBothPasswords `, initial, confirm)
+                    
                     return `Passwords do not match!`;
                 }
 
@@ -96,7 +96,7 @@ const Signup = () => {
 
             dispatch(getActivitiesService());
             const from = ((state) as { from: string })?.from;
-            from ? navigate(`/${from}`) : navigate(`/`)
+            from ? navigate(`${from}`) : navigate(`/`)
 
         }
         else if (loadingStatus === `error`) {

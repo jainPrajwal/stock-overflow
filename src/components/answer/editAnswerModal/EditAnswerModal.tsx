@@ -81,7 +81,7 @@ export const EditAnswerModal = ({ isOpen, onClose, answer }: {
                                             onSubmit={(e) => {
 
                                                 e.preventDefault();
-                                                console.log(`answer Details `, questionId)
+                                                
                                                 if (!profile) {
                                                     toast.error(`Please login to avail these features`)
                                                     return;
