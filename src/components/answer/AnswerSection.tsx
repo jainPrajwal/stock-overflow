@@ -25,9 +25,10 @@ export const AnswerSection = () => {
     const { questionId } = useParams();
     const answersOnSpecifiedQuestion = answers.filter(answer => answer.question === questionId && !answer.isDeleted);
     const { questions } = useAppSelector(state => state.question);
-    const { profile } = useAppSelector(state => state.profile)
+    const { profile } = useAppSelector(state => state.profile);
     const isThereAnAnswerWhichIsAlreadyMarkedAsCorrect = checkIfThereIsAnAnswerWhichIsAlreadyMarkedAsCorrect(answers);
     const [isAnswerAdded, setIsAnswerAdded] = useState(false);
+  
 
     const dispatch = useAppDispatch();
 

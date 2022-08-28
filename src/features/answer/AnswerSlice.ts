@@ -36,7 +36,6 @@ const AnswerSlice = createSlice({
     },
   },
 
-
   extraReducers: (builder) => {
     // loadAnswersOfTheQuestionService
     builder.addCase(
@@ -83,16 +82,14 @@ const AnswerSlice = createSlice({
     });
 
     // addAnswerService
-    builder.addCase(
-      addAnswerService.fulfilled,
-      (state, action) => {
-        if (`answer` in action.payload) {
-          state.answers.push(action.payload.answer);
-          state.loadingStatus = `success`;
-          state.message = action.payload.message;
-        }
+    builder.addCase(addAnswerService.fulfilled, (state, action) => {
+      if (`answer` in action.payload) {
+        state.answers.push(action.payload.answer);
+        state.answers = state.answers.reverse();
+        state.loadingStatus = `success`;
+        state.message = action.payload.message;
       }
-    );
+    });
 
     builder.addCase(addAnswerService.pending, (state) => {
       state.loadingStatus = `loading`;
@@ -112,7 +109,6 @@ const AnswerSlice = createSlice({
         state.answers[answerIndex] = action.payload.answer;
         state.message = action.payload.message;
         state.loadingStatus = `success`;
-       
       }
     });
 

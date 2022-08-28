@@ -129,7 +129,7 @@ export const AnswerComponent = ({
                                 />
                             </Box>
                             :
-                            profile?._id === question?.questioner._id && <Tooltip
+                            profile?._id === question?.questioner._id && !isThereAnAnswerWhichIsAlreadyMarkedAsCorrect && <Tooltip
                                 label={`mark this as correct answer`}>
                                 <Button
                                     isDisabled={activity.loadingStatus === `loading`}

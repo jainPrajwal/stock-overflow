@@ -61,6 +61,7 @@ export const QuestionSlice = createSlice({
       if (`question` in action.payload) {
         state.questions.push(action.payload.question);
         state.loadingStatus = `success`;
+        state.questions = state.questions.reverse();
         state.message = action.payload.message;
       }
     });
@@ -141,7 +142,7 @@ export const QuestionSlice = createSlice({
   },
 });
 
-export const { markAsCorrectAnswerClicked, filterTabClicked , onSearchChange} =
+export const { markAsCorrectAnswerClicked, filterTabClicked, onSearchChange } =
   QuestionSlice.actions;
 
 export default QuestionSlice.reducer;

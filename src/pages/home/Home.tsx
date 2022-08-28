@@ -5,17 +5,14 @@ import { MdOutlineComment, } from "react-icons/md";
 import { FiExternalLink } from "react-icons/fi";
 import React from "react";
 import { default as homeStyles } from "./Home.module.css";
-
-import { loadQuestions } from "../../services";
+import { getProfileService, loadQuestions } from "../../services";
 import { Question } from "../../constants";
 import { QuestionComponent } from "../../components/question/Question";
 import { toast } from "react-toastify";
 import { filterTabClicked } from "../../features/question/QuestionSlice";
-
 import { useScrollToTop } from "../../hooks/useScrollToTop";
 import { getAllVideos } from "../../services/videos/getAllVideos";
 import { Video } from "../../constants/videos.types";
-import { useNavigate } from "react-router-dom";
 import { ErrorFallback } from "../../components/errorBoundary/ErrorFallback";
 import { Loader } from "../../components/loader/Loader";
 
@@ -29,6 +26,7 @@ export const Home = () => {
     });
     const dispatch = useAppDispatch();
     const { loading: videosLoadingStatus, videos } = useAppSelector(state => state.video);
+    const { profile } = useAppSelector(state => state.profile);
 
     useScrollToTop();
     useEffect(() => {
@@ -47,7 +45,7 @@ export const Home = () => {
 
     const {
 
-        publisherName,
+
 
         card,
         cardWrapper,
@@ -55,7 +53,7 @@ export const Home = () => {
         cardContent,
         cardImage,
         cardTitle,
-        cardText,
+
 
     } = homeStyles;
 
@@ -66,7 +64,15 @@ export const Home = () => {
         }
     }, []);
 
-    const navigate = useNavigate();
+    useEffect(() => {
+
+        if (!profile) {
+
+            dispatch(getProfileService())
+        }
+    }, [dispatch, profile])
+
+
     let mostWatched: Video[] = [];
     if (videos) {
         mostWatched = [...videos].sort((video1, video2) => {
